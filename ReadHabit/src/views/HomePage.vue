@@ -49,8 +49,15 @@
 
 
 
-        <h1>Phổ biến nhất</h1>
-        <CardComponent></CardComponent>
+        <h3>Phổ biến nhất</h3>
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            <CardComponent></CardComponent>
+            <CardComponent></CardComponent>
+            <CardComponent></CardComponent>
+            <CardComponent></CardComponent>
+            <CardComponent></CardComponent>
+        </div>
+
     </div>
 </template>
 
@@ -62,6 +69,13 @@ import CardComponent from '../components/CardComponent.vue'
 <style>
 body {
     background-color: rgb(245, 239, 239);
+}
+
+h1 {
     color: black;
+}
+
+hr {
+    margin: 0px 0px 15px 0px;
 }
 </style>
