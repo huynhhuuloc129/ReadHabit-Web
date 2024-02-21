@@ -7,7 +7,8 @@
                         <i class="far fa-user"></i>
                         <span>admin</span>
                     </div>
-                    <button class="visit-btn btn btn-outline-success">Đọc
+                    <button class="visit-btn btn btn-outline-success" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Đọc
                         ngay</button>
                 </div>
                 <h5 class="card-title">Lorem ipsum dolor sit amet.</h5>
@@ -37,7 +38,28 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
+
+<script setup>
+</script>
 
 <style>
 h1 {
@@ -51,6 +73,43 @@ h1 {
 
 .visit-btn {
     border-radius: 0px;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutToRight {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.modal {
+    position: absolute;
+    animation: slideInFromRight 0.3s ease-out;
+    animation-duration: 0.3s;
+
+    /* right: 0; */
+}
+
+.modal-dialog {
+    left: calc(100vw - 500px);
+    margin: 0;
+}
+
+.modal-content {
+    height: 100vh;
 }
 
 .card {
