@@ -1,43 +1,4 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">ReadHabit</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <button class="btn btn-outline-success" type="submit">Đăng nhập</button>
-                <button type="button" class="btn btn-dark">Đăng ký</button>
-            </div>
-        </div>
-    </nav>
-    <hr>
     <div class="container">
 
         <div>
@@ -47,7 +8,32 @@
             </form>
         </div>
 
-
+        <div>
+            <div class="row">
+                <div>
+                    <div class="list-group d-flex flex-row" id="list-tab" role="tablist">
+                        <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
+                            href="#list-home" role="tab" aria-controls="list-home" style="border-radius: 10px 0 0 10px;">Bài
+                            viết</a>
+                        <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list"
+                            href="#list-profile" role="tab" aria-controls="list-profile"
+                            style="border-radius: 0 10px 10px 0px;">Blog cá nhân</a>
+                    </div>
+                </div>
+                <!-- <div class="col-8">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="list-home" role="tabpanel"
+                            aria-labelledby="list-home-list">...</div>
+                        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...
+                        </div>
+                        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                            ...</div>
+                        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                            ...</div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
 
         <h3>Phổ biến nhất</h3>
         <div class="d-flex flex-row flex-wrap justify-content-center">
@@ -61,8 +47,8 @@
     </div>
 </template>
 
-<script setup>
-import CardComponent from '../components/CardComponent.vue'
+<script setup lang="ts">
+import CardComponent from "../components/CardComponent.vue";
 
 </script>
 
@@ -77,5 +63,30 @@ h1 {
 
 hr {
     margin: 0px 0px 15px 0px;
+}
+
+#loginButton,
+#registerButton {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.d-flex {
+    justify-content: center;
+}
+
+#list-home-list,
+#list-profile-list {
+    margin-top: 20px;
+    font-weight: bold;
+    width: 150px;
+}
+
+#list-home-list {
+    text-align: right;
+}
+
+#other-option {
+    text-align: center;
 }
 </style>

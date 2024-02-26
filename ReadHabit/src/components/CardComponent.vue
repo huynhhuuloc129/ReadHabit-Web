@@ -8,17 +8,17 @@
                         <span>admin</span>
                     </div>
                     <button class="visit-btn btn btn-outline-success" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Đọc
+                        data-bs-target="#exampleModalSlideOut">Đọc
                         ngay</button>
                 </div>
                 <h5 class="card-title">Lorem ipsum dolor sit amet.</h5>
-                <img src="https://images.unsplash.com/photo-1535025639604-9a804c092faa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6cb0ceb620f241feb2f859e273634393&auto=format&fit=crop&w=500&q=80"
+                <img class="border border-5"
+                    src="https://images.unsplash.com/photo-1535025639604-9a804c092faa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6cb0ceb620f241feb2f859e273634393&auto=format&fit=crop&w=500&q=80"
                     alt="Card image cap">
                 <div class="card-body">
                     <p class="card-text">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium ad alias, aliquid amet
                         aspernatur atque culpa cum debitis dicta doloremque, dolorum ea eos et excepturi explicabo
-                        facilis harum illo impedit incidunt laborum laudantium...
                     </p>
                     <p class="card-text">
                         <small class="text-muted">
@@ -39,11 +39,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="modal fade" id="exampleModalSlideOut" tabindex="-1" aria-labelledby="exampleModalSlideOutLabel"
+        aria-hidden="true">
+        <div id="exampleModalSlideOut-dialog" class="modal-dialog">
+            <div id="exampleModalSlideOut-content" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalSlideOutLabel">Modal title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -58,7 +59,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 </script>
 
 <style>
@@ -95,7 +96,7 @@ h1 {
     }
 }
 
-.modal {
+#exampleModalSlideOut {
     position: absolute;
     animation: slideInFromRight 0.3s ease-out;
     animation-duration: 0.3s;
@@ -103,12 +104,12 @@ h1 {
     /* right: 0; */
 }
 
-.modal-dialog {
+#exampleModalSlideOut-dialog {
     left: calc(100vw - 500px);
     margin: 0;
 }
 
-.modal-content {
+#exampleModalSlideOut-content {
     height: 100vh;
 }
 
