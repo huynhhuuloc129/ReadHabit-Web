@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">ReadHabit</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -32,8 +32,59 @@
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
-                <button class="btn btn-outline-success" type="submit" data-bs-toggle="modal"
-                    data-bs-target="#loginModal">Đăng nhập</button>
+               
+            </div>
+        </div>
+    </nav> -->
+
+
+
+    <div class="px-3 py-2 bg-dark text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                        class="bi bi-bootstrap-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M6.375 7.125V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23zm0 3.762h1.898c1.184 0 1.81-.48 1.81-1.377 0-.885-.65-1.348-1.886-1.348H6.375z" />
+                        <path
+                            d="M4.002 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4zm1.06 12V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396z" />
+                    </svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li class="text-center">
+                        <a href="#" class="nav-link text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                class="bi bi-house-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
+                                <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="text-center">
+                        <a href="#" class="nav-link text-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                class="bi bi-sliders" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="text-center">
+                        <a href="#" class="nav-link text-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                class="bi bi-bell-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-success fw-bold" type="submit" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">Đăng
+                    nhập</button>
 
                 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -73,7 +124,8 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng
+                <button type="button" class="btn btn-dark fw-bold" data-bs-toggle="modal"
+                    data-bs-target="#registerModal">Đăng
                     ký</button>
 
                 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"
@@ -124,7 +176,15 @@
                     </div>
                 </div>
             </div>
+
         </div>
-    </nav>
+
+    </div>
     <hr>
 </template>
+
+<style>
+svg:hover {
+    color: rgb(160, 160, 160);
+}
+</style>

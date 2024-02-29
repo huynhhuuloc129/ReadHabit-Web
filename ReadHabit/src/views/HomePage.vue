@@ -20,27 +20,11 @@
                             style="border-radius: 0 10px 10px 0px;">Blog cá nhân</a>
                     </div>
                 </div>
-                <!-- <div class="col-8">
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="list-home" role="tabpanel"
-                            aria-labelledby="list-home-list">...</div>
-                        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...
-                        </div>
-                        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                            ...</div>
-                        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-                            ...</div>
-                    </div>
-                </div> -->
+                <div class="display-4 font-weight-bolder">Phổ biến nhất</div>
             </div>
         </div>
 
-        <h3>Phổ biến nhất</h3>
         <div class="d-flex flex-row flex-wrap justify-content-center">
-            <CardComponent></CardComponent>
-            <CardComponent></CardComponent>
-            <CardComponent></CardComponent>
-            <CardComponent></CardComponent>
             <CardComponent></CardComponent>
         </div>
 

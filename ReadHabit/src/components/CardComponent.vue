@@ -1,43 +1,190 @@
 <template>
-    <div class="card-component">
-        <div class="card-columns">
-            <div class="card">
-                <div class="first-card-section d-flex flex-row justify-content-between">
-                    <div class="d-flex flex-row">
-                        <i class="far fa-user"></i>
-                        <span>admin</span>
-                    </div>
-                    <button class="visit-btn btn btn-outline-success" data-bs-toggle="modal"
-                        data-bs-target="#exampleModalSlideOut">Đọc
-                        ngay</button>
-                </div>
-                <h5 class="card-title">Lorem ipsum dolor sit amet.</h5>
-                <img class="border border-5"
-                    src="https://images.unsplash.com/photo-1535025639604-9a804c092faa?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6cb0ceb620f241feb2f859e273634393&auto=format&fit=crop&w=500&q=80"
-                    alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium ad alias, aliquid amet
-                        aspernatur atque culpa cum debitis dicta doloremque, dolorum ea eos et excepturi explicabo
-                    </p>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            <div class="flex">
-                                <div class="d-flex flex-row">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1000</span>
-                                </div>
-                                <div class="d-flex flex-row">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>Jan 20, 2018</span>
+    <section class="wrapper">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="div-card col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card text-dark card-has-bg click-col"
+                        style="background-image:url('https://source.unsplash.com/600x900/?tech,street');">
+                        <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tech,street"
+                            alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
+                        <div class="card-img-overlay d-flex flex-column">
+                            <div class="card-body">
+                                <small class="card-meta mb-2">Thought Leadership</small>
+                                <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">Web
+                                        Developmet Lorem Ipsum Sit Amet Consectetur dipisi?</a></h4>
+                                <small><i class="far fa-clock"></i> October 15, 2020</small>
+                            </div>
+                            <div class="card-footer">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle"
+                                        src="https://assets.codepen.io/460692/internal/avatars/users/default.png?format=auto&version=1688931977&width=80&height=80"
+                                        alt="Generic placeholder image" style="max-width:50px">
+                                    <div class="media-body">
+                                        <h6 class="my-0 text-dark d-block">Oz Coruhlu</h6>
+                                        <small>Director of UI/UX</small>
+                                    </div>
                                 </div>
                             </div>
-                        </small>
-                    </p>
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalSlideOut">Đọc
+                                ngay</button>
+                        </div>
+
+                    </div>
                 </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card text-dark card-has-bg click-col"
+                        style="background-image:url('https://source.unsplash.com/600x900/?tree,nature');">
+                        <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tree,nature"
+                            alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
+                        <div class="card-img-overlay d-flex flex-column">
+                            <div class="card-body">
+                                <small class="card-meta mb-2">Thought Leadership</small>
+                                <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">Creative
+                                        Manner Lorem Ipsum Sit Amet Consectetur dipisi?</a></h4>
+                                <small><i class="far fa-clock"></i> October 15, 2020</small>
+                            </div>
+                            <div class="card-footer">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle"
+                                        src="https://assets.codepen.io/460692/internal/avatars/users/default.png?format=auto&version=1688931977&width=80&height=80"
+                                        alt="Generic placeholder image" style="max-width:50px">
+                                    <div class="media-body">
+                                        <h6 class="my-0 text-dark d-block">Oz Coruhlu</h6>
+                                        <small>Director of UI/UX</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalSlideOut">Đọc
+                                ngay</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card text-dark card-has-bg click-col"
+                        style="background-image:url('https://source.unsplash.com/600x900/?computer,design');">
+                        <img class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design"
+                            alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
+                        <div class="card-img-overlay d-flex flex-column">
+                            <div class="card-body">
+                                <small class="card-meta mb-2">Thought Leadership</small>
+                                <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">Design
+                                        Studio Lorem Ipsum Sit Amet Consectetur dipisi?</a></h4>
+                                <small><i class="far fa-clock"></i> October 15, 2020</small>
+                            </div>
+                            <div class="card-footer">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle"
+                                        src="https://assets.codepen.io/460692/internal/avatars/users/default.png?format=auto&version=1688931977&width=80&height=80"
+                                        alt="Generic placeholder image" style="max-width:50px">
+                                    <div class="media-body">
+                                        <h6 class="my-0 text-dark d-block">Oz Coruhlu</h6>
+                                        <small>Director of UI/UX</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalSlideOut">Đọc
+                                ngay</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card text-dark card-has-bg click-col"
+                        style="background-image:url('https://source.unsplash.com/600x900/?tech,street');">
+                        <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tech,street"
+                            alt=" Lorem Ipsum Sit Amet Consectetur dipisi?">
+                        <div class="card-img-overlay d-flex flex-column">
+                            <div class="card-body">
+                                <small class="card-meta mb-2">Thought Leadership</small>
+                                <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">UI/UX
+                                        Design Lorem Ipsum Sit Amet Consectetur dipisi?</a></h4>
+                                <small><i class="far fa-clock"></i> October 15, 2020</small>
+                            </div>
+                            <div class="card-footer">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle"
+                                        src="https://assets.codepen.io/460692/internal/avatars/users/default.png?format=auto&version=1688931977&width=80&height=80"
+                                        alt="Generic placeholder image" style="max-width:50px">
+                                    <div class="media-body">
+                                        <h6 class="my-0 text-dark d-block">Oz Coruhlu</h6>
+                                        <small>Director of UI/UX</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalSlideOut">Đọc
+                                ngay</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card text-dark card-has-bg click-col"
+                        style="background-image:url('https://source.unsplash.com/600x900/?tree,nature');">
+                        <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tree,nature"
+                            alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
+                        <div class="card-img-overlay d-flex flex-column">
+                            <div class="card-body">
+                                <small class="card-meta mb-2">Thought Leadership</small>
+                                <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">Creative
+                                        Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?</a></h4>
+                                <small><i class="far fa-clock"></i> October 15, 2020</small>
+                            </div>
+                            <div class="card-footer">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle"
+                                        src="https://assets.codepen.io/460692/internal/avatars/users/default.png?format=auto&version=1688931977&width=80&height=80"
+                                        alt="Generic placeholder image" style="max-width:50px">
+                                    <div class="media-body">
+                                        <h6 class="my-0 text-dark d-block">Oz Coruhlu</h6>
+                                        <small>Director of UI/UX</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalSlideOut">Đọc
+                                ngay</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card text-dark card-has-bg click-col"
+                        style="background-image:url('https://source.unsplash.com/600x900/?computer,design');">
+                        <img class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design"
+                            alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
+                        <div class="card-img-overlay d-flex flex-column">
+                            <div class="card-body">
+                                <small class="card-meta mb-2">Thought Leadership</small>
+                                <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">Creative
+                                        Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?</a></h4>
+                                <small><i class="far fa-clock"></i> October 15, 2020</small>
+                            </div>
+                            <div class="card-footer">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle"
+                                        src="https://assets.codepen.io/460692/internal/avatars/users/default.png?format=auto&version=1688931977&width=80&height=80"
+                                        alt="Generic placeholder image" style="max-width:50px">
+                                    <div class="media-body">
+                                        <h6 class="my-0 text-dark d-block">Oz Coruhlu</h6>
+                                        <small>Director of UI/UX</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalSlideOut">Đọc
+                                ngay</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
-    </div>
+    </section>
+
+
 
     <div class="modal fade" id="exampleModalSlideOut" tabindex="-1" aria-labelledby="exampleModalSlideOutLabel"
         aria-hidden="true">
@@ -65,16 +212,129 @@
 <style>
 h1 {
     color: #fff;
+}
+
+.lead {
+    color: #aaa;
+}
+
+.wrapper {
+    margin: 30px;
+}
+
+.card {
+    border: none;
+    transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+    border-radius: 20px;
+    min-height: 450px;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+    width: 284px;
+
+    @media (max-width: 768px) {
+        min-height: 350px;
+    }
+
+    @media (max-width: 420px) {
+        min-height: 300px;
+    }
+
+
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+        background-color: white;
+    }
+
+    &.card-has-bg {
+        transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+        background-size: 120%;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: inherit;
+            -webkit-filter: grayscale(1);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
+        }
+
+        &:hover {
+            transform: scale(0.98);
+            box-shadow: 0 0 5px -2px rgba(0, 0, 0, 0.3);
+            background-size: 130%;
+            transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+
+            .card-img-overlay {
+                transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
+                background: rgb(255, 186, 33);
+                background: linear-gradient(0deg, rgba(255, 186, 33, 0.5) 0%, rgba(255, 186, 33, 1) 100%);
+            }
+        }
+    }
+
+    .card-footer {
+        background: none;
+        border-top: none;
+
+        .media {
+            img {
+                border: solid 3px rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    .card-title {
+        font-weight: 800
+    }
+
+    .card-meta {
+        color: rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 2px;
+    }
+
+    .card-body {
+        transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    &:hover {
+        .card-body {
+            margin-top: 1 0px;
+            transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        cursor: pointer;
+        transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .card-img-overlay {
+        transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
+        background: rgb(255, 186, 33);
+        background: linear-gradient(0deg, rgba(255, 186, 33, 0.3785889355742297) 0%, rgba(255, 186, 33, 1) 100%);
+    }
+}
+
+@media (max-width: 767px) {}
+
+/* ddddddddddddddddddddddd */
+h1 {
+    color: #fff;
     padding: 10px 0;
 }
 
-.card-component {
-    margin-top: 50px;
+.category-post {
+    margin: 5px 0 5px 0;
 }
 
-.visit-btn {
-    border-radius: 0px;
-}
 
 @keyframes slideInFromRight {
     0% {
@@ -113,30 +373,10 @@ h1 {
     height: 100vh;
 }
 
-.card {
-    background-color: rgb(251, 235, 235);
-    margin: 0px 20px 0px 20px;
-    width: 284px;
-    padding: 10px 10px 0 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-    border: none;
-    border-radius: 0px;
-
-    &:hover {
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
-    }
-
-    a {
-        color: initial;
-
-        &:hover {
-            text-decoration: initial;
-        }
-    }
-
-
+.div-card {
+    margin: 0px;
 }
+
 
 span {
     margin: 10px;
@@ -154,7 +394,7 @@ span {
     text-transform: capitalize;
     font-style: italic;
     padding: 2px 15px 3px 15px;
-    border-radius: 0;
+    border-radius: 10px;
     border: 2px solid rgba(255, 255, 255, 1);
     box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.5), 8px 8px 0 rgba(255, 255, 255, 0.2);
     position: relative;

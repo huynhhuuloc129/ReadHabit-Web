@@ -72,7 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import CardComponent from "../components/CardComponent.vue";
 const date = new Date(2018, 6, 1);
 const contributionData = [
     { date: new Date(2017, 6, 1), count: 2 }, // February 1st, 2 contributions
@@ -97,7 +96,6 @@ const options = {
 
 .list-group-item {
     text-align: center;
-    margin-top: 20px;
     font-weight: bold;
     width: 200px;
 }
