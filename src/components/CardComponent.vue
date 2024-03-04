@@ -25,8 +25,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalSlideOut">Đọc
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Đọc
                                 ngay</button>
                         </div>
 
@@ -55,8 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalSlideOut">Đọc
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Đọc
                                 ngay</button>
                         </div>
                     </div>
@@ -84,8 +82,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalSlideOut">Đọc
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Đọc
                                 ngay</button>
                         </div>
                     </div>
@@ -114,8 +111,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalSlideOut">Đọc
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Đọc
                                 ngay</button>
                         </div>
                     </div>
@@ -143,8 +139,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalSlideOut">Đọc
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Đọc
                                 ngay</button>
                         </div>
                     </div>
@@ -172,9 +167,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalSlideOut">Đọc
-                                ngay</button>
+                            <button class="visit-btn btn btn-outline text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Đọc ngay</button>
                         </div>
                     </div>
                 </div>
@@ -184,26 +177,16 @@
         </div>
     </section>
 
-
-
-    <div class="modal fade" id="exampleModalSlideOut" tabindex="-1" aria-labelledby="exampleModalSlideOutLabel"
-        aria-hidden="true">
-        <div id="exampleModalSlideOut-dialog" class="modal-dialog">
-            <div id="exampleModalSlideOut-content" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalSlideOutLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Colored with scrolling</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p>Try scrolling the rest of the page to see this option in action.</p>
         </div>
     </div>
+    
 </template>
 
 <script setup lang="ts">

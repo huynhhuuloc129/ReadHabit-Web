@@ -133,8 +133,8 @@ aside {
     -ms-transform: translateX(0%);
     transform: translateX(0%); }
   aside .toggle {
-    padding-left: 30px;
-    padding-top: 30px;
+    padding-left: 25px;
+    padding-top: 20px;
     position: absolute;
     right: 0;
     -webkit-transform: translateX(100%);
@@ -228,7 +228,7 @@ aside {
   cursor: pointer;
   position: relative;
   z-index: 99;
-  float: right;
+  float: left;
  }
 
 .burger:before, .burger span, .burger:after {
