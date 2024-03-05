@@ -1,7 +1,7 @@
 <template>
    
-    <div class="px-3 py-2 bg-dark text-white">
-        <div class="container-fluid">
+    <div class="px-3 py-2 text-white" style="background-color: #2B517A;"  >
+        <div class="container-fluid" >
             <div style="margin-left: 50px;" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
@@ -43,8 +43,8 @@
                         </a>
                     </li>
                 </ul>
-                <button class="btn btn-outline-success fw-bold" type="submit" data-bs-toggle="modal"
-                    data-bs-target="#loginModal">Đăng
+                <button class="btn btn-outline-primary fw-bold text-white" type="submit" data-bs-toggle="modal"
+                    data-bs-target="#loginModal" style="margin-right: 10px;">Đăng
                     nhập</button>
 
                 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-dark fw-bold" data-bs-toggle="modal"
+                <button type="button" class="btn btn-light fw-bold" data-bs-toggle="modal"
                     data-bs-target="#registerModal">Đăng
                     ký</button>
 
@@ -141,7 +141,6 @@
         </div>
 
     </div>
-    <hr>
 </template>
 
 <style>

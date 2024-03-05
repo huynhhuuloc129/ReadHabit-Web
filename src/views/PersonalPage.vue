@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="margin-top: 30px;">
             <div>
                 <div class="list-group d-flex flex-row" id="list-tab" role="tablist">
                     <a class="list-group-item list-group-item-action active" id="list-username-list" data-bs-toggle="list"

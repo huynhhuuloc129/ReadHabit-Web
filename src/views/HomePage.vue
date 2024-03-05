@@ -1,10 +1,27 @@
 <template>
+    <div class="first-section container-fluid">
+        <!-- <div class="row"> -->
+            <div class="first-header">
+                <br>
+                <div class="d-flex justify-content-start align-items-center">
+                    <a class="btn btn-lg cover-btn" href="#" >
+                        <h2 class="fw-bold text-white" style="padding: 10px 5px 5px 5px;">Bắt đầu</h2>
+                    </a>
+                    <h1 class="text-white">đọc ngay bây giờ</h1>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-9"> -->
+                <!-- <img id="image-cover" src="../assets/Cover.jpg" class="float-end" alt=""> -->
+            <!-- </div>
+        </div> -->
+    </div>
     <div class="container">
 
         <div>
             <form class="form-inline my-sm-0 d-flex justify-content-center">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
 
@@ -72,5 +89,84 @@ hr {
 
 #other-option {
     text-align: center;
+}
+#image-cover{
+    width: 78vw;
+}
+
+
+.cover-btn{
+    margin-right: 20px;
+    color: #fff;
+    background: transparent;
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+    padding: 3px 15px;
+    border-radius: 0;
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.3), 8px 8px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease 0.1s;
+}
+.cover-btn:hover{
+    color: #fff;
+    box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.4);
+    border-color: #fff;
+    transform:scale(1.1);
+}
+.cover-btn span{ display: block; }
+.cover-btn:before,
+.cover-btn:after,
+.cover-btn span:before,
+.cover-btn span:after{
+    content: '';
+    background-color: #fff;
+    width: 50%;
+    height: 2px;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: 25%;
+    top: -2px;
+    transition: all 0.3s ease 0s;
+}
+.cover-btn:after{
+    top: auto;
+    bottom: -2px;
+}
+.cover-btn span:before,
+.cover-btn span:after{
+    height: 50%;
+    width: 2px;
+    top: 25%;
+    left: -2px;
+}
+.cover-btn span:after{
+    left: auto;
+    right: -2px;
+}
+.cover-btn:hover:before,
+.cover-btn:hover:after,
+.cover-btn:hover span:before,
+.cover-btn:hover span:after{
+    opacity: 1;
+    visibility: visible;
+}
+.cover-btn:hover:before{ left: 0; }
+.cover-btn:hover:after{ left: 50%; }
+.cover-btn:hover span:before{ top: 50%; }
+.cover-btn:hover span:after{ top: 0; }
+@media only screen and (max-width: 767px){
+    .cover-btn{ margin-bottom: 20px; }
+}
+.first-header{
+    height: 100vh;
+}
+.first-section{
+  background-image: url("./../assets/Cover.jpg");
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
 }
 </style>

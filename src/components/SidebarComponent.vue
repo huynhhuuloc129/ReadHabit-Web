@@ -33,7 +33,7 @@ $('.js-menu-toggle').click(function(e) {
 <template>
 
   <aside class="sidebar ">
-    <div class="menu toggle text-white  " >
+    <div class="menu toggle text-white" >
         <svg data-toggle="collapse" data-target="#main-navbar" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list burger js-menu-toggle" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
         </svg>
@@ -65,7 +65,7 @@ $('.js-menu-toggle').click(function(e) {
         
         <div class="nav-menu">
           <ul>
-            <li class="active"><a href="#"><span class="icon-home mr-3"></span>Feed</a></li>
+            <li><a href="#"><span class="icon-home mr-3"></span>Feed</a></li>
             <li><a href="#"><span class="icon-search2 mr-3"></span>Explore</a></li>
             <li><a href="#"><span class="icon-notifications mr-3"></span>Notifications</a></li>
             <li><a href="#"><span class="icon-location-arrow mr-3"></span>Direct</a></li>
@@ -199,7 +199,7 @@ aside {
         top: 0;
         bottom: 0;
         width: 0px;
-        background-color: #ff7315;
+        background-color: blue;
         opacity: 0;
         visibility: hidden;
         -webkit-transition: .3s opacity ease, .3s visibility ease, .3s width ease;
