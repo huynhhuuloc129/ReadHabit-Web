@@ -25,6 +25,9 @@ function scrollToTop() {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+:root{
+  --main-color:#2B517A;
+}
 #btn-back-to-top {
   border-radius: 50%;
   position: fixed;
@@ -35,11 +38,9 @@ function scrollToTop() {
 body::-webkit-scrollbar {
   display: none;
 }
-/* body{
-  background-image: url("./assets/Cover.jpg");
-  background-size: 100vw 100vh;
-  background-repeat: no-repeat;
-} */
+a{
+  color: var(--main-color);
+}
 body {
   font-family: "Lexend Deca", sans-serif;
   font-optical-sizing: auto;

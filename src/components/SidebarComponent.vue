@@ -1,7 +1,7 @@
 <template>
   <aside class="sidebar">
     <div class="menu toggle" :style="{'color': props.textColor}">
-        <svg data-toggle="collapse" data-target="#main-navbar" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list burger js-menu-toggle" viewBox="0 0 16 16">
+        <svg data-toggle="collapse" data-target="#main-navbar" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list burger js-menu-toggle header" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
         </svg>
     </div>
@@ -45,7 +45,7 @@
     </aside>
 </template>
 
-<script setup lang="ts">
+<script setup lang="js">
 import $ from "jquery";
 const props = defineProps(['textColor']);
 
@@ -79,6 +79,9 @@ $('.js-menu-toggle').click((e) => {
 </script>
 
 <style>
+.header:hover{
+    color: rgb(184, 182, 182);
+}
 .icon {
   margin-right: 10px;
 }

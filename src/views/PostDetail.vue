@@ -17,8 +17,8 @@
                         <button class="btn btn-primary">Follow</button>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between text-center">
-                    <div class="interaction-icon d-flex flex-column">
+                <div class="d-flex text-center">
+                    <div class="interaction-icon d-flex flex-row align-items-center">
                         <button class="btn btn-light">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                 class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
@@ -27,11 +27,11 @@
                             </svg>
                             Thích
                         </button>
-                        <a class="interaction-count  text-secondary" href="#" style="">
+                        <a class="interaction-count  text-secondary px-1" href="#" style="">
                             80 lượt
                         </a>
                     </div>
-                    <div class="interaction-icon d-flex flex-column">
+                    <div class="interaction-icon d-flex flex-row align-items-center">
                         <button class="btn btn-light">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                 class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
@@ -40,11 +40,11 @@
                             </svg>
                             Không thích
                         </button>
-                        <a class="interaction-count text-secondary" href="#" style="">
+                        <a class="interaction-count text-secondary px-1" href="#" style="">
                             80 lượt
                         </a>
                     </div>
-                    <div class="interaction-icon d-flex flex-column">
+                    <div class="interaction-icon d-flex flex-row align-items-center">
                         <button class="btn btn-light">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                 class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
@@ -55,7 +55,7 @@
                             </svg>
                             Chia sẻ
                         </button>
-                        <a class="interaction-count text-secondary" href="#" style="">
+                        <a class="interaction-count text-secondary px-1" href="#" style="">
                             20 lượt
                         </a>
                     </div>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div class="quote col" style="word-wrap: break-word; width: 50%;">
+            <div class="quote col p-3" style="word-wrap: break-word; width: 50%;">
                 <div class="fw-bold" style="color: #039be5;">TLDR:</div> The only thing permanent in life is impermanence. 
                 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
             </div>

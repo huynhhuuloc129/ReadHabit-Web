@@ -1,5 +1,5 @@
 <template>
-   <!--  style="background-color: #2B517A;"  -->
+   <!--  style="background-color: var(--main-color);"  -->
     <div class="px-3 py-2" >
         <div class="container-fluid" >
             <div style="margin-left: 50px;" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -19,7 +19,7 @@
                     <li class="text-center" >
                         <a href="#" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" :style="{'color': props['textColor']}"
-                                class="bi bi-house-fill" viewBox="0 0 16 16">
+                                class="bi bi-house-fill header" viewBox="0 0 16 16">
                                 <path
                                     d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
                                 <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
@@ -29,7 +29,7 @@
                     <li class="text-center">
                         <a href="#" class="nav-link text-secondary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                                class="bi bi-sliders" viewBox="0 0 16 16">
+                                class="bi bi-sliders header" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
                                     d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z" />
                             </svg>
@@ -38,7 +38,7 @@
                     <li class="text-center">
                         <a href="#" class="nav-link text-secondary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                                class="bi bi-bell-fill" viewBox="0 0 16 16">
+                                class="bi bi-bell-fill header" viewBox="0 0 16 16">
                                 <path
                                     d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                             </svg>
@@ -54,7 +54,10 @@
                         <div class="modal-content">
 
                             <div class="modal-body">
-                                <form>
+                                <form >
+                                    <div class="text-center p-3">
+                                        <img class="logo-form img-thumbnail" src="../assets/logo.png" alt="">
+                                    </div>
                                     <h3 class="text-center">Read Habit</h3>
                                     <div class="mb-3">
                                         <label for="loginInputUsername" class="form-label">Tài khoản</label>
@@ -73,12 +76,12 @@
                                         <label class="form-check-label" for="loginCheck">Check me out</label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" id="loginButton" class="btn btn-primary">Đăng nhập</button>
+                                        <button type="submit" id="loginButton" class="btn blue-background text-white">Đăng nhập</button>
                                     </div>
                                     <div id="other-option">
-                                        <a href="#">Quên mật khẩu?</a>
+                                        <a href="#" class="blue-color">Quên mật khẩu?</a>
                                         hoặc
-                                        <a href="#">Đăng ký</a>
+                                        <a href="#" class="blue-color">Đăng ký</a>
                                     </div>
                                 </form>
                             </div>
@@ -98,6 +101,9 @@
 
                             <div class="modal-body">
                                 <form>
+                                    <div class="text-center p-3">
+                                        <img class="logo-form img-thumbnail" src="../assets/logo.png" alt="">
+                                    </div>
                                     <h3 class="text-center">Read Habit</h3>
                                     <div class="mb-3">
                                         <label for="registerInputUsername" class="form-label">Tài khoản</label>
@@ -126,11 +132,11 @@
                                         <label class="form-check-label" for="registerCheck">Check me out</label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" id="registerButton" class="btn btn-primary">Đăng ký</button>
+                                        <button type="submit" id="registerButton" class="btn blue-background text-white">Đăng ký</button>
                                     </div>
                                     <div id="other-option">
                                         Đã có tài khoản?
-                                        <a href="#">Đăng nhập ngay</a>
+                                        <a href="#" class="blue-color">Đăng nhập ngay</a>
                                     </div>
                                 </form>
                             </div>
@@ -141,15 +147,20 @@
             </div>
 
         </div>
-
     </div>
 </template>
 <script setup lang="ts">
     const props = defineProps(['textColor'])
 </script>
 <style>
-svg:hover {
-    color: rgb(160, 160, 160);
+.blue-background:hover{
+    background-color: rgb(0, 0, 120);
+}
+.blue-background{
+    background-color: var(--main-color);
+}
+.blue-color{
+    color: var(--main-color);
 }
 .searchbar {
     margin-bottom: auto;
@@ -174,13 +185,13 @@ svg:hover {
 .searchbar:hover>.search_input {
     padding: 0 10px;
     width: 450px;
-    caret-color: #2B517A;
+    caret-color: var(--main-color);
     transition: width 0.4s linear;
 }
 
 .searchbar:hover>.search_icon {
     background: white;
-    color: #2B517A;
+    color: var(--main-color);
 }
 
 .search_icon {
@@ -196,5 +207,12 @@ svg:hover {
 }
 ::placeholder{
     color: white;
+}
+.logo-form{
+    border-radius: 50%;
+    width: 150px;
+}
+.header:hover{
+    color: rgb(184, 182, 182);
 }
 </style>
