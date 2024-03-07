@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HeaderComponent from "./components/HeaderComponent.vue"
 import FooterComponent from "./components/FooterComponent.vue"
-import SidebarComponent from "./components/SidebarComponent.vue"
+function scrollToTop() {
+  window.scrollTo(0,0);
+}
 </script>
 
 <template>
   <header>
     
   </header>
-  <HeaderComponent></HeaderComponent>
-  <SidebarComponent></SidebarComponent>
   <RouterView />
+  <button @click="scrollToTop()"
+        type="button"
+        class="btn btn-primary btn-floating btn-lg"
+        id="btn-back-to-top"
+        >
+  <i class="fas fa-arrow-up"></i>
+</button>
   <footer>
     <FooterComponent></FooterComponent>
   </footer>
@@ -19,6 +25,13 @@ import SidebarComponent from "./components/SidebarComponent.vue"
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+#btn-back-to-top {
+  border-radius: 50%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  /* display: none; */
+}
 body::-webkit-scrollbar {
   display: none;
 }

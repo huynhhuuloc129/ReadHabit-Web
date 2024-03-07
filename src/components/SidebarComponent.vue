@@ -1,39 +1,6 @@
-<script setup>
-import $ from "jquery";
-
-$(function() {
-'use strict';
-$('.js-menu-toggle').click(function(e) {
-
-  var $this = $(this);
-
-  if ( $('body').hasClass('show-sidebar') ) {
-    $('body').removeClass('show-sidebar');
-    $this.removeClass('active');
-  } else {
-    $('body').addClass('show-sidebar');	
-    $this.addClass('active');
-  }
-
-  e.preventDefault();
-  $(document).mouseup(function(e) {
-    var container = $(".sidebar");
-    if (!container.is(e.target) && container.has(e.target).length === 0) {
-      if ( $('body').hasClass('show-sidebar') ) {
-				$('body').removeClass('show-sidebar');
-				$('body').find('.js-menu-toggle').removeClass('active');
-			}
-    }
-	}); 
-});
-
-});
-</script>
-
 <template>
-
-  <aside class="sidebar ">
-    <div class="menu toggle text-white" >
+  <aside class="sidebar">
+    <div class="menu toggle" :style="{'color': props.textColor}">
         <svg data-toggle="collapse" data-target="#main-navbar" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list burger js-menu-toggle" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
         </svg>
@@ -65,12 +32,12 @@ $('.js-menu-toggle').click(function(e) {
         
         <div class="nav-menu">
           <ul>
-            <li><a href="#"><span class="icon-home mr-3"></span>Feed</a></li>
-            <li><a href="#"><span class="icon-search2 mr-3"></span>Explore</a></li>
-            <li><a href="#"><span class="icon-notifications mr-3"></span>Notifications</a></li>
-            <li><a href="#"><span class="icon-location-arrow mr-3"></span>Direct</a></li>
-            <li><a href="#"><span class="icon-pie-chart mr-3"></span>Stats</a></li>
-            <li><a href="#"><span class="icon-sign-out mr-3"></span>Sign out</a></li>
+            <li><a href="#"><span><i class="icon fas fa-home"></i></span>Bảng tin</a></li>
+            <li><a href="#"><span><i class="icon fa-regular fa-compass"></i></span>Khám phá</a></li>
+            <li><a href="#"><span><i class="icon fa-regular fa-bell"></i></span>Thông báo</a></li>
+            <li><a href="#"><span><i class="icon fa-regular fa-address-book"></i></span>Liên hệ</a></li>
+            <li><a href="#"><span><i class="icon fa-solid fa-chart-simple"></i></span>Thống kê</a></li>
+            <li><a href="#"><span><i class="icon fa-solid fa-right-from-bracket"></i></span>Đăng xuất</a></li>
           </ul>
         </div>
       </div>
@@ -78,14 +45,47 @@ $('.js-menu-toggle').click(function(e) {
     </aside>
 </template>
 
-<style>
+<script setup lang="ts">
+import $ from "jquery";
+const props = defineProps(['textColor']);
 
+$(function() {
+'use strict';
+$('.js-menu-toggle').click((e) => {
+
+  var $this = $(this);
+
+  if ( $('body').hasClass('show-sidebar') ) {
+    $('body').removeClass('show-sidebar');
+    $this.removeClass('active');
+  } else {
+    $('body').addClass('show-sidebar');	
+    $this.addClass('active');
+}
+
+  e.preventDefault();
+  $(document).mouseup(function(e) {
+    var container = $(".sidebar");
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      if ( $('body').hasClass('show-sidebar') ) {
+				$('body').removeClass('show-sidebar');
+				$('body').find('.js-menu-toggle').removeClass('active');
+			}
+    }
+	}); 
+});
+
+});
+</script>
+
+<style>
+.icon {
+  margin-right: 10px;
+}
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease; }
-  a, a:hover {
-    text-decoration: none !important; }
 
 
 body {
@@ -109,7 +109,8 @@ body {
     visibility: visible; }
 
 .site-section {
-  padding: 7rem 0; }
+  padding: 7rem 0;
+ }
 
 aside {
   height: 100vh;
@@ -271,18 +272,6 @@ aside {
 
 .burger.active:before, .burger.active:after {
   top: 40%; }
-
-.burger.active:before {
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=5);
-  /*for IE*/ }
-
-.burger.active:after {
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-5);
-  /*for IE*/ }
 
 .burger:focus {
   outline: none; }

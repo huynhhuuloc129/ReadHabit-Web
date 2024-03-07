@@ -1,4 +1,6 @@
 <template>
+    <HeaderComponent text-color="black"></HeaderComponent>
+    <SidebarComponent text-color="black"></SidebarComponent>
     <div class="container">
         <div class="row justify-content-center" style="margin-top: 30px;">
             <div>
@@ -102,6 +104,8 @@
 
 <script setup lang="ts">
 import CardComponent from '@/components/CardComponent.vue';
+import HeaderComponent from '@/components/HeaderComponent.vue';
+import SidebarComponent from '@/components/SidebarComponent.vue';
 const date = new Date(2018, 6, 1);
 const contributionData = [
     { date: new Date(2017, 6, 1), count: 2 }, // February 1st, 2 contributions

@@ -1,16 +1,24 @@
 <template>
-   
-    <div class="px-3 py-2 text-white" style="background-color: #2B517A;"  >
+   <!--  style="background-color: #2B517A;"  -->
+    <div class="px-3 py-2" >
         <div class="container-fluid" >
             <div style="margin-left: 50px;" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
                     <img src="../assets/logo.png" alt="" style="border-radius: 50%; width: 45px; height: 45px; margin-right: 10px;">
-                    <div>ReadHabit</div>
+                    <div :style="{'color': props['textColor']}">ReadHabit</div>
                 </a>
+
+                <div class="d-flex justify-content-center">
+                    <div class="searchbar">
+                        <input class="search_input" type="text" name="" placeholder="Tìm kiếm...">
+                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                    </div>
+                </div>
+
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li class="text-center">
-                        <a href="#" class="nav-link text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    <li class="text-center" >
+                        <a href="#" class="nav-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" :style="{'color': props['textColor']}"
                                 class="bi bi-house-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
@@ -37,8 +45,8 @@
                         </a>
                     </li>
                 </ul>
-                <button class="btn btn-outline-primary fw-bold text-white" type="submit" data-bs-toggle="modal"
-                    data-bs-target="#loginModal" style="margin-right: 10px;">Đăng
+                <button class="btn btn-outline-primary fw-bold" type="submit" data-bs-toggle="modal"
+                    data-bs-target="#loginModal" style="margin-right: 10px;" :style="{'color': props['textColor']}">Đăng
                     nhập</button>
 
                 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
@@ -136,9 +144,57 @@
 
     </div>
 </template>
-
+<script setup lang="ts">
+    const props = defineProps(['textColor'])
+</script>
 <style>
 svg:hover {
     color: rgb(160, 160, 160);
+}
+.searchbar {
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 50px;
+    background-color: #4a6987;
+    border-radius: 30px;
+    padding: 5px;
+}
+
+.search_input {
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    caret-color: transparent;
+    line-height: 40px;
+    transition: width 0.4s linear;
+}
+
+.searchbar:hover>.search_input {
+    padding: 0 10px;
+    width: 450px;
+    caret-color: #2B517A;
+    transition: width 0.4s linear;
+}
+
+.searchbar:hover>.search_icon {
+    background: white;
+    color: #2B517A;
+}
+
+.search_icon {
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+}
+::placeholder{
+    color: white;
 }
 </style>

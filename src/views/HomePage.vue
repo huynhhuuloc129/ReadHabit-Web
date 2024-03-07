@@ -1,13 +1,18 @@
 <template>
+    <img src="../assets/Cover.jpg" style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;"/>
+    <HeaderComponent text-color="white"></HeaderComponent>
+    <SidebarComponent text-color="white"></SidebarComponent>
+
     <div class="first-section container-fluid">
         <!-- <div class="row"> -->
             <div class="first-header">
                 <br>
-                <div class="d-flex justify-content-start align-items-center">
-                    <a class="btn btn-lg cover-btn" href="#" >
+                <div class="d-flex justify-content-start flex-column">
+                    <!-- <a class="btn btn-lg cover-btn" href="#" >
                         <h2 class="fw-bold text-white" style="padding: 10px 5px 5px 5px;">Bắt đầu</h2>
-                    </a>
-                    <h1 class="text-white">đọc ngay bây giờ</h1>
+                    </a> -->
+                    <h1 class="text-white" style="margin-left: 40px; font-size: 70px;">Start reading today</h1>
+
                 </div>
             </div>
 
@@ -50,12 +55,13 @@
 
 <script setup lang="ts">
 import CardComponent from "../components/CardComponent.vue";
-
+import HeaderComponent from "@/components/HeaderComponent.vue";
+import SidebarComponent from "@/components/SidebarComponent.vue";
 </script>
 
 <style>
 body {
-    background-color: rgb(245, 239, 239);
+    /* background-color: rgb(245, 239, 239); */
 }
 
 h1 {
@@ -165,8 +171,9 @@ hr {
     height: 100vh;
 }
 .first-section{
-  background-image: url("./../assets/Cover.jpg");
-  background-size: 100vw 100vh;
-  background-repeat: no-repeat;
+    background-image: url("./../assets/Cover.jpg");
+    background-size: 100vw 110vh;
+    background-repeat: no-repeat;
+    background-position: right;
 }
 </style>
