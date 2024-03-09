@@ -1,7 +1,7 @@
 import createApiClient from "./api.service";
 import handlingError from "./api.service";
 
-class ReactionService {
+class ReactionsService {
     api: any
     constructor(baseUrl = "http://localhost:3000/api") {
         this.api = createApiClient(baseUrl);
@@ -15,14 +15,6 @@ class ReactionService {
         }
     }
 
-    async getOne(id: string) {
-        try {
-            const reaction = (await this.api.get("/reactions/" + id)).data;
-            return reaction;
-        } catch (err) {
-            handlingError(err);
-        }
-    }
 }
 
-export default new ReactionService();
+export default new ReactionsService();
