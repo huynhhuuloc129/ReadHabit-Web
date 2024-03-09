@@ -11,8 +11,11 @@ class AuthService {
         try {
             const tokens = (await this.api.post("/auth/login", data));
             return tokens.data;
-        } catch (err) {
-            handlingError(err);
+
+        } catch (err: any) {
+            if (err.response.status == '401') throw new Error("Sai email hoặc mật khẩu, vui lòng nhập lại");
+            else if (err.response.status == '400') throw new Error("Các trường nhập vào không hợp lệ hoặc không đủ ký tự, vui lòng nhập lại");
+            throw new Error("Lỗi hệ thống")
         }
     }
 
@@ -33,9 +36,10 @@ class AuthService {
         }).then((res) => {
           return res.data;
         }).catch((err) => {
-            handlingError(err);
+            if (err.response.status == '401') throw new Error("Chưa đăng nhập");
+            throw new Error("Lỗi hệ thống")
         })
-      }
+    }
 }
 
 export default new AuthService();

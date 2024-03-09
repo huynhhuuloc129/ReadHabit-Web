@@ -1,7 +1,7 @@
 <template>
    <!--  style="background-color: var(--main-color);"  -->
     <div class="px-3 py-2" >
-        <div class="container-fluid" >
+        <div class="container-fluid">
             <div style="margin-left: 50px;" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
                     <img src="../assets/logo.png" alt="" style="border-radius: 50%; width: 45px; height: 45px; margin-right: 10px;">
@@ -45,113 +45,155 @@
                         </a>
                     </li>
                 </ul>
-                <button class="btn btn-outline-primary fw-bold" type="submit" data-bs-toggle="modal"
-                    data-bs-target="#loginModal" style="margin-right: 10px;" :style="{'color': props['textColor']}">Đăng
-                    nhập</button>
+                    <button v-if="isLogin != true" class="btn btn-outline-primary fw-bold" type="submit" data-bs-toggle="modal"
+                        data-bs-target="#loginModal" style="margin-right: 10px;" :style="{'color': props['textColor']}">Đăng
+                        nhập</button>
 
-                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
+                    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
 
-                            <div class="modal-body">
-                                <form >
-                                    <div class="text-center p-3">
-                                        <img class="logo-form img-thumbnail" src="../assets/logo.png" alt="">
-                                    </div>
-                                    <h3 class="text-center">Read Habit</h3>
-                                    <div class="mb-3">
-                                        <label for="loginInputUsername" class="form-label">Tài khoản</label>
-                                        <input type="email" class="form-control" id="loginInputUsername"
-                                            aria-describedby="emailHelp" placeholder="Tài khoản">
-                                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                <div class="modal-body">
+                                    <form @submit="onLogin">
+                                        <div class="text-center p-3">
+                                            <img class="logo-form img-thumbnail" src="../assets/logo.png" alt="">
                                         </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="loginInputPassword" class="form-label">Mật khẩu</label>
-                                        <input type="password" class="form-control" id="loginInputPassword"
-                                            placeholder="Mật khẩu">
-                                    </div>
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="loginCheck">
-                                        <label class="form-check-label" for="loginCheck">Check me out</label>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" id="loginButton" class="btn blue-background text-white">Đăng nhập</button>
-                                    </div>
-                                    <div id="other-option">
-                                        <a href="#" class="blue-color">Quên mật khẩu?</a>
-                                        hoặc
-                                        <a href="#" class="blue-color">Đăng ký</a>
-                                    </div>
-                                </form>
-                            </div>
+                                        <h3 class="text-center">Read Habit</h3>
+                                        <div class="mb-3">
+                                            <label for="loginInputemail" class="form-label">Tài khoản</label>
+                                            <input v-model="loginData.email" type="email" class="form-control" id="loginInputemail"
+                                                aria-describedby="emailHelp" placeholder="Tài khoản" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="loginInputPassword" class="form-label">Mật khẩu</label>
+                                            <input v-model="loginData.password" type="password" class="form-control" id="loginInputPassword"
+                                                placeholder="Mật khẩu" required>
+                                        </div>
+                                        <!-- <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="loginCheck">
+                                            <label class="form-check-label" for="loginCheck">Check me out</label>
+                                        </div> -->
+                                        <div v-if="showErrLogin" class="text-center text-danger">{{ errMessage }}</div>
+                                        <div class="text-center">
+                                            <button type="submit" id="loginButton" class="btn blue-background text-white">Đăng nhập</button>
+                                        </div>
+                                        <div id="other-option">
+                                            <a href="#" class="blue-color">Quên mật khẩu?</a>
+                                            hoặc
+                                            <a href="#" class="blue-color">Đăng ký</a>
+                                        </div>
+                                    </form>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <button type="button" class="btn btn-light fw-bold" data-bs-toggle="modal"
-                    data-bs-target="#registerModal">Đăng
-                    ký</button>
+                    <button v-if="isLogin != true" type="button" class="btn btn-light fw-bold" data-bs-toggle="modal"
+                        data-bs-target="#registerModal">Đăng
+                        ký</button>
 
-                <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
+                    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
 
-                            <div class="modal-body">
-                                <form>
-                                    <div class="text-center p-3">
-                                        <img class="logo-form img-thumbnail" src="../assets/logo.png" alt="">
-                                    </div>
-                                    <h3 class="text-center">Read Habit</h3>
-                                    <div class="mb-3">
-                                        <label for="registerInputUsername" class="form-label">Tài khoản</label>
-                                        <input class="form-control" id="registerInputUsername" aria-describedby="emailHelp"
-                                            placeholder="Tài khoản">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="registerInputEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="registerInputEmail"
-                                            aria-describedby="emailHelp" placeholder="Email">
-                                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                <div class="modal-body">
+                                    <form submit="onLogin">
+                                        <div class="text-center p-3">
+                                            <img class="logo-form img-thumbnail" src="../assets/logo.png" alt="">
                                         </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="registerInputPassword" class="form-label">Mật khẩu</label>
-                                        <input type="password" class="form-control" id="registerInputPassword"
-                                            placeholder="Mật khẩu">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="registerInputRepeatPassword" class="form-label">Lặp lại mật khẩu</label>
-                                        <input type="password" class="form-control" id="registerInputRepeatPassword"
-                                            placeholder="Lặp lại mật khẩu">
-                                    </div>
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="registerCheck">
-                                        <label class="form-check-label" for="registerCheck">Check me out</label>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" id="registerButton" class="btn blue-background text-white">Đăng ký</button>
-                                    </div>
-                                    <div id="other-option">
-                                        Đã có tài khoản?
-                                        <a href="#" class="blue-color">Đăng nhập ngay</a>
-                                    </div>
-                                </form>
-                            </div>
+                                        <h3 class="text-center">Read Habit</h3>
+                                        <div class="mb-3">
+                                            <label for="registerInputUsername" class="form-label">Tài khoản</label>
+                                            <input v-model="registerData.username" class="form-control" id="registerInputUsername" aria-describedby="emailHelp"
+                                                placeholder="Tài khoản" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="registerInputEmail" class="form-label">Email</label>
+                                            <input v-model="registerData.email" type="email" class="form-control" id="registerInputEmail"
+                                                aria-describedby="emailHelp" placeholder="Email" required>
+                                            <div id="emailHelp" class="text-red form-text">We'll never share your email with anyone else.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="registerInputPassword" class="form-label">Mật khẩu</label>
+                                            <input v-model="registerData.password" type="password" class="form-control" id="registerInputPassword"
+                                                placeholder="Mật khẩu" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="registerInputRepeatPassword" class="form-label">Lặp lại mật khẩu</label>
+                                            <input v-model="registerData.repeatPassword" type="password" class="form-control" id="registerInputRepeatPassword"
+                                                placeholder="Lặp lại mật khẩu" required>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="registerCheck">
+                                            <label class="form-check-label" for="registerCheck">Check me out</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" id="registerButton"  class="btn blue-background text-white">Đăng ký</button>
+                                        </div>
+                                        <div id="other-option">
+                                            Đã có tài khoản?
+                                            <a href="#" class="blue-color">Đăng nhập ngay</a>
+                                        </div>
+                                    </form>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
             </div>
 
         </div>
     </div>
 </template>
+
 <script setup lang="ts">
-    const props = defineProps(['textColor'])
+import authServices from '@/services/auth.services';
+import checkLogin from "@/utilities/utilities";
+import { useCookies } from "vue3-cookies";
+import { onMounted, ref } from 'vue'
+
+
+const props = defineProps(['textColor'])
+const cookies = useCookies();
+
+const loginData = ref({
+    email: '',
+    password: ''
+})
+const registerData = ref({
+    username: '',
+    email: '',
+    password: '',
+    repeatPassword: '',
+})
+const showErrLogin = ref(false)
+const errMessage = ref('')
+const currentUser = ref(null);
+const isLogin = ref(false);
+
+var onLogin = async (e: any) => {
+    e.preventDefault();
+    
+    try {
+        var user = await authServices.login(loginData.value);        
+        cookies.cookies.set("Token", user.access_token);
+        window.location.reload();
+    } catch (err: any) {
+        showErrLogin.value = true;
+        errMessage.value = err.message;
+        // console.log(err)
+    }
+}
+
+currentUser.value = await checkLogin();
+if (currentUser.value !== null && currentUser.value['id'] !== null) {
+    isLogin.value = true;
+}
 </script>
+
 <style>
 .blue-background:hover{
     background-color: rgb(0, 0, 120);

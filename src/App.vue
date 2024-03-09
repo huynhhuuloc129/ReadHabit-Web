@@ -13,7 +13,7 @@ function scrollToTop() {
   <RouterView />
   <button @click="scrollToTop()"
         type="button"
-        class="btn btn-primary btn-floating btn-lg"
+        class="btn btn-danger btn-floating btn-lg"
         id="btn-back-to-top"
         >
   <i class="fas fa-arrow-up"></i>

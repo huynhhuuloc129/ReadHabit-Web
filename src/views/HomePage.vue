@@ -1,8 +1,13 @@
 <template>
     <img src="../assets/Cover.jpg" style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;"/>
-    <HeaderComponent text-color="white"></HeaderComponent>
-    <SidebarComponent text-color="white"></SidebarComponent>
+    <Suspense>
+        <HeaderComponent text-color="white"></HeaderComponent>
+        <template #fallback>
+            
+        </template>
+    </Suspense>
 
+    <SidebarComponent text-color="white"></SidebarComponent>
     <div class="first-section container-fluid">
         <!-- <div class="row"> -->
             <div class="first-header">
