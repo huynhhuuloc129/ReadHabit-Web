@@ -55,7 +55,7 @@
         </div>
 
         <div class="d-flex flex-row flex-wrap justify-content-center">
-            <CardComponent></CardComponent>
+            <CardComponent :posts="posts"></CardComponent>
         </div>
 
     </div>
@@ -65,12 +65,99 @@
 import CardComponent from "../components/CardComponent.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import SidebarComponent from "@/components/SidebarComponent.vue";
+import postsService from "@/services/posts.service";
+import { onMounted, ref } from "vue";
+
+const posts = ref([{
+    id: 1,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    title: "",
+    content: "",
+    sharePostId: null,
+    originalPostURL: "",
+    publishDate: "",
+    imageURL: "",
+    status: "",
+    type: "",
+    readTime: '',
+    totalLike: '',
+    totalDislike: '',
+    totalShare: '',
+    categoryId: '',
+    createdById: '',
+    contentSourceId: '',
+    tags: [
+    {
+        id: '',
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        categoryId: '',
+        createdById: ''
+    }
+    ],
+    contentSource: {
+        id: "",
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        avatar: ""
+    },
+    category: {
+        id: 1,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    },
+    createdBy: {
+        id: '',
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        email: "",
+        password: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        fullName: "",
+        refreshToken: null,
+        phoneNumber: "",
+        birthday: "",
+        avatar: "",
+        role: ""
+    },
+    sharePost: null,
+    sharedByPosts: [],
+    comments: []
+}])
+onMounted(async () => {
+    try {
+        let resp = await postsService.getAll(0, 0, 'published');
+        let ps: typeof resp.data = [];
+        resp.data.forEach(async (p: any) => {
+            let post = await postsService.getOne(p.id)
+            ps.push(post)
+        });
+        posts.value = ps;
+        ps.forEach((element: any) => {
+            console.log(element)
+        });
+        // console.log(ps);
+
+    } catch (err) {
+        console.log(err);
+    }   
+})
+
 </script>
 
 <style>
-body {
-    /* background-color: rgb(245, 239, 239); */
-}
 
 h1 {
     color: black;

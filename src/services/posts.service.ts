@@ -7,15 +7,15 @@ class PostService {
     constructor(baseUrl = "http://localhost:3000/api") {
         this.api = createApiClient(baseUrl);
     }
-    async getAll() {
+    async getAll(limit: number, offset: number, status: string) {
         try {
-            const posts = (await this.api.get("/posts?sortOrder=asc"));
+            const posts = (await this.api.get(`/posts?sortOrder=asc&limit=${limit}&offset=${offset}&status=${status}`));
             return posts.data;
         } catch (err) {
             handlingError(err);
         }
     }
-
+                                                                                                                                                                            
     async getOne(id: string) {
         try {
             const post = (await this.api.get("/posts/" + id));
