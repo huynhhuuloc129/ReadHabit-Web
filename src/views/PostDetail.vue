@@ -1,5 +1,10 @@
 <template>
-    <HeaderComponent  text-color="black"></HeaderComponent>
+    <Suspense>
+        <HeaderComponent text-color="black"></HeaderComponent>
+        <template #fallback>
+            
+        </template>
+    </Suspense>
     <SidebarComponent text-color="black"></SidebarComponent>
     <div class="container" style="margin-top: 10px;">
         <h1>Title</h1>
