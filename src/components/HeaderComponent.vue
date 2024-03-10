@@ -267,7 +267,6 @@ const isLogin = ref(false);
 
 var onLogin = async (e: any) => {
     e.preventDefault();
-    
     try {
         currentToken.value = await authServices.login(loginData.value);        
         cookies.cookies.set("Token", currentToken.value.access_token);

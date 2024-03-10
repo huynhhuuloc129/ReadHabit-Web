@@ -1,5 +1,5 @@
 <template>
-  <aside class="sidebar">
+  <aside class="sidebar" v-if="isLogin == true">
     <div class="menu toggle" :style="{'color': props.textColor}">
         <svg data-toggle="collapse" data-target="#main-navbar" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list burger js-menu-toggle header" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
@@ -9,7 +9,7 @@
 
         <div class="profile">
           <img src="../images/person_profile.jpg" alt="Image" class="img-fluid">
-          <h3 class="name">Debby Williams</h3>
+          <h3 class="name">{{ currentUser.fullName }}</h3>
           <span class="country">New York, USA</span>
         </div>
 
@@ -47,7 +47,31 @@
 
 <script setup lang="js">
 import $ from "jquery";
+import { ref } from 'vue'
+import checkLogin from '../utilities/utilities';
+
 const props = defineProps(['textColor']);
+const isLogin = ref(false);
+const currentUser = ref({
+    id: '',
+    createdAt: '',
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    categories: []
+});
+try {
+    currentUser.value = await checkLogin();
+    if (currentUser.value !== null && currentUser.value['id'] !== null) {
+        isLogin.value = true;
+    }
+} catch (err) {
+    console.log(err)
+}
 
 $(function() {
 'use strict';

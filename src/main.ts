@@ -8,14 +8,15 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import VueCalendarHeatmap from 'vue3-calendar-heatmap'
 
-library.add(fas, far, fab)
-dom.watch();
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+
+library.add(fas, far, fab)
+dom.watch();
+
 
 createApp(App).component("font-awesome-icon", FontAwesomeIcon)
     .use(createPinia())

@@ -6,8 +6,11 @@
             
         </template>
     </Suspense>
+    <Suspense>
 
-    <SidebarComponent text-color="white"></SidebarComponent>
+        <SidebarComponent text-color="white"></SidebarComponent>
+    </Suspense>
+
     <div class="first-section container-fluid">
         <!-- <div class="row"> -->
             <div class="first-header">

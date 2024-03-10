@@ -2,12 +2,14 @@
     <Suspense>
         <HeaderComponent text-color="black"></HeaderComponent>
         <template #fallback>
-            
         </template>
     </Suspense>
-    <SidebarComponent text-color="black"></SidebarComponent>
+    <Suspense>
+        <SidebarComponent text-color="black"></SidebarComponent>
+    </Suspense>
+
     <div class="container" style="margin-top: 10px;">
-        <h1>Title</h1>
+        <h1>{{ post.title }}</h1>
         <hr>
         <div class="row">
             <div class="col-sm-9">
@@ -18,7 +20,7 @@
                                 src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1700460183.1709251200&semt=ais"
                                 alt="">
                             <div class="user-info">
-                                <p class="fw-bold">Username</p>
+                                <p class="fw-bold">{{ post.createdBy.fullName }}</p>
                                 <button class="btn btn-primary">Follow</button>
                             </div>
                         </div>
@@ -33,7 +35,7 @@
                                     Thích
                                 </button>
                                 <a class="interaction-count  text-secondary px-1" href="#" style="">
-                                    80 lượt
+                                    {{ post.totalLike }} lượt
                                 </a>
                             </div>
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
@@ -46,7 +48,7 @@
                                     Không thích
                                 </button>
                                 <a class="interaction-count text-secondary px-1" href="#" style="">
-                                    80 lượt
+                                    {{ post.totalDislike }} lượt
                                 </a>
                             </div>
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
@@ -61,7 +63,7 @@
                                     Chia sẻ
                                 </button>
                                 <a class="interaction-count text-secondary px-1" href="#" style="">
-                                    20 lượt
+                                    {{ post.totalShare }} lượt
                                 </a>
                             </div>
                             <div class="interaction-icon d-flex flex-column">
@@ -75,9 +77,11 @@
                                 </button>
                             </div>
                             <div class="">
-                                <button class="btn btn-secondary h-100">
-                                    Đọc bài viết gốc
-                                </button>
+                                <a :href="post.originalPostURL">
+                                    <button class="btn btn-secondary h-100">
+                                        Đọc bài viết gốc
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -93,126 +97,12 @@
                         src="https://images.unsplash.com/photo-1531451740568-f8c030c0bca6?q=80&w=2710&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt="">
                     <div>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-                        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-                        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-                        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-                        felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                        dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                        rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque
-                        sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                        tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat,
-                        leo eget bibendum sodales, augue velit cursus nunc,
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-                        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-                        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-                        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-                        felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                        dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                        rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque
-                        sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                        tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat,
-                        leo eget bibendum sodales, augue velit cursus nunc,
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-                        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-                        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-                        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-                        felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                        dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                        rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque
-                        sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                        tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat,
-                        leo eget bibendum sodales, augue velit cursus nunc,
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-                        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-                        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-                        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-                        felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                        dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                        rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque
-                        sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                        tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat,
-                        leo eget bibendum sodales, augue velit cursus nunc,
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-                        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-                        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-                        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-                        felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                        dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                        rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque
-                        sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                        tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat,
-                        leo eget bibendum sodales, augue velit cursus nunc,
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-                        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-                        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-                        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-                        felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                        dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                        rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque
-                        sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                        tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat,
-                        leo eget bibendum sodales, augue velit cursus nunc,
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-                        sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-                        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-                        aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-                        felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                        dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                        rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque
-                        sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                        tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat,
-                        leo eget bibendum sodales, augue velit cursus nunc,
+                        {{ post.content }}
                     </div>
                 </div>
                 <div id="tag-section" class="row">
-                    <div class="tags badge bg-secondary text-wrap" style="width: 6rem; height: 2rem;">
-                        Technical
-                    </div>
-                    <div class="tags badge bg-secondary text-wrap" style="width: 6rem; height: 2rem;">
-                        Sport
-                    </div>
-                    <div class="tags badge bg-secondary text-wrap" style="width: 6rem; height: 2rem;">
-                        News
-                    </div>
-                    <div class="tags badge bg-secondary text-wrap" style="width: 6rem; height: 2rem;">
-                        Gaming
-                    </div>
-                    <div class="tags badge bg-secondary text-wrap" style="width: 6rem; height: 2rem;">
-                        Life
+                    <div v-for="(tag) in post.tags" :key="tag.id" class="tags badge bg-secondary text-wrap" style="width: 6rem; height: 2rem;">
+                        {{ tag.name }}
                     </div>
                 </div>
             </div>
@@ -231,6 +121,93 @@
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import CommentComponent from '@/components/CommentSectionComponent.vue';
 import SidebarComponent from '@/components/SidebarComponent.vue';
+import postsService from '@/services/posts.service';
+import { useRouter, useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue';
+
+const router = useRouter()
+const route = useRoute()
+
+const post = ref({
+    id: 1,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: null,
+  title: "",
+  content: "",
+  sharePostId: null,
+  originalPostURL: "",
+  publishDate: "",
+  imageURL: "",
+  status: "",
+  type: "",
+  readTime: '',
+  totalLike: '',
+  totalDislike: '',
+  totalShare: '',
+  categoryId: '',
+  createdById: '',
+  contentSourceId: '',
+  tags: [
+    {
+        id: '',
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        categoryId: '',
+        createdById: ''
+    }
+  ],
+  contentSource: {
+    id: "",
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    avatar: ""
+  },
+  category: {
+    id: 1,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    imageURL: null
+  },
+  createdBy: {
+    id: '',
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    password: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: ""
+  },
+    sharePost: null,
+  sharedByPosts: [],
+  comments: []
+})
+
+const id = route.params.id;
+
+onMounted(async () => {
+    try {
+        post.value = await postsService.getOne(id[0]);
+        console.log(post.value)
+    } catch (err) {
+        console.log(err);
+    }   
+})
+
 </script>
 <style>
 .quote{
