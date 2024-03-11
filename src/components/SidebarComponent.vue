@@ -8,13 +8,12 @@
       <div class="side-inner">
 
         <div class="profile">
-          <img src="../images/person_profile.jpg" alt="Image" class="img-fluid">
+          <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="Image" class="img-fluid">
           <h3 class="name">{{ currentUser.fullName }}</h3>
           <span class="country">New York, USA</span>
         </div>
 
         <div class="counter d-flex justify-content-center">
-          <!-- <div class="row justify-content-center"> -->
             <div class="col">
               <strong class="number">892</strong>
               <span class="number-label">Posts</span>
@@ -27,7 +26,6 @@
               <strong class="number">150</strong>
               <span class="number-label">Following</span>
             </div>
-          <!-- </div> -->
         </div>
         
         <div class="nav-menu">

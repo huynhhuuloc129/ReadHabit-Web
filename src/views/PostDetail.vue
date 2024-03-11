@@ -16,8 +16,8 @@
                 <div class="d-flex row">
                     <div class="col d-flex justify-content-between">
                         <div class="d-flex">
-                            <img id="user-avatar" class="rounded-circle"
-                                src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1700460183.1709251200&semt=ais"
+                            <img id="user-avatar" class="rounded-circle img-thumbnail"
+                                :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')"
                                 alt="">
                             <div class="user-info">
                                 <p class="fw-bold">{{ post.createdBy.fullName }}</p>
@@ -122,10 +122,9 @@ import HeaderComponent from '@/components/HeaderComponent.vue';
 import CommentComponent from '@/components/CommentSectionComponent.vue';
 import SidebarComponent from '@/components/SidebarComponent.vue';
 import postsService from '@/services/posts.service';
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue';
 
-const router = useRouter()
 const route = useRoute()
 
 const post = ref({
@@ -202,7 +201,7 @@ const id = route.params.id;
 onMounted(async () => {
     try {
         post.value = await postsService.getOne(id[0]);
-        console.log(post.value)
+        console.log(post.value.createdBy.avatar)
     } catch (err) {
         console.log(err);
     }   

@@ -55,7 +55,9 @@
         </div>
 
         <div class="d-flex flex-row flex-wrap justify-content-center">
-            <CardComponent :posts="posts"></CardComponent>
+            <Suspense>
+                <CardComponent :posts="posts"></CardComponent>
+            </Suspense>
         </div>
 
     </div>
@@ -140,15 +142,12 @@ onMounted(async () => {
     try {
         let resp = await postsService.getAll(0, 0, 'published');
         let ps: typeof resp.data = [];
-        resp.data.forEach(async (p: any) => {
+        for (const p of resp.data) {
             let post = await postsService.getOne(p.id)
             ps.push(post)
-        });
+        };
+
         posts.value = ps;
-        ps.forEach((element: any) => {
-            console.log(element)
-        });
-        // console.log(ps);
 
     } catch (err) {
         console.log(err);

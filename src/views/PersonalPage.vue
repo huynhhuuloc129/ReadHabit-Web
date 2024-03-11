@@ -1,6 +1,14 @@
 <template>
-    <HeaderComponent text-color="black"></HeaderComponent>
-    <SidebarComponent text-color="black"></SidebarComponent>
+    <Suspense>
+        <HeaderComponent text-color="black"></HeaderComponent>
+        <template #fallback>
+            
+        </template>
+    </Suspense>
+    <Suspense>
+
+        <SidebarComponent text-color="black"></SidebarComponent>
+    </Suspense>
     <div class="container">
         <div class="row justify-content-center" style="margin-top: 30px;">
             <div>
@@ -25,9 +33,9 @@
                             <div class="row">
                                 <div class="col avatar-div">
                                     <img class="avatar"
-                                        src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
+                                        :src="'http://localhost:8080' + user.avatar.replace('files', '')" style="border-radius: 50%;"
                                         alt="">
-                                    <div>username</div>
+                                    <div>{{ user.fullName }}</div>
                                 </div>
                                 <div class="col">
                                     <div>20 post</div>
@@ -106,7 +114,15 @@
 import CardComponent from '@/components/CardComponent.vue';
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import SidebarComponent from '@/components/SidebarComponent.vue';
+import usersService from '@/services/users.service';
+import { useRoute } from 'vue-router';
+import { onMounted, ref } from 'vue';
+
 const date = new Date(2018, 6, 1);
+const route = useRoute()
+
+const id = route.params.id;
+
 const contributionData = [
     { date: new Date(2017, 6, 1), count: 2 }, // February 1st, 2 contributions
     // ... add more objects for other days
@@ -120,6 +136,33 @@ const options = {
         return `hsl(${count * 20}, 100%, 50%)`; // Custom color based on count
     },
 };
+
+const user = ref({
+    id: '',
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    password: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: ""
+})
+
+onMounted(async () => {
+    try {
+        user.value = await usersService.getOne(id[0]);
+    } catch (err) {
+        console.log(err);
+    }   
+})
+
 
 </script>
 <style>

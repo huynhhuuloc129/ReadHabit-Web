@@ -14,7 +14,7 @@ const router = createRouter({
       component: () => import('../views/PostDetail.vue')
     },
     {
-      path: '/personal',
+      path: '/personal/:id',
       name: 'personal page',
       component: () => import('../views/PersonalPage.vue')
     }

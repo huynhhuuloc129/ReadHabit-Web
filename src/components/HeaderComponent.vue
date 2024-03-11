@@ -48,7 +48,7 @@
 
                 <div v-if="isLogin" class="nav-item dropdown">
                     <a class="nav-link bsb-dropdown-toggle-caret-disable"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="../assets/logo.png" width="40" height="40" class="img-fluid rounded-circle" :alt="currentUser.fullName">
+                        <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" width="40" height="40" class="img-fluid rounded-circle" :alt="currentUser.fullName">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-md-end bsb-dropdown-animation bsb-fadeIn" style="width: 300px;">
                         <li>
@@ -56,13 +56,12 @@
                         </li>
                         <li>
                             <hr class="dropdown-divider">
-                            <!-- TODO add avatar-->
                         </li>
                         <li>
                             <a href="#" class="dropdown-item" aria-current="true">
                             <div class="row g-0 align-items-center">
                                 <div class="col-3">
-                                <img src="../assets/logo.png" width="55" height="55" class="img-fluid rounded-circle" alt="Luke Reeves">
+                                <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" width="55" height="55" class="img-fluid rounded-circle" alt="Luke Reeves">
                                 </div>
                                 <div class="col-9">
                                 <div class="ps-3">
@@ -128,7 +127,6 @@
                 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-
                             <div class="modal-body">
                                 <form @submit="onLogin">
                                     <div class="text-center p-3">

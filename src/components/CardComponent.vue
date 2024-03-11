@@ -1,10 +1,7 @@
 <template>
 <section class="wrapper">
   	<div class="container">
-		<div class="row">
-			<div class="col text-center mb-5">
-				<h1 class="display-4 font-weight-bolder">Bootstrap 4 Cards With Background Image</h1>
-			</div>
+		<div class="row" style="width: 100vw;">
 		</div>
   	<div class="row">
     <div v-for="post in props.posts" :key="post.id" class="col-sm-12 col-md-6 col-lg-4 mb-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
@@ -12,15 +9,15 @@
             <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tech,street" alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
             <div class="card-img-overlay d-flex flex-column">
                 <div class="card-body">
-                    <small class="card-meta mb-2">{{ post.categoryId }}</small>
+                    <small class="card-meta mb-2">{{ post.category.name }}</small>
                     <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">{{ post.title }}</a></h4>
                     <small><i class="far fa-clock"></i>{{ post.createdAt }}</small>
                 </div>
                 <div class="card-footer">
                     <div class="media">
-                        <img class="mr-3 rounded-circle" src="https://assets.codepen.io/460692/internal/avatars/users/default.png?format=auto&version=1688931977&width=80&height=80" alt="Generic placeholder image" style="max-width:50px">
+                        <img class="mr-3 rounded-circle" :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')" alt="Generic placeholder image" style="width:50px; height: 50px;">
                         <div class="media-body">
-                            <h6 class="my-0 text-dark d-block">Oz Coruhlu</h6>
+                            <h6 class="my-0 text-dark d-block">{{ post.createdBy.fullName }}</h6>
                             <small>Director of UI/UX</small>
                         </div>
                     </div>
