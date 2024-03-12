@@ -275,7 +275,7 @@ var onLogin = async (e: any) => {
         // console.log(err)
     }
 }
-var onSignOut = (e: any) => {
+var onSignOut = () => {
     document.cookie = 'Token' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
     window.location.reload();
 }

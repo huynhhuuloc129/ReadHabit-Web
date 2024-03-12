@@ -629,7 +629,6 @@ import usersService from '@/services/users.service';
 import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import postsService from '@/services/posts.service';
-import ApexCharts from 'apexcharts';
 
 const date = new Date(2018, 6, 1);
 const route = useRoute()

@@ -160,14 +160,14 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import commentsService from '@/services/comments.service';
 
 const props = defineProps(['postId'])
 
 const commentLv1 = ref([])
-const commentLv2 = ref([])
-const commentLv3 = ref([])
+// const commentLv2 = ref([])
+// const commentLv3 = ref([])
 
 
 try {
