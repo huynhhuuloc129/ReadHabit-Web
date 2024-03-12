@@ -6,9 +6,9 @@ class CommentsService {
     constructor(baseUrl = "http://localhost:3000/api") {
         this.api = createApiClient(baseUrl);
     }
-    async getAll() {
+    async getAll(postId: string) {
         try {
-            const comments = (await this.api.get("/comments?sortOrder=asc"));
+            const comments = (await this.api.get(`/comments?includingChildren=true&postId=${postId}`));
             return comments.data;
         } catch (err) {
             handlingError(err);

@@ -21,12 +21,12 @@
                                 alt="">
                             <div class="user-info">
                                 <p class="fw-bold">{{ post.createdBy.fullName }}</p>
-                                <button class="btn btn-primary">Follow</button>
+                                <button class="btn btn-outline-primary">Theo dõi</button>
                             </div>
                         </div>
                         <div class="d-flex flex-row text-center">
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                                <button class="btn btn-light">
+                                <button class="btn btn-light h-100">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                         class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                                         <path
@@ -39,7 +39,7 @@
                                 </a>
                             </div>
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                                <button class="btn btn-light">
+                                <button class="btn btn-light h-100">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                         class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
                                         <path
@@ -52,7 +52,7 @@
                                 </a>
                             </div>
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                                <button class="btn btn-light">
+                                <button class="btn btn-light h-100">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                         class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
@@ -67,7 +67,7 @@
                                 </a>
                             </div>
                             <div class="interaction-icon d-flex flex-column">
-                                <button class="btn btn-light">
+                                <button class="btn btn-light h-100">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                         class="bi bi-bookmark" viewBox="0 0 16 16">
                                         <path
@@ -85,10 +85,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="quote col p-3" style="word-wrap: break-word; width: 50%;">
-                        <div class="fw-bold" style="color: #039be5;">TLDR:</div> The only thing permanent in life is impermanence. 
-                        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-                    </div>
+                </div>
+                <div class="quote p-3" style="word-wrap: break-word;">
+                    <div class="fw-bold" style="color: #039be5;">TLDR:</div> The only thing permanent in life is impermanence. 
+                    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
                 </div>
                 <br>
                 <div id="post-content">
@@ -110,16 +110,20 @@
                 <h1>Các bài viết tương tự</h1>
             </div>
         </div>
-        <CommentComponent>
+        <Suspense>
+            <CommentComponent :postId="route.params.id[0]">
+            </CommentComponent>
 
-        </CommentComponent>
+        </Suspense>
         <!-- Comment section -->
     </div>
     
 </template>
 <script setup lang="ts">
 import HeaderComponent from '@/components/HeaderComponent.vue';
+// @ts-ignore 
 import CommentComponent from '@/components/CommentSectionComponent.vue';
+// @ts-ignore 
 import SidebarComponent from '@/components/SidebarComponent.vue';
 import postsService from '@/services/posts.service';
 import { useRoute } from 'vue-router'
@@ -128,7 +132,7 @@ import { onMounted, ref } from 'vue';
 const route = useRoute()
 
 const post = ref({
-    id: 1,
+    id: '',
   createdAt: "",
   updatedAt: "",
   deletedAt: null,

@@ -129,10 +129,13 @@
                       <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Thông tin cá nhân</button>
                     </li>
                     <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="post-tab" data-bs-toggle="tab" data-bs-target="#post-tab-pane" type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false">Bài viết</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
                       <button class="nav-link" id="email-tab" data-bs-toggle="tab" data-bs-target="#email-tab-pane" type="button" role="tab" aria-controls="email-tab-pane" aria-selected="false">Emails</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                      <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Mật khẩu </button>
+                      <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Mật khẩu</button>
                     </li>
                   </ul>
                   <div class="tab-content pt-4" id="profileTabContent">
@@ -595,6 +598,18 @@
                         </div>
                       </form>
                     </div>
+                    <div class="tab-pane fade" id="post-tab-pane" role="tabpanel" aria-labelledby="post-tab" tabindex="0">
+                      <h5 class="mb-3">Tóm tắt</h5>
+                      <p class="lead mb-3">Tổng số bài viết đã viết: {{ posts.length }}</p>
+                      
+                      <div id="chart">
+                        <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
+                      </div>
+                      
+                      <div class="row gy-3 gy-xxl-4">
+                          <CardComponent  :posts="posts"></CardComponent>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -607,10 +622,14 @@
 
 <script setup lang="ts">
 import HeaderComponent from '@/components/HeaderComponent.vue';
+// @ts-ignore 
 import SidebarComponent from '@/components/SidebarComponent.vue';
+import CardComponent from '@/components/CardComponent.vue';
 import usersService from '@/services/users.service';
 import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
+import postsService from '@/services/posts.service';
+import ApexCharts from 'apexcharts';
 
 const date = new Date(2018, 6, 1);
 const route = useRoute()
@@ -649,17 +668,162 @@ const user = ref({
     role: ""
 })
 
+const posts = ref([{
+    id: 1,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    title: "",
+    content: "",
+    sharePostId: null,
+    originalPostURL: "",
+    publishDate: "",
+    imageURL: "",
+    status: "",
+    type: "",
+    readTime: '',
+    totalLike: '',
+    totalDislike: '',
+    totalShare: '',
+    categoryId: '',
+    createdById: '',
+    contentSourceId: '',
+    tags: [
+    {
+        id: '',
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        categoryId: '',
+        createdById: ''
+    }
+    ],
+    contentSource: {
+        id: "",
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        avatar: ""
+    },
+    category: {
+        id: 1,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    },
+    createdBy: {
+        id: '',
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        email: "",
+        password: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        fullName: "",
+        refreshToken: null,
+        phoneNumber: "",
+        birthday: "",
+        avatar: "",
+        role: ""
+    },
+    sharePost: null,
+    sharedByPosts: [],
+    comments: []
+}])
+
+
+const chartOptions = ref({
+    chart: {
+      type: 'bar',
+      height: 350
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '55%',
+        endingShape: 'rounded'
+      },
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent']
+    },
+    xaxis: {
+      categories: [] as string[],
+    },
+    yaxis: {
+      title: {
+        text: 'Luot'
+      }
+    },
+    fill: {
+      opacity: 1
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val + " lượt "
+        }
+      }
+    }
+  })
+
+  const series = ref([
+  {
+    name: 'Thích',
+    data: [] as number[]
+  }, 
+  {
+    name: 'Không thích',
+    data: []
+  }, {
+    name: 'Chia sẻ ',
+    data: []
+  }
+])
 onMounted(async () => {
-    try {
-        user.value = await usersService.getOne(id[0]);
-    } catch (err) {
-        console.log(err);
-    }   
+  try {
+    user.value = await usersService.getOne(id[0]);
+    let resp = await postsService.getAllForUser(user.value.id);
+
+    let ps: typeof resp.data = [];
+    for (const p of resp.data) {
+        let post = await postsService.getOne(p.id)
+        series.value[0].data.push(p.totalLike)
+        series.value[1].data.push(p.totalDislike)
+        series.value[2].data.push(p.totalShare)
+        chartOptions.value.xaxis.categories.push(p.title)
+        
+        ps.push(post)
+    };
+    console.log(series.value[0])
+    console.log(series.value[1])
+    console.log(series.value[2])
+    
+    posts.value = ps;
+    console.log(posts.value)
+  } catch (err) {
+      console.log(err);
+  }   
 })
 
 
 </script>
 <style>
+.offcanvas{
+  top: 0;
+  margin: 0;
+}
 .bg-main {
   background-color: var(--main-color);
   color: white;

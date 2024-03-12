@@ -55,9 +55,7 @@
         </div>
 
         <div class="d-flex flex-row flex-wrap justify-content-center">
-            <Suspense>
-                <CardComponent :posts="posts"></CardComponent>
-            </Suspense>
+            <CardComponent :posts="posts"></CardComponent>
         </div>
 
     </div>
@@ -66,6 +64,7 @@
 <script setup lang="ts">
 import CardComponent from "../components/CardComponent.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
+// @ts-ignore 
 import SidebarComponent from "@/components/SidebarComponent.vue";
 import postsService from "@/services/posts.service";
 import { onMounted, ref } from "vue";
@@ -165,13 +164,6 @@ h1 {
 hr {
     margin: 0px 0px 15px 0px;
 }
-
-#loginButton,
-#registerButton {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
 .d-flex {
     justify-content: center;
 }

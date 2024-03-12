@@ -7,6 +7,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import VueCalendarHeatmap from 'vue3-calendar-heatmap'
+// @ts-ignore 
+import VueApexCharts from "vue3-apexcharts";
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -19,6 +21,7 @@ dom.watch();
 
 
 createApp(App).component("font-awesome-icon", FontAwesomeIcon)
+    .use(VueApexCharts)
     .use(createPinia())
     .use(router)
     .use(VueCalendarHeatmap)

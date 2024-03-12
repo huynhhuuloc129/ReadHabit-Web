@@ -1,5 +1,5 @@
 <template>
-<section class="wrapper">
+<section class="">
   	<div class="container">
 		<div class="row" style="width: 100vw;">
 		</div>

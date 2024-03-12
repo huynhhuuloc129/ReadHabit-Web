@@ -15,7 +15,16 @@ class PostService {
             handlingError(err);
         }
     }
-                                                                                                                                                                            
+          
+    async getAllForUser(id: string) {
+        try {
+            const posts = (await this.api.get(`/posts?sortOrder=asc&createdById=${id}`));
+            return posts.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
+
     async getOne(id: string) {
         try {
             const post = (await this.api.get("/posts/" + id));
