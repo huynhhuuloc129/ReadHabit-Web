@@ -18,6 +18,12 @@ const router = createRouter({
       name: 'personal page',
       component: () => import('../views/PersonalPage.vue')
     }
+    ,
+    {
+      path: '/upload-post',
+      name: 'upload post',
+      component: () => import('../views/UploadPost.vue')
+    }
   ]
 })
 

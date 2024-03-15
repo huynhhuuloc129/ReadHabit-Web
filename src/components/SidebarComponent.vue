@@ -9,7 +9,9 @@
 
         <div class="profile">
           <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="Image" class="img-fluid">
-          <h3 class="name">{{ currentUser.fullName }}</h3>
+          <a :href="'http://localhost:5173/personal' + currentUser.id" style="color: black;">
+            <h3 class="name">{{ currentUser.fullName }}</h3>
+          </a>
           <span class="country">New York, USA</span>
         </div>
 

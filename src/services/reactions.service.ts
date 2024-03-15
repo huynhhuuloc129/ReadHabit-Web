@@ -6,9 +6,9 @@ class ReactionsService {
     constructor(baseUrl = "http://localhost:3000/api") {
         this.api = createApiClient(baseUrl);
     }
-    async getAll() {
+    async getAll(postId: number) {
         try {
-            const reactions = (await this.api.get("/reactions?sortOrder=asc"));
+            const reactions = (await this.api.get(`/reactions?sortOrder=asc&postId=${postId}`));
             return reactions.data;
         } catch (err) {
             handlingError(err);

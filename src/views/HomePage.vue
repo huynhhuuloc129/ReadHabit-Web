@@ -43,14 +43,14 @@
                 <div>
                     <div class="list-group d-flex flex-row" id="list-tab" role="tablist">
                         <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
-                            href="#list-home" role="tab" aria-controls="list-home" style="border-radius: 10px 0 0 10px;">Bài
+                            href="#list-home" role="tab" aria-controls="list-home">Bài
                             viết</a>
-                        <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list"
-                            href="#list-profile" role="tab" aria-controls="list-profile"
-                            style="border-radius: 0 10px 10px 0px;">Blog cá nhân</a>
+                            
+                        <a v-for="category in categories" :key="category.id" class="list-group-item list-group-item-action"  id="list-profile-list" data-bs-toggle="list"
+                            href="#list-profile" role="tab" aria-controls="list-profile">{{category.name}}</a>
                     </div>
                 </div>
-                <div class="display-4 font-weight-bolder">Phổ biến nhất</div>
+                <div class="display-4 font-weight-bolder m-5">Phổ biến nhất</div>
             </div>
         </div>
 
@@ -66,8 +66,20 @@ import CardComponent from "../components/CardComponent.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 // @ts-ignore 
 import SidebarComponent from "@/components/SidebarComponent.vue";
+import categoriesService from "@/services/categories.service";
 import postsService from "@/services/posts.service";
 import { onMounted, ref } from "vue";
+
+const categories = ref([
+    {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    }
+])
 
 const posts = ref([{
     id: 1,
@@ -140,6 +152,8 @@ const posts = ref([{
 onMounted(async () => {
     try {
         let resp = await postsService.getAll(0, 0, 'published');
+        let respCate = await categoriesService.getAll();
+
         let ps: typeof resp.data = [];
         for (const p of resp.data) {
             let post = await postsService.getOne(p.id)
@@ -147,7 +161,7 @@ onMounted(async () => {
         };
 
         posts.value = ps;
-
+        categories.value = respCate.data;
     } catch (err) {
         console.log(err);
     }   
@@ -170,7 +184,6 @@ hr {
 
 #list-home-list,
 #list-profile-list {
-    margin-top: 20px;
     font-weight: bold;
     width: 150px;
 }

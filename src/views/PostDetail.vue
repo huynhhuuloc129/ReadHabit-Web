@@ -20,7 +20,9 @@
                                 :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')"
                                 alt="">
                             <div class="user-info">
-                                <p class="fw-bold">{{ post.createdBy.fullName }}</p>
+                                <a :href="'http://localhost:5173/personal/'+post.createdBy.id">
+                                    <p class="fw-bold">{{ post.createdBy.fullName }}</p>
+                                </a>
                                 <button class="btn btn-outline-primary">Theo dõi</button>
                             </div>
                         </div>
@@ -34,9 +36,32 @@
                                     </svg>
                                     Thích
                                 </button>
-                                <a class="interaction-count  text-secondary px-1" href="#" style="">
+                                <a class="interaction-count  text-secondary px-1" href="#" data-bs-toggle="modal" data-bs-target="#likeModal">
                                     {{ post.totalLike }} lượt
                                 </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade " id="likeModal" tabindex="-1" aria-labelledby="likeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="likeModalLabel">Tổng lượt thích: {{ post.totalLike }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div v-for="like in reactionLikes" :key="like.postId +'-'+ like.userId" class="d-flex justify-content-between" style="margin: 0px 20px 20px 0">
+                                                <div>
+                                                    <img :src="'http://localhost:8080' + like.user.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
+                                                    <a :href='"http://localhost:5173/personal/"+like.user.id'>{{ like.user.fullName }}</a>
+                                                </div>
+                                                <button class="btn btn-outline-primary">
+                                                    Theo dõi
+                                                </button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
                                 <button class="btn btn-light h-100">
@@ -47,9 +72,31 @@
                                     </svg>
                                     Không thích
                                 </button>
-                                <a class="interaction-count text-secondary px-1" href="#" style="">
+                                <a class="interaction-count text-secondary px-1" href="#" style="" data-bs-toggle="modal" data-bs-target="#dislikeModal">
                                     {{ post.totalDislike }} lượt
                                 </a>
+
+                                <div class="modal fade " id="dislikeModal" tabindex="-1" aria-labelledby="dislikeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="dislikeModalLabel">Tổng lượt không thích: {{ post.totalDislike }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div v-for="like in reactionDisLikes" :key="like.postId +'-'+ like.userId" class="d-flex justify-content-between" style="margin: 20px 20px 20px 0">
+                                                <div>
+                                                    <img :src="'http://localhost:8080' + like.user.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
+                                                    <a :href='"http://localhost:5173/personal/"+like.user.id'>{{ like.user.fullName }}</a>
+                                                </div>
+                                                <button class="btn btn-outline-primary">
+                                                    Theo dõi
+                                                </button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
                                 <button class="btn btn-light h-100">
@@ -65,6 +112,25 @@
                                 <a class="interaction-count text-secondary px-1" href="#" style="">
                                     {{ post.totalShare }} lượt
                                 </a>
+
+                                <!-- Modal Like-->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
                             </div>
                             <div class="interaction-icon d-flex flex-column">
                                 <button class="btn btn-light h-100">
@@ -125,14 +191,109 @@ import HeaderComponent from '@/components/HeaderComponent.vue';
 import CommentComponent from '@/components/CommentSectionComponent.vue';
 // @ts-ignore 
 import SidebarComponent from '@/components/SidebarComponent.vue';
+import reactionsService from '@/services/reactions.service';
 import postsService from '@/services/posts.service';
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue';
 
 const route = useRoute()
 
+const reactionLikes = ref([
+    {
+        type: "",
+        postId: '',
+        userId: '',
+        createdAt: "",
+        post: {
+            id: '',
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            title: "",
+            content: "",
+            sharePostId: null,
+            originalPostURL: "",
+            publishDate: "",
+            imageURL: "",
+            status: "",
+            type: "",
+            readTime: '',
+            totalLike: '',
+            totalDislike: '',
+            totalShare: '',
+            categoryId: '',
+            createdById: '',
+            contentSourceId: ''
+        },
+        user: {
+            id: '',
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            email: "",
+            password: "",
+            username: "",
+            firstName: "",
+            lastName: "",
+            fullName: "",
+            refreshToken: null,
+            phoneNumber: "",
+            birthday: "",
+            avatar: "",
+            role: ""
+        }
+    }
+])
+
+const reactionDisLikes = ref([
+    {
+        type: "",
+        postId: '',
+        userId: '',
+        createdAt: "",
+        post: {
+            id: '',
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            title: "",
+            content: "",
+            sharePostId: null,
+            originalPostURL: "",
+            publishDate: "",
+            imageURL: "",
+            status: "",
+            type: "",
+            readTime: '',
+            totalLike: '',
+            totalDislike: '',
+            totalShare: '',
+            categoryId: '',
+            createdById: '',
+            contentSourceId: ''
+        },
+        user: {
+            id: '',
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            email: "",
+            password: "",
+            username: "",
+            firstName: "",
+            lastName: "",
+            fullName: "",
+            refreshToken: null,
+            phoneNumber: "",
+            birthday: "",
+            avatar: "",
+            role: ""
+        }
+    }
+])
+
 const post = ref({
-    id: '',
+    id: 0,
   createdAt: "",
   updatedAt: "",
   deletedAt: null,
@@ -196,16 +357,26 @@ const post = ref({
     role: ""
   },
     sharePost: null,
-  sharedByPosts: [],
-  comments: []
+    sharedByPosts: [],
+    comments: []
 })
 
 const id = route.params.id;
 
+
 onMounted(async () => {
     try {
         post.value = await postsService.getOne(id[0]);
-        console.log(post.value.createdBy.avatar)
+        let rs = await reactionsService.getAll(post.value.id);
+
+        let arrLike: typeof rs.data = [], arrDisLike: typeof rs.data = [];
+
+        rs.data.forEach((reaction:any) => {
+            if (reaction.type == 'like') arrLike.push(reaction)
+            else if (reaction.type == 'dislike') arrDisLike.push(reaction)
+        });
+        reactionDisLikes.value = arrDisLike
+        reactionLikes.value = arrLike
     } catch (err) {
         console.log(err);
     }   
@@ -238,5 +409,13 @@ onMounted(async () => {
 }
 .tags {
     margin-right: 5px;
+}
+a{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
 }
 </style>

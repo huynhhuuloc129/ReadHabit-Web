@@ -9,6 +9,9 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import VueCalendarHeatmap from 'vue3-calendar-heatmap'
 // @ts-ignore 
 import VueApexCharts from "vue3-apexcharts";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+// @ts-ignore 
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -19,8 +22,12 @@ import router from './router'
 library.add(fas, far, fab)
 dom.watch();
 
+const options = {
+    // You can set your default options here
+};
 
 createApp(App).component("font-awesome-icon", FontAwesomeIcon)
+    .use(Toast, options)
     .use(VueApexCharts)
     .use(createPinia())
     .use(router)

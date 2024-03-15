@@ -17,7 +17,6 @@
               <div class="row gy-4">
                 <div class="col-12">
                   <div class="card widget-card border-light shadow-sm">
-                    <div class="card-header bg-main">Xin chào, {{ user.fullName }}</div>
                     <div class="card-body">
                       <div class="text-center mb-3">
                         <img :src="'http://localhost:8080' + user.avatar.replace('files', '')" width="150px" class="img-fluid rounded-circle" alt="Luna John">
@@ -103,7 +102,7 @@
                 </div>
                 <div class="col-12">
                   <div class="card widget-card border-light shadow-sm">
-                    <div class="card-header bg-main">Nhãn dãn</div>
+                    <div class="card-header bg-main">Các nhãn đã chọn</div>
                     <div class="card-body">
                       <span class="badge text-bg-primary">HTML</span>
                       <span class="badge text-bg-primary">SCSS</span>
@@ -131,9 +130,9 @@
                     <li class="nav-item" role="presentation">
                       <button class="nav-link" id="post-tab" data-bs-toggle="tab" data-bs-target="#post-tab-pane" type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false">Bài viết</button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <!-- <li class="nav-item" role="presentation">
                       <button class="nav-link" id="email-tab" data-bs-toggle="tab" data-bs-target="#email-tab-pane" type="button" role="tab" aria-controls="email-tab-pane" aria-selected="false">Emails</button>
-                    </li>
+                    </li> -->
                     <li class="nav-item" role="presentation">
                       <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Mật khẩu</button>
                     </li>
@@ -157,34 +156,16 @@
                           <div class="p-2">{{ user.lastName }}</div>
                         </div>
                         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-                          <div class="p-2">Education</div>
+                          <div class="p-2">Địa chỉ</div>
                         </div>
                         <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-                          <div class="p-2">M.S Computer Science</div>
+                          <div class="p-2">Thành phố Sóc Trăng</div>
                         </div>
                         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-                          <div class="p-2">Address</div>
+                          <div class="p-2">Nghề nghiệp</div>
                         </div>
                         <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-                          <div class="p-2">Mountain View, California</div>
-                        </div>
-                        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-                          <div class="p-2">Country</div>
-                        </div>
-                        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-                          <div class="p-2">United States</div>
-                        </div>
-                        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-                          <div class="p-2">Job</div>
-                        </div>
-                        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-                          <div class="p-2">Project Manager</div>
-                        </div>
-                        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-                          <div class="p-2">Company</div>
-                        </div>
-                        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-                          <div class="p-2">GitHub Inc</div>
+                          <div class="p-2">Lập trình viên</div>
                         </div>
                         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
                           <div class="p-2">Số điện thoại</div>
@@ -535,11 +516,11 @@
                           <textarea class="form-control" id="inputAbout">Ethan Leo is a seasoned and results-driven Project Manager who brings experience and expertise to project management. With a proven track record of successfully delivering complex projects on time and within budget, Ethan Leo is the go-to professional for organizations seeking efficient and effective project leadership.</textarea>
                         </div>
                         <div class="col-12">
-                          <button type="submit" class="btn btn-primary bg-main">Save Changes</button>
+                          <button type="submit" class="btn btn-primary bg-main">Cập nhật</button>
                         </div>
                       </form>
                     </div>
-                    <div class="tab-pane fade" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab" tabindex="0">
+                    <!-- <div class="tab-pane fade" id="email-tab-pane" role="tabpanel" aria-labelledby="email-tab" tabindex="0">
                       <form action="#!">
                         <fieldset class="row gy-3 gy-md-0">
                           <legend class="col-form-label col-12 col-md-3 col-xl-2">Email Alerts</legend>
@@ -576,7 +557,7 @@
                           </div>
                         </div>
                       </form>
-                    </div>
+                    </div> -->
                     <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
                       <form action="#!">
                         <div class="row gy-3 gy-xxl-4">
@@ -629,9 +610,11 @@ import usersService from '@/services/users.service';
 import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import postsService from '@/services/posts.service';
+import { useToast } from "vue-toastification";
 
 const date = new Date(2018, 6, 1);
 const route = useRoute()
+const toast = useToast();
 
 const id = route.params.id;
 
