@@ -148,6 +148,7 @@ function displaySelectedImage(event: any, elementId: any) {
         const reader = new FileReader();
 
         reader.onload = function(e) {
+            //@ts-ignore
             selectedImage.src = e.target.result;
         };
 

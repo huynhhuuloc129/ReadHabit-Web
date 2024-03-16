@@ -16,7 +16,7 @@ class UsersService {
         }
     }
 
-    async getOne(id: string) {
+    async getOne(id: number) {
         try {
             const user = (await this.api.get("/users/" + id)).data;
             return user;
@@ -25,7 +25,7 @@ class UsersService {
         }
     }
 
-    async update(id: string, data: any, token: string) {
+    async update(id: number, data: any, token: string) {
         return await axios.patch(`http://localhost:3000/api/users/${id}`, data, {
             headers: {
                 Authorization: 'Bearer ' + token
@@ -37,7 +37,7 @@ class UsersService {
         })
     }
 
-    async delete(id: string, token: string) {
+    async delete(id: number, token: string) {
         return await axios.delete(`http://localhost:3000/api/users/${id}`, {
             headers: {
                 Authorization: 'Bearer ' + token

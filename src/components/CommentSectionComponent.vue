@@ -38,14 +38,13 @@
                             <!-- Comments -->
                             <div>
                                 <div v-for="(cmt2, index2) in props.commentsLv2[index]" :key="cmt2.id" class="media-block">
-                                    <a class="media-left" href="#">                            
+                                    <a class="media-left" :href="'http://localhost:5173/personal/' + cmt2.createdById">                            
                                         <img :src="'http://localhost:8080' + cmt2.createdBy.avatar.replace('files', '')" width="50px" height="50px" class="rounded-circle" :alt="cmt2.createdBy.fullName" style="margin-right: 18px;">
                                     </a>
                                     <div class="media-body">
                                         <div class="mar-btm">
-                                            <a href="#" class="btn-link text-semibold media-heading box-inline">{{ cmt2.createdBy.fullName }}</a>
-                                            <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - From Mobile -
-                                                7 min ago</p>
+                                            <a :href="'http://localhost:5173/personal/' + cmt2.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt2.createdBy.fullName }}</a>
+                                            <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p>
                                         </div>
                                         <p>{{ cmt2.message }}</p>
                                         <div class="pad-ver">
@@ -54,14 +53,13 @@
                                         <hr>
                                         <div>
                                         <div v-for="cmt3 in props.commentsLv3[index2]" :key="cmt3.id" class="media-block">
-                                            <a class="media-left" href="#">                            
+                                            <a class="media-left" :href="'http://localhost:5173/personal/' + cmt3.createdById">                            
                                                 <img :src="'http://localhost:8080' + cmt3.createdBy.avatar.replace('files', '')" width="50px" height="50px" class="rounded-circle" :alt="cmt3.createdBy.fullName" style="margin-right: 18px;">
                                             </a>
                                             <div class="media-body">
                                                 <div class="mar-btm">
-                                                    <a href="#" class="btn-link text-semibold media-heading box-inline">{{ cmt3.createdBy.fullName }}</a>
-                                                    <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - From Mobile -
-                                                        7 min ago</p>
+                                                    <a :href="'http://localhost:5173/personal/' + cmt3.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt3.createdBy.fullName }}</a>
+                                                    <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p>
                                                 </div>
                                                 <p>{{ cmt3.message }}</p>
                                                 <div class="pad-ver">

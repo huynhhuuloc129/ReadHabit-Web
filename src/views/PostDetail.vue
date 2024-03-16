@@ -23,12 +23,14 @@
                                 <a :href="'http://localhost:5173/personal/'+post.createdBy.id">
                                     <p class="fw-bold">{{ post.createdBy.fullName }}</p>
                                 </a>
-                                <button v-if="followArr.has(post.createdBy.id)" class="btn btn-primary" @click="unFollow(post.createdBy.id)">
-                                    Đã theo dõi
-                                </button>
-                                <button v-else class="btn btn-outline-primary" @click="follow(post.createdBy.id)">
-                                    Theo dõi
-                                </button>
+                                <div v-if="isLogin == true">
+                                    <button v-if="followArr.has(post.createdBy.id)" class="btn btn-primary" @click="unFollow(post.createdBy.id)">
+                                        Đã theo dõi
+                                    </button>
+                                    <button v-else class="btn btn-outline-primary" @click="follow(post.createdBy.id)">
+                                        Theo dõi
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="d-flex flex-row text-center">
@@ -52,7 +54,7 @@
                                 </a>
 
                                 <!-- Modal -->
-                                <div class="modal fade " id="likeModal" tabindex="-1" aria-labelledby="likeModalLabel" aria-hidden="true">
+                                <div v-if="isLogin" class="modal fade " id="likeModal" tabindex="-1" aria-labelledby="likeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                         <div class="modal-header">
@@ -96,7 +98,7 @@
                                     {{ post.totalDislike }}
                                 </a>
 
-                                <div class="modal fade " id="dislikeModal" tabindex="-1" aria-labelledby="dislikeModalLabel" aria-hidden="true">
+                                <div v-if="isLogin" class="modal fade " id="dislikeModal" tabindex="-1" aria-labelledby="dislikeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                         <div class="modal-header">
@@ -530,9 +532,13 @@ const tokenBearer = cookies.cookies.get('Token');
 const followArr = ref(new Map<number, boolean>())
 const isLike = ref(false)
 const isDislike = ref(false)
-
+const isLogin = ref(false)
 try {
     currentUser.value = await checkLogin();
+    if (currentUser.value !== null && currentUser.value['id'] !== null) {
+        isLogin.value = true;
+    }
+    console.log(currentUser)
 } catch (err) {
     console.log(err)
 }

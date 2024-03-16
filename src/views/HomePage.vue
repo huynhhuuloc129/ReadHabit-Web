@@ -29,7 +29,7 @@
             <!-- </div>
         </div> -->
     </div>
-    <div class="" style="margin: 30px 10px 10px 20px;">
+    <div class="" style="margin: 30px 10px 10px 20px; ">
 
         <div>
             <form class="form-inline my-sm-0 d-flex justify-content-center">
@@ -49,7 +49,7 @@
                     </button>
                 </div>
             </div>
-            <div class="sidebarCate sticky-top" style="margin: 50px 0 0px 20px; height: 400px;">
+            <div class="sidebarCate sticky-top" style="margin: 50px 0 0px 20px; max-height: 100vh; width: 350px; overflow-y: scroll;">
                 <br>
                 <h3>Thể loại</h3>
                 <a @click="changeCategory(category.id)" :href="'#'+category.name" class="category" v-for="category in categories" :key="category.id" style="text-decoration: none; display: block;">
@@ -234,12 +234,13 @@ const tags = ref([{
 var postVisibles = ref([] as number[])
 var steps = ref([] as number[])
 const categoryId = ref(0)
+const isLogin = ref(false)
 
 try {
     currentUser.value = await checkLogin();
-    // if (currentUser.value !== null && currentUser.value['id'] !== null) {
-    //     // isLogin.value = true;
-    // }
+    if (currentUser.value !== null && currentUser.value['id'] !== null) {
+        isLogin.value = true;
+    }
 } catch (err) {
     console.log(err)
 }
@@ -264,7 +265,12 @@ onMounted(async () => {
         tags.value = respTags.data
 
         //category
-        categories.value = currentUser.value.categories;
+        if (isLogin.value){
+            categories.value = currentUser.value.categories;
+        } else {
+            let respTemp = await categoriesService.getAll()
+            categories.value = respTemp.data;
+        }
         categoryId.value = categories.value[0].id
         //post
         let resp = await postsService.getAll(0, 0, 'published');

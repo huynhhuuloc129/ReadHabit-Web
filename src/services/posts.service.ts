@@ -16,7 +16,7 @@ class PostService {
         }
     }
           
-    async getAllForUser(id: string) {
+    async getAllForUser(id: number) {
         try {
             const posts = (await this.api.get(`/posts?sortOrder=asc&createdById=${id}`));
             return posts.data;

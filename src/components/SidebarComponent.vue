@@ -21,12 +21,12 @@
               <span class="number-label">Posts</span>
             </div>
             <div class="col">
-              <strong class="number">22.5k</strong>
-              <span class="number-label">Followers</span>
+              <strong class="number">{{ currentUser.totalFollower }}</strong>
+              <span class="number-label">Theo dõi</span>
             </div>
             <div class="col">
-              <strong class="number">150</strong>
-              <span class="number-label">Following</span>
+              <strong class="number">{{ currentUser.totalFollowee }}</strong>
+              <span class="number-label">Đang theo dõi</span>
             </div>
         </div>
         

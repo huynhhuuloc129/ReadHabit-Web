@@ -11,14 +11,14 @@
                 <div class="card-body post-body">
                     <small class="card-meta mb-2">{{ post.category.name }}</small>
                     <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">{{ post.title }}</a></h4>
-                    <small><i class="far fa-clock"></i>{{ post.createdAt }}</small>
+                    <small><i class="far fa-clock"></i>{{ post.createdAt.slice(0, 10) }}</small>
                 </div>
                 <div class="card-footer">
                     <div class="media">
                         <img class="mr-3 rounded-circle" :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')" alt="Generic placeholder image" style="width:50px; height: 50px;">
                         <div class="media-body">
-                            <h6 class="my-0 text-dark d-block">{{ post.createdBy.fullName }}</h6>
-                            <small>Director of UI/UX</small>
+                            <a :href="'personal/'+post.createdById" style="text-decoration: none;"><h6 class="my-0 text-dark d-block">{{ post.createdBy.fullName }}</h6></a>
+                            <!-- <small>Director of UI/UX</small> -->
                         </div>
                     </div>
                 </div>
