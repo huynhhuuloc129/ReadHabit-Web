@@ -200,9 +200,8 @@
             </div>
         </div>
         <Suspense>
-            <CommentComponent :postId="route.params.id[0]" :comments="post.comments">
+            <CommentComponent :postId="route.params.id[0]" :commentsLv1="commentsPassingLv1" :commentsLv2="commentsPassingLv2" :commentsLv3="commentsPassingLv2">
             </CommentComponent>
-
         </Suspense>
         <!-- Comment section -->
     </div>
@@ -215,6 +214,7 @@ import CommentComponent from '@/components/CommentSectionComponent.vue';
 // @ts-ignore 
 import SidebarComponent from '@/components/SidebarComponent.vue';
 import reactionsService from '@/services/reactions.service';
+import commentsService from '@/services/comments.service';
 import followsService from '@/services/follows.service';
 import postsService from '@/services/posts.service';
 import checkLogin from '@/utilities/utilities';
@@ -384,7 +384,17 @@ const post = ref({
     },
     sharePost: null,
     sharedByPosts: [],
-    comments: []
+    comments: [{
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        message: "",
+        postId: 0,
+        parentId: null,
+        path: "",
+        createdById: 0
+    }]
 })
 
 const currentUser = ref({
@@ -473,6 +483,45 @@ const follows = ref([{
         role: ""
     }
 }])
+type commentType = {
+  id: 0,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: null,
+  message: "",
+  postId: 0,
+  parentId: null,
+  path: "",
+  createdById: 0,
+  post: {
+  },
+  createdBy: {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    about: null,
+    youtubeLink: null,
+    facebookLink: null,
+    linkedinLink: null,
+    twitterLink: null,
+    totalFollower: 0,
+    totalFollowee: 0,
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: ""
+  }
+}
+const commentsPassingLv1 = ref([] as commentType[])
+const commentsPassingLv2 = ref([] as number[])
+const commentsPassingLv3 = ref([] as number[])
 
 const id = Number(route.params.id);
 const cookies = useCookies();
@@ -581,7 +630,24 @@ onMounted(async () => {
         //post
         post.value = await postsService.getOne(id);
 
-        //reaction
+        //commentslv1
+        let respCmts = await commentsService.getAll(post.value.id)
+        commentsPassingLv1.value = respCmts.data
+
+        //commentslv2
+        for (let i=0; i<commentsPassingLv1.value.length; i++) {
+            commentsPassingLv2.value.push()
+            let respTemp = await commentsService.getAllByPath(post.value.id, commentsPassingLv1.value[i].path)
+            commentsPassingLv2.value[i] = respTemp.data
+
+            //commentslv3
+            for (let j=0; j<respTemp.data.length; j++) {
+                commentsPassingLv3.value.push()
+                let respTemp2 = await commentsService.getAllByPath(post.value.id, respTemp.data[j].path)
+                commentsPassingLv3.value[i] = respTemp2.data
+            }
+        }
+
         // follows
         let fs = await followsService.getAllByFollowerId(currentUser.value.id)
         follows.value = fs.data

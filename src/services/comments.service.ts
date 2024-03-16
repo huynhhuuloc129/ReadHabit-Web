@@ -6,24 +6,31 @@ class CommentsService {
     constructor(baseUrl = "http://localhost:3000/api") {
         this.api = createApiClient(baseUrl);
     }
-    async getAll(postId: string) {
+    async getAll(postId: number) {
         try {
-            const comments = (await this.api.get(`/comments?includingChildren=true&postId=${postId}`));
+            const comments = (await this.api.get(`/comments?includingChildren=false&postId=${postId}`));
             return comments.data;
         } catch (err) {
             handlingError(err);
         }
     }
-
-    async getOne(id: string) {
+    async getAllByPath(postId: number, path: string) {
         try {
-            const comment = (await this.api.get("/comments/" + id)).data;
-            return comment;
+            const comments = (await this.api.get(`/comments?includingChildren=false&postId=${postId}&path=${path}`));
+            return comments.data;
         } catch (err) {
             handlingError(err);
         }
     }
-    async update(id: string, data: any, token: string) {
+    async getOne(id: number) {
+        try {
+            const comment = (await this.api.get("/comments/" + id));
+            return comment.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
+    async update(id: number, data: any, token: string) {
         return await axios.patch(`http://localhost:3000/api/comments/${id}`, data, {
             headers: {
                 Authorization: 'Bearer ' + token
