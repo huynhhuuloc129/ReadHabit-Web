@@ -24,6 +24,7 @@
                 </div>
             </div>
         </div>
+		
 		<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" :id="'offcanvasScrolling' + post.id" :aria-labelledby="'offcanvasScrollingLabel' + post.id">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" :id="'offcanvasScrollingLabel' + post.id">{{ post.title }}</h5>

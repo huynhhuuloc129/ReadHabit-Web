@@ -35,7 +35,7 @@ class PostService {
         }
     }
 
-    async getOne(id: string) {
+    async getOne(id: number) {
         try {
             const post = (await this.api.get("/posts/" + id));
             return post.data;
@@ -79,7 +79,7 @@ class PostService {
         })
     }
 
-    async createReact(id: string, data: any, token: string) {
+    async createReact(id: number, data: any, token: string) {
         return await axios.post(`http://localhost:3000/api/posts/${id}/react`, data, {
             headers: {
                 Authorization: 'Bearer ' + token
@@ -91,7 +91,7 @@ class PostService {
         })
     }
 
-    async share(id: string, data: any, token: string) {
+    async share(id: number, data: any, token: string) {
         return await axios.post(`http://localhost:3000/api/posts/${id}/share`, data, {
             headers: {
                 Authorization: 'Bearer ' + token

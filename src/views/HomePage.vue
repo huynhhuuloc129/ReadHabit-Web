@@ -58,7 +58,7 @@
                 <hr>
                 <h3>Nhãn</h3>
                 <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
-                    <div v-for="tag in filterTagsByCategoryId" :key='tag'>
+                    <div v-for="tag in filterTagsByCategoryId()" :key='tag.id'>
                         <div class="btn btn-secondary" style="padding: 3px; margin: 2px;">{{ tag.name }}</div>
                     </div>
                 </div>
@@ -250,8 +250,9 @@ function VisiblePost(position: number){
 
 // filter tags
 function filterTagsByCategoryId(): typeof tags.value{
-    return tags.value.filter((tag) => tag.category.id == categoryId.value)
+    return tags.value.filter((tag) =>tag.category.id == categoryId.value)
 }
+
 function changeCategory(cId: number){
     categoryId.value = cId
 }
@@ -259,7 +260,7 @@ function changeCategory(cId: number){
 onMounted(async () => {
     try {
         //tag
-        let respTags = await tagsService.getAllByCategoryId(currentUser.value.categories[0].id)
+        let respTags = await tagsService.getAll()
         tags.value = respTags.data
 
         //category
@@ -334,8 +335,6 @@ hr {
 #image-cover{
     width: 78vw;
 }
-
-
 .cover-btn{
     margin-right: 20px;
     color: #fff;

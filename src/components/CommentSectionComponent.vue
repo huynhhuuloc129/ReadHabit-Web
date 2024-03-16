@@ -163,26 +163,7 @@
 import { ref } from 'vue';
 import commentsService from '@/services/comments.service';
 
-const props = defineProps(['postId'])
-
-const commentLv1 = ref([])
-// const commentLv2 = ref([])
-// const commentLv3 = ref([])
-
-
-try {
-    let resp = await commentsService.getAll(props.postId);
-
-    let cmts: typeof resp.data = [];
-
-    resp.data.forEach((cmt: any) => {
-        cmts.push(cmt)
-    });
-    commentLv1.value = cmts
-    console.log(commentLv1.value)
-} catch (err) {
-    console.log(err);
-}   
+const props = defineProps(['postId', 'comments'])
 
 </script>
 <style>

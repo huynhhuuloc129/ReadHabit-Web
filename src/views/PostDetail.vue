@@ -23,12 +23,17 @@
                                 <a :href="'http://localhost:5173/personal/'+post.createdBy.id">
                                     <p class="fw-bold">{{ post.createdBy.fullName }}</p>
                                 </a>
-                                <button class="btn btn-outline-primary">Theo dõi</button>
+                                <button v-if="followArr.has(post.createdBy.id)" class="btn btn-primary" @click="unFollow(post.createdBy.id)">
+                                    Đã theo dõi
+                                </button>
+                                <button v-else class="btn btn-outline-primary" @click="follow(post.createdBy.id)">
+                                    Theo dõi
+                                </button>
                             </div>
                         </div>
                         <div class="d-flex flex-row text-center">
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                                <button class="btn btn-light h-100">
+                                <button v-if="isLike==false" class="btn btn-light h-100" @click="like(post.id)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                         class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                                         <path
@@ -36,7 +41,13 @@
                                     </svg>
                                     <!-- Thích -->
                                 </button>
-                                <a class="interaction-count  text-secondary px-1" href="#" data-bs-toggle="modal" data-bs-target="#likeModal">
+                                <button v-else class="btn btn-light h-100"  @click="unLike(post.id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+                                        <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+                                    </svg>
+                                    <!-- Thích -->
+                                </button>
+                                <a class="interaction-count  text-secondary px-1" href="#" data-bs-toggle="modal" data-bs-target="#likeModal" @click="getReaction()">
                                     {{ post.totalLike }}
                                 </a>
 
@@ -54,7 +65,10 @@
                                                     <img :src="'http://localhost:8080' + like.user.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
                                                     <a :href='"http://localhost:5173/personal/"+like.user.id'>{{ like.user.fullName }}</a>
                                                 </div>
-                                                <button class="btn btn-outline-primary">
+                                                <button v-if="followArr.has(like.user.id)"  class="btn btn-primary" @click="unFollow(like.user.id)">
+                                                    Đã theo dõi
+                                                </button>
+                                                <button v-else class="btn btn-outline-primary" @click="follow(like.user.id)">
                                                     Theo dõi
                                                 </button>
                                             </div>
@@ -64,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                                <button class="btn btn-light h-100">
+                                <button v-if="isDislike == false" class="btn btn-light h-100" @click="dislike(post.id)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                         class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
                                         <path
@@ -72,7 +86,13 @@
                                     </svg>
                                     <!-- Không thích -->
                                 </button>
-                                <a class="interaction-count text-secondary px-1" href="#" style="" data-bs-toggle="modal" data-bs-target="#dislikeModal">
+                                <button v-else class="btn btn-light h-100" @click="unDislike(post.id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">
+                                        <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065a1.38 1.38 0 0 0 1.012-.965c.22-.816.533-2.512.062-4.51q.205.03.443.051c.713.065 1.669.071 2.516-.211.518-.173.994-.68 1.2-1.272a1.9 1.9 0 0 0-.234-1.734c.058-.118.103-.242.138-.362.077-.27.113-.568.113-.856 0-.29-.036-.586-.113-.857a2 2 0 0 0-.16-.403c.169-.387.107-.82-.003-1.149a3.2 3.2 0 0 0-.488-.9c.054-.153.076-.313.076-.465a1.86 1.86 0 0 0-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.217a4.8 4.8 0 0 0-.97.485l-.048.029c-.504.308-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.279v4c0 .851.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.626.914 1.28 1.039 1.638.199.575.356 1.54.428 2.591"/>
+                                    </svg>
+                                    <!-- Không thích -->
+                                </button>
+                                <a class="interaction-count text-secondary px-1" href="#" style="" data-bs-toggle="modal" data-bs-target="#dislikeModal" @click="getReaction()">
                                     {{ post.totalDislike }}
                                 </a>
 
@@ -84,12 +104,15 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div v-for="like in reactionDisLikes" :key="like.postId +'-'+ like.userId" class="d-flex justify-content-between" style="margin: 20px 20px 20px 0">
+                                            <div v-for="dislike in reactionDisLikes" :key="dislike.postId +'-'+ dislike.userId" class="d-flex justify-content-between" style="margin: 20px 20px 20px 0">
                                                 <div>
-                                                    <img :src="'http://localhost:8080' + like.user.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
-                                                    <a :href='"http://localhost:5173/personal/"+like.user.id'>{{ like.user.fullName }}</a>
+                                                    <img :src="'http://localhost:8080' + dislike.user.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
+                                                    <a :href='"http://localhost:5173/personal/"+dislike.user.id'>{{ dislike.user.fullName }}</a>
                                                 </div>
-                                                <button class="btn btn-outline-primary">
+                                                <button v-if="followArr.has(dislike.user.id)" class="btn btn-primary" @click="unFollow(dislike.user.id)">
+                                                    Đã theo dõi
+                                                </button>
+                                                <button v-else class="btn btn-outline-primary" @click="follow(dislike.user.id)">
                                                     Theo dõi
                                                 </button>
                                             </div>
@@ -177,7 +200,7 @@
             </div>
         </div>
         <Suspense>
-            <CommentComponent :postId="route.params.id[0]">
+            <CommentComponent :postId="route.params.id[0]" :comments="post.comments">
             </CommentComponent>
 
         </Suspense>
@@ -192,7 +215,10 @@ import CommentComponent from '@/components/CommentSectionComponent.vue';
 // @ts-ignore 
 import SidebarComponent from '@/components/SidebarComponent.vue';
 import reactionsService from '@/services/reactions.service';
+import followsService from '@/services/follows.service';
 import postsService from '@/services/posts.service';
+import checkLogin from '@/utilities/utilities';
+import { useCookies } from "vue3-cookies";
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue';
 
@@ -226,7 +252,7 @@ const reactionLikes = ref([
             contentSourceId: ''
         },
         user: {
-            id: '',
+            id: 0,
             createdAt: "",
             updatedAt: "",
             deletedAt: null,
@@ -273,7 +299,7 @@ const reactionDisLikes = ref([
             contentSourceId: ''
         },
         user: {
-            id: '',
+            id: 0,
             createdAt: "",
             updatedAt: "",
             deletedAt: null,
@@ -294,27 +320,27 @@ const reactionDisLikes = ref([
 
 const post = ref({
     id: 0,
-  createdAt: "",
-  updatedAt: "",
-  deletedAt: null,
-  title: "",
-  content: "",
-  sharePostId: null,
-  originalPostURL: "",
-  publishDate: "",
-  imageURL: "",
-  status: "",
-  type: "",
-  readTime: '',
-  totalLike: '',
-  totalDislike: '',
-  totalShare: '',
-  categoryId: '',
-  createdById: '',
-  contentSourceId: '',
-  tags: [
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    title: "",
+    content: "",
+    sharePostId: null,
+    originalPostURL: "",
+    publishDate: "",
+    imageURL: "",
+    status: "",
+    type: "",
+    readTime: '',
+    totalLike: 0,
+    totalDislike: 0,
+    totalShare: 0,
+    categoryId: '',
+    createdById: '',
+    contentSourceId: '',
+    tags: [
     {
-        id: '',
+        id: 0,
         createdAt: "",
         updatedAt: "",
         deletedAt: null,
@@ -322,61 +348,246 @@ const post = ref({
         categoryId: '',
         createdById: ''
     }
-  ],
-  contentSource: {
-    id: "",
-    createdAt: "",
-    updatedAt: "",
-    deletedAt: null,
-    name: "",
-    avatar: ""
-  },
-  category: {
-    id: 1,
-    createdAt: "",
-    updatedAt: "",
-    deletedAt: null,
-    name: "",
-    imageURL: null
-  },
-  createdBy: {
-    id: '',
-    createdAt: "",
-    updatedAt: "",
-    deletedAt: null,
-    email: "",
-    password: "",
-    username: "",
-    firstName: "",
-    lastName: "",
-    fullName: "",
-    refreshToken: null,
-    phoneNumber: "",
-    birthday: "",
-    avatar: "",
-    role: ""
-  },
+    ],
+    contentSource: {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        avatar: ""
+    },
+    category: {
+        id: 1,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    },
+    createdBy: {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        email: "",
+        password: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        fullName: "",
+        refreshToken: null,
+        phoneNumber: "",
+        birthday: "",
+        avatar: "",
+        role: ""
+    },
     sharePost: null,
     sharedByPosts: [],
     comments: []
 })
 
-const id = route.params.id;
+const currentUser = ref({
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    about: null,
+    youtubeLink: null,
+    facebookLink: null,
+    linkedinLink: null,
+    twitterLink: null,
+    totalFollower: 0,
+    totalFollowee: 0,
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: "",
+    categories: [{
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    }]
+})
 
+const follows = ref([{
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    followerId: 0,
+    followeeId: 0,
+    followee: {
+        id: 1,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        email: "d",
+        username: "",
+        firstName: "",
+        lastName: "",
+        fullName: "",
+        about: null,
+        youtubeLink: null,
+        facebookLink: null,
+        linkedinLink: null,
+        twitterLink: null,
+        totalFollower: 0,
+        totalFollowee: 0,
+        refreshToken: null,
+        phoneNumber: "",
+        birthday: "",
+        avatar: "",
+        role: ""
+    },
+    follower: {
+        id: 2,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        email: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        fullName: "",
+        about: null,
+        youtubeLink: null,
+        facebookLink: null,
+        linkedinLink: null,
+        twitterLink: null,
+        totalFollower: 0,
+        totalFollowee: 0,
+        refreshToken: null,
+        phoneNumber: "",
+        birthday: "",
+        avatar: "",
+        role: ""
+    }
+}])
+
+const id = Number(route.params.id);
+const cookies = useCookies();
+const tokenBearer = cookies.cookies.get('Token');
+
+const followArr = ref(new Map<number, boolean>())
+const isLike = ref(false)
+const isDislike = ref(false)
+
+try {
+    currentUser.value = await checkLogin();
+} catch (err) {
+    console.log(err)
+}
+
+async function follow(followeeId: number){
+    try {
+        followArr.value.set(followeeId, true)
+        await followsService.create(tokenBearer, {followeeId})
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+async function unFollow(followeeId: number){
+    try {
+        followArr.value.delete(followeeId)
+        await followsService.delete(followeeId, tokenBearer)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+async function like(postId: number){
+    try {
+        post.value.totalLike += 1
+        isLike.value = true;
+
+        if (isDislike.value == true) {
+            isDislike.value = false;
+            post.value.totalDislike -= 1
+        }
+        await postsService.createReact(postId, {type: "like"}, tokenBearer)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+async function unLike(postId: number){
+    try {
+        post.value.totalLike -= 1
+        isLike.value = false;
+        await postsService.createReact(postId, {}, tokenBearer)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+async function dislike(postId: number){
+    try {
+        post.value.totalDislike += 1
+        isDislike.value = true;
+        if (isLike.value == true) {
+            isLike.value = false;
+            post.value.totalLike -= 1
+        }
+        await postsService.createReact(postId, {type: "dislike"}, tokenBearer)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+async function unDislike(postId: number){
+    try {
+        post.value.totalDislike -= 1
+        isDislike.value = false;
+        await postsService.createReact(postId, {}, tokenBearer)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+async function getReaction() {
+    let rs = await reactionsService.getAll(post.value.id);
+
+    let arrLike: typeof rs.data = [], arrDisLike: typeof rs.data = [];
+
+    rs.data.forEach((reaction: any) => {
+        if (reaction.type == 'like') {
+            arrLike.push(reaction)
+        }
+        else if (reaction.type == 'dislike') arrDisLike.push(reaction) 
+    });
+    reactionLikes.value = arrLike
+    reactionLikes.value.forEach(like => {
+        if (like.user.id == currentUser.value.id) isLike.value = true
+    });
+    reactionDisLikes.value = arrDisLike
+    reactionDisLikes.value.forEach(dislike => {
+        if (dislike.user.id == currentUser.value.id) isDislike.value = true
+    });
+}
 
 onMounted(async () => {
     try {
-        post.value = await postsService.getOne(id[0]);
-        let rs = await reactionsService.getAll(post.value.id);
+        //post
+        post.value = await postsService.getOne(id);
 
-        let arrLike: typeof rs.data = [], arrDisLike: typeof rs.data = [];
-
-        rs.data.forEach((reaction:any) => {
-            if (reaction.type == 'like') arrLike.push(reaction)
-            else if (reaction.type == 'dislike') arrDisLike.push(reaction)
+        //reaction
+        // follows
+        let fs = await followsService.getAllByFollowerId(currentUser.value.id)
+        follows.value = fs.data
+        follows.value.forEach(follow => {
+            followArr.value.set(follow.followeeId, true)
         });
-        reactionDisLikes.value = arrDisLike
-        reactionLikes.value = arrLike
     } catch (err) {
         console.log(err);
     }   

@@ -15,17 +15,28 @@ class FollowsService {
             handlingError(err);
         }
     }
-
-    async create(data: any) {
-        return await axios.post(`http://localhost:3000/api/follows`, data).then((res) => {
+    async getAllByFollowerId(followerId: number) {
+        try {
+            const follows = (await this.api.get(`/follows?sortOrder=asc&followerId=${followerId}`));
+            return follows.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
+    async create(token: string, data: any) {
+        return await axios.post(`http://localhost:3000/api/follows`, data, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then((res) => {
         return res.data;
         }).catch((err) => {
             handlingError(err);
         })
     }
 
-    async delete(id: string, token: string) {
-        return await axios.delete(`http://localhost:3000/api/follows/${id}`, {
+    async delete(id: number, token: string) {
+        return await axios.delete(`http://localhost:3000/api/follows/followeeId/${id}`,{
             headers: {
                 Authorization: 'Bearer ' + token
             }
