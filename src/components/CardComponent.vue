@@ -1,11 +1,11 @@
 <template>
 <section class="">
   	<div class="container">
-		<div class="row" style="width: 100vw;">
+		<div class="row" style="width: 60vw;">
 		</div>
   	<div class="row">
     <div v-for="post in props.posts" :key="post.id" class="col-sm-12 col-md-6 col-lg-4 mb-4" data-bs-toggle="offcanvas" :data-bs-target="'#offcanvasScrolling' + post.id" :aria-controls="'offcanvasScrolling' + post.id">
-        <div class="card post text-dark card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?tech,street');">
+        <div class="card post text-dark card-has-bg click-col" :style="{'background-image': 'url('+ (post.imageURL)+')'}">
             <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tech,street" alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
             <div class="card-img-overlay d-flex flex-column">
                 <div class="card-body post-body">

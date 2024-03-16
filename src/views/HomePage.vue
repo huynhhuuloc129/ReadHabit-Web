@@ -29,7 +29,7 @@
             <!-- </div>
         </div> -->
     </div>
-    <div class="container" style="margin-top: 30px;">
+    <div class="" style="margin: 30px 10px 10px 20px;">
 
         <div>
             <form class="form-inline my-sm-0 d-flex justify-content-center">
@@ -37,37 +37,46 @@
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
-
-        <div>
-            <div class="row">
-                <div>
-                    <div class="list-group d-flex flex-row" id="list-tab" role="tablist">
-                        <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
-                            href="#list-home" role="tab" aria-controls="list-home">Bài
-                            viết</a>
-                            
-                        <a v-for="category in categories" :key="category.id" class="list-group-item list-group-item-action"  id="list-profile-list" data-bs-toggle="list"
-                            href="#list-profile" role="tab" aria-controls="list-profile">{{category.name}}</a>
+        
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            <div>
+                <div v-for="(category, index) in categories" :key="category.id">
+                    <div :id="category.name" class="display-4 font-weight-bolder m-5 text-start w-100 float-start">{{ category.name }}</div>
+                    <CardComponent :posts="VisiblePost(index)"></CardComponent>
+                    <button @click="postVisibles[index] += steps[index]" v-if="postVisibles[index] < posts[index].length"
+                     class="btn moreBtn" style="width: 31%; border-radius: 50px; border: 2px solid black; margin-left: 10px;">
+                        Xem thêm >> 
+                    </button>
+                </div>
+            </div>
+            <div class="sidebarCate sticky-top" style="margin: 50px 0 0px 20px; height: 400px;">
+                <br>
+                <h3>Thể loại</h3>
+                <a @click="changeCategory(category.id)" :href="'#'+category.name" class="category" v-for="category in categories" :key="category.id" style="text-decoration: none; display: block;">
+                        {{ category.name }}
+                </a>
+                <hr>
+                <h3>Nhãn</h3>
+                <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
+                    <div v-for="tag in filterTagsByCategoryId" :key='tag'>
+                        <div class="btn btn-secondary" style="padding: 3px; margin: 2px;">{{ tag.name }}</div>
                     </div>
                 </div>
-                <div class="display-4 font-weight-bolder m-5">Phổ biến nhất</div>
             </div>
-        </div>
-
-        <div class="d-flex flex-row flex-wrap justify-content-center">
-            <CardComponent :posts="posts"></CardComponent>
         </div>
 
     </div>
 </template>
 
 <script setup lang="ts">
-import CardComponent from "../components/CardComponent.vue";
-import HeaderComponent from "@/components/HeaderComponent.vue";
 // @ts-ignore 
 import SidebarComponent from "@/components/SidebarComponent.vue";
+import HeaderComponent from "@/components/HeaderComponent.vue";
+import CardComponent from "../components/CardComponent.vue";
 import categoriesService from "@/services/categories.service";
 import postsService from "@/services/posts.service";
+import tagsService from "@/services/tags.service";
+import checkLogin from "@/utilities/utilities";
 import { onMounted, ref } from "vue";
 
 const categories = ref([
@@ -81,7 +90,7 @@ const categories = ref([
     }
 ])
 
-const posts = ref([{
+const posts = ref([[{
     id: 1,
     createdAt: "",
     updatedAt: "",
@@ -148,20 +157,131 @@ const posts = ref([{
     sharePost: null,
     sharedByPosts: [],
     comments: []
+}]])
+
+const currentUser = ref({
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    about: null,
+    youtubeLink: null,
+    facebookLink: null,
+    linkedinLink: null,
+    twitterLink: null,
+    totalFollower: 0,
+    totalFollowee: 0,
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: "",
+    categories: [{
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    }]
+})
+
+const tags = ref([{
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    categoryId: 0,
+    createdById: 0,
+    posts: [
+    {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        title: "",
+        content: "",
+        sharePostId: null,
+        originalPostURL: "",
+        publishDate: "",
+        imageURL: "",
+        status: "",
+        type: "",
+        readTime: 0,
+        totalLike: 0,
+        totalDislike: 0,
+        totalShare: 0,
+        categoryId: 0,
+        createdById: 0,
+        contentSourceId: 0
+    },
+    ],
+    category: {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    }
 }])
+var postVisibles = ref([] as number[])
+var steps = ref([] as number[])
+const categoryId = ref(0)
+
+try {
+    currentUser.value = await checkLogin();
+    // if (currentUser.value !== null && currentUser.value['id'] !== null) {
+    //     // isLogin.value = true;
+    // }
+} catch (err) {
+    console.log(err)
+}
+// filter posts
+function VisiblePost(position: number){
+    return posts.value[position].slice(0, postVisibles.value[position])
+}
+
+// filter tags
+function filterTagsByCategoryId(): typeof tags.value{
+    return tags.value.filter((tag) => tag.category.id == categoryId.value)
+}
+function changeCategory(cId: number){
+    categoryId.value = cId
+}
+
 onMounted(async () => {
     try {
+        //tag
+        let respTags = await tagsService.getAllByCategoryId(currentUser.value.categories[0].id)
+        tags.value = respTags.data
+
+        //category
+        categories.value = currentUser.value.categories;
+        categoryId.value = categories.value[0].id
+        //post
         let resp = await postsService.getAll(0, 0, 'published');
-        let respCate = await categoriesService.getAll();
+        
+        for(let i =0; i< categories.value.length; i++ ){
+            let arr: typeof resp.data =  []
+            arr = await postsService.getAllByCategoryId(categories.value[i].id)
 
-        let ps: typeof resp.data = [];
-        for (const p of resp.data) {
-            let post = await postsService.getOne(p.id)
-            ps.push(post)
-        };
+            postVisibles.value[i] = 3;
+            steps.value[i] = 3;
 
-        posts.value = ps;
-        categories.value = respCate.data;
+            let ps: typeof resp.data = [];
+            for (const p of arr.data) {
+                let post = await postsService.getOne(p.id)
+                ps.push(post)
+            };
+            posts.value[i] = ps
+        }
     } catch (err) {
         console.log(err);
     }   
@@ -170,7 +290,23 @@ onMounted(async () => {
 </script>
 
 <style>
-
+.sidebarCate { 
+  position: sticky; 
+  top: 0; 
+  right: 0; 
+  width: 250px; 
+  background-color: #ffffff; 
+  border-radius: 5px; 
+} 
+.category:hover{
+    background-color: rgb(205, 205, 205);
+    cursor: pointer;
+    text-decoration: underline;
+    border-left: 10px solid rgb(234, 234, 237);
+}
+.category{
+    padding: 10px;
+}
 h1 {
     color: black;
 }
@@ -274,5 +410,9 @@ hr {
     background-size: 100vw 110vh;
     background-repeat: no-repeat;
     background-position: right;
+}
+.moreBtn:hover{
+    color: white;
+    background-color: black;
 }
 </style>

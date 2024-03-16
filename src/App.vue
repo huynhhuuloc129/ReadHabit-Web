@@ -10,7 +10,9 @@ function scrollToTop() {
   <header>
     
   </header>
-  <RouterView />
+  <Suspense>
+    <RouterView />
+  </Suspense>
   <button @click="scrollToTop()"
         type="button"
         class="btn btn-danger btn-floating btn-lg"

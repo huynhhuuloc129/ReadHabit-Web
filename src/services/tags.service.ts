@@ -15,7 +15,14 @@ class TagsService {
             handlingError(err);
         }
     }
-
+    async getAllByCategoryId(id: number) {
+        try {
+            const tags = (await this.api.get(`/tags?sortOrder=asc&categoryId=${id}`));
+            return tags.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
     async getOne(id: string) {
         try {
             const tag = (await this.api.get("/tags/" + id));

@@ -25,6 +25,16 @@ class PostService {
         }
     }
 
+
+    async getAllByCategoryId(id: number) {
+        try {
+            const posts = (await this.api.get(`/posts?sortOrder=asc&categoryId=${id}&status=published`));
+            return posts.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
+
     async getOne(id: string) {
         try {
             const post = (await this.api.get("/posts/" + id));
