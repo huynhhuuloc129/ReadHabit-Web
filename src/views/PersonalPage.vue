@@ -29,11 +29,65 @@
                       <ul class="list-group list-group-flush mb-4">
                         <li class="list-group-item d-flex justify-content-between align-items-center w-100">
                           <h6 class="m-0">Người theo dõi</h6>
-                          <span>{{ user.totalFollower }}</span>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#followerModal" @click="getFollow">{{ user.totalFollower }}</a>
+                          
+                          <!-- Modal -->
+                          <div v-if="isLogin" class="modal fade " id="followerModal" tabindex="-1" aria-labelledby="followerModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                  <div class="modal-header">
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div v-for="follower in followerOfUsers" :key="follower.id" class="d-flex justify-content-between" style="margin: 0px 20px 20px 0">
+                                          <div>
+                                              <img :src="'http://localhost:8080' + follower.follower.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
+                                              <a :href='"http://localhost:5173/personal/"+follower.follower.id'>{{ follower.follower.fullName }}</a>
+                                          </div>
+                                          <div v-if="follower.follower.id != currentUser.id">
+                                            <button v-if="trackingFollowArr.get(follower.follower.id) == true" class="btn btn-primary" @click="unFollow(follower.follower.id)">
+                                                Đã theo dõi
+                                            </button>
+                                            <button v-else class="btn btn-outline-primary" @click="follow(follower.follower.id)">
+                                                Theo dõi
+                                            </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+                          </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center w-100">
                           <h6 class="m-0">Người đang theo dõi</h6>
-                          <span>{{ user.totalFollowee }}</span>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal" @click="getFollow">{{ user.totalFollowee }}</a>
+
+                          <!-- Modal -->
+                          <div v-if="isLogin" class="modal fade " id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                  <div class="modal-header">
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div v-for="following in followingOfUsers" :key="following.id" class="d-flex justify-content-between" style="margin: 0px 20px 20px 0">
+                                          <div>
+                                              <img :src="'http://localhost:8080' + following.followee.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
+                                              <a :href='"http://localhost:5173/personal/"+following.followee.id'>{{ following.followee.fullName }}</a>
+                                          </div>
+                                          <div v-if="following.followee.id != currentUser.id">
+                                          <button v-if="trackingFollowArr.get(following.followee.id) == true" class="btn btn-primary" @click="unFollow(following.followee.id)">
+                                              Đã theo dõi
+                                          </button>
+                                          <button v-else class="btn btn-outline-primary" @click="follow(following.followee.id)">
+                                              Theo dõi
+                                          </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+                          </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center w-100">
                           <h6 class="m-0">Số bài viết</h6>
@@ -41,8 +95,8 @@
                         </li>
                       </ul>
                       <div class="d-grid m-0" v-if="currentUser.id != user.id && isLogin">
-                        <button v-if="isFollow == false" class="btn btn-outline-primary" type="button" @click="follow(user.id)">Theo dõi</button>
-                        <button v-else class="btn btn-primary" type="button" @click="unFollow(user.id)">Đang theo dõi</button>
+                        <button v-if="!trackingFollowArr.has(user.id) || trackingFollowArr.get(user.id) == false" class="btn btn-outline-primary" type="button" @click="user.totalFollower+=1; follow(user.id);">Theo dõi</button>
+                        <button v-else class="btn btn-primary" type="button" @click=" user.totalFollower-=1; unFollow(user.id)">Đang theo dõi</button>
                       </div>
                     </div>
                   </div>
@@ -122,13 +176,16 @@
                       <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-tab-pane" type="button" role="tab" aria-controls="overview-tab-pane" aria-selected="true">Tổng quan</button>
                     </li>
                     <li class="nav-item" role="presentation" v-if="currentUser.id == user.id">
-                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Thông tin cá nhân</button>
+                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Thông tin</button>
                     </li>
                     <li class="nav-item" role="presentation">
                       <button class="nav-link" id="post-tab" data-bs-toggle="tab" data-bs-target="#post-tab-pane" type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false">Bài viết</button>
                     </li>
                     <li class="nav-item" role="presentation" v-if="currentUser.id == user.id">
                       <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Mật khẩu</button>
+                    </li>
+                    <li class="nav-item" role="presentation" v-if="currentUser.id == user.id">
+                      <button class="nav-link" id="bookmark-tab" data-bs-toggle="tab" data-bs-target="#bookmark-tab-pane" type="button" role="tab" aria-controls="bookmark-tab-pane" aria-selected="false">Yêu thích</button>
                     </li>
                   </ul>
                   <div class="tab-content pt-4" id="profileTabContent">
@@ -299,6 +356,19 @@
                           <CardComponent  :posts="posts"></CardComponent>
                       </div>
                     </div>
+                    <div class="tab-pane fade" id="bookmark-tab-pane" role="tabpanel" aria-labelledby="bookmark-tab" tabindex="0">
+                      <div v-for="bookmark in bookmarks" :key="bookmark.id">
+                        <div class="d-flex justify-content-start align-items-center">
+                          <button class="btn btn-light m-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                              <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                            </svg>
+                          </button>
+                          <div style="font-size: larger;">{{ bookmark.name }}</div>
+                        </div>
+                        <!-- <CardComponent :posts="bookmark.bookmarkPosts"></CardComponent> -->
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -319,10 +389,10 @@ import followsService from '@/services/follows.service';
 import usersService from '@/services/users.service';
 import postsService from '@/services/posts.service';
 import checkLogin from '@/utilities/utilities';
-import { useToast } from "vue-toastification";
 import { useCookies } from 'vue3-cookies';
 import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
+import bookmarksService from '@/services/bookmarks.service';
 
 const toastTrigger = document.getElementById("liveToastBtn");
   const toastLiveExample = document.getElementById("liveToast");
@@ -546,70 +616,121 @@ const updateUserForm = ref({
   linkedinLink: "",
   twitterLink: "",
 })
-const follows = ref([{
-    id: 0,
-    createdAt: "",
-    updatedAt: "",
-    deletedAt: null,
-    followerId: 0,
-    followeeId: 0,
-    followee: {
-        id: 1,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        email: "d",
-        username: "",
-        firstName: "",
-        lastName: "",
-        fullName: "",
-        about: null,
-        youtubeLink: null,
-        facebookLink: null,
-        linkedinLink: null,
-        twitterLink: null,
-        totalFollower: 0,
-        totalFollowee: 0,
-        refreshToken: null,
-        phoneNumber: "",
-        birthday: "",
-        avatar: "",
-        role: ""
-    },
-    follower: {
-        id: 2,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        email: "",
-        username: "",
-        firstName: "",
-        lastName: "",
-        fullName: "",
-        about: null,
-        youtubeLink: null,
-        facebookLink: null,
-        linkedinLink: null,
-        twitterLink: null,
-        totalFollower: 0,
-        totalFollowee: 0,
-        refreshToken: null,
-        phoneNumber: "",
-        birthday: "",
-        avatar: "",
-        role: ""
+type followType = {
+  id: 0,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: null,
+  followerId: 0,
+  followeeId: 0,
+  followee: {
+      id: 1,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      email: "d",
+      username: "",
+      firstName: "",
+      lastName: "",
+      fullName: "",
+      about: null,
+      youtubeLink: null,
+      facebookLink: null,
+      linkedinLink: null,
+      twitterLink: null,
+      totalFollower: 0,
+      totalFollowee: 0,
+      refreshToken: null,
+      phoneNumber: "",
+      birthday: "",
+      avatar: "",
+      role: ""
+  },
+  follower: {
+      id: 2,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      email: "",
+      username: "",
+      firstName: "",
+      lastName: "",
+      fullName: "",
+      about: null,
+      youtubeLink: null,
+      facebookLink: null,
+      linkedinLink: null,
+      twitterLink: null,
+      totalFollower: 0,
+      totalFollowee: 0,
+      refreshToken: null,
+      phoneNumber: "",
+      birthday: "",
+      avatar: "",
+      role: ""
+  }
+}
+
+const bookmarks = ref([
+  {
+  id: 0,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: null,
+  name: "",
+  ownerId: 0,
+  position: 0,
+  bookmarkPosts: [
+    {
+      id: 0,
+      createdAt:"",
+      updatedAt: "",
+      deletedAt: null,
+      bookmarkId: 0,
+      postId: 0,
+      position: 0,
+      title: "",
+      imageURL: "",
+      createdById: null,
+      isDeleted: false,
+      createdBy: null
     }
-}])
-const isFollow = ref(false)
+  ]
+}]
+)
+
 const showUpdateUserFail = ref(false)
 const showUpdateUserSuccess = ref(false)
 const showUpdatePasswordFail = ref(false)
 const showUpdatePasswordSuccess = ref(false)
 
+const followers = ref([] as followType[])
+const followings = ref([] as followType[])
+const followerOfUsers = ref([] as followType[])
+const followingOfUsers = ref([] as followType[])
+const trackingFollowArr = ref(new Map<number, boolean>())
+
+
+async function getFollow() {
+  let fs = await followsService.getAllByFollowerId(currentUser.value.id)
+  followings.value = fs.data
+  for (let i=0; i< followings.value.length; i++) {
+    trackingFollowArr.value.set(followings.value[i].followeeId, true)
+  }
+  let fs1 = await followsService.getAllByFolloweeId(currentUser.value.id)
+  followers.value = fs1.data
+
+  let fs2 = await followsService.getAllByFollowerId(user.value.id)
+  followingOfUsers.value = fs2.data
+
+  let fs3 = await followsService.getAllByFolloweeId(user.value.id)
+  followerOfUsers.value = fs3.data
+}
+
 async function follow(followeeId: number){
     try {
-        user.value.totalFollower += 1
-        isFollow.value = true
+        if (user.value.id == currentUser.value.id) user.value.totalFollowee += 1
+        trackingFollowArr.value.set(followeeId, true)
         await followsService.create(tokenBearer, {followeeId})
     } catch (err) {
         console.log(err)
@@ -618,13 +739,14 @@ async function follow(followeeId: number){
 
 async function unFollow(followeeId: number){
     try {
-        user.value.totalFollower -= 1
-        isFollow.value = false
+        if (user.value.id == currentUser.value.id) user.value.totalFollowee -= 1
+        trackingFollowArr.value.set(followeeId, false)
         await followsService.delete(followeeId, tokenBearer)
     } catch (err) {
         console.log(err)
     }
 }
+
 
 var onUpdateUser = async (e: any) => {
     e.preventDefault();
@@ -677,6 +799,7 @@ try {
 
 onMounted(async () => {
   try {
+    // get one user
     user.value = await usersService.getOne(id);
     updateUserForm.value.phoneNumber = user.value.phoneNumber;
     updateUserForm.value.lastName = user.value.lastName;
@@ -686,6 +809,8 @@ onMounted(async () => {
     updateUserForm.value.facebookLink = user.value.facebookLink;
     updateUserForm.value.linkedinLink = user.value.linkedinLink;
     updateUserForm.value.twitterLink = user.value.twitterLink;
+
+    //get all post for user
     let resp = await postsService.getAllForUser(user.value.id);
 
     let ps: typeof resp.data = [];
@@ -700,13 +825,10 @@ onMounted(async () => {
     };
     posts.value = ps;
 
-    // follow
-    let fs = await followsService.getAllByFollowerId(currentUser.value.id)
-    follows.value = fs.data
-    console.log(follows.value)
-    for (let i=0; i< follows.value.length; i++) {
-      if (follows.value[i].followeeId == user.value.id) isFollow.value = true;
-    }
+    // bookmark
+    let myBs = await bookmarksService.getMy(tokenBearer);
+    bookmarks.value = myBs.data
+    console.log(bookmarks.value)
 
   } catch (err) {
       console.log(err);

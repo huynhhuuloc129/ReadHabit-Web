@@ -143,15 +143,13 @@ const contentSources = ref([
 function displaySelectedImage(event: any, elementId: any) {
     const selectedImage = document.getElementById(elementId);
     const fileInput = event.target;
-
+    
     if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
-
         reader.onload = function(e) {
             //@ts-ignore
             selectedImage.src = e.target.result;
         };
-
         reader.readAsDataURL(fileInput.files[0]);
     }
 }

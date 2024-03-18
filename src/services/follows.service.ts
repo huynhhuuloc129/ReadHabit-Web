@@ -23,6 +23,14 @@ class FollowsService {
             handlingError(err);
         }
     }
+    async getAllByFolloweeId(followeeId: number) {
+        try {
+            const follows = (await this.api.get(`/follows?sortOrder=asc&followeeId=${followeeId}`));
+            return follows.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
     async create(token: string, data: any) {
         return await axios.post(`http://localhost:3000/api/follows`, data, {
             headers: {

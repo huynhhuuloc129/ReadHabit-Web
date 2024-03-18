@@ -67,12 +67,14 @@
                                                     <img :src="'http://localhost:8080' + like.user.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
                                                     <a :href='"http://localhost:5173/personal/"+like.user.id'>{{ like.user.fullName }}</a>
                                                 </div>
-                                                <button v-if="followArr.has(like.user.id)"  class="btn btn-primary" @click="unFollow(like.user.id)">
-                                                    Đã theo dõi
-                                                </button>
-                                                <button v-else class="btn btn-outline-primary" @click="follow(like.user.id)">
-                                                    Theo dõi
-                                                </button>
+                                                <div v-if="like.user.id != currentUser.id">
+                                                    <button v-if="followArr.has(like.user.id)"  class="btn btn-primary" @click="unFollow(like.user.id)">
+                                                        Đã theo dõi
+                                                    </button>
+                                                    <button v-else class="btn btn-outline-primary" @click="follow(like.user.id)">
+                                                        Theo dõi
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                         </div>
@@ -111,12 +113,14 @@
                                                     <img :src="'http://localhost:8080' + dislike.user.avatar.replace('files', '')" width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="">
                                                     <a :href='"http://localhost:5173/personal/"+dislike.user.id'>{{ dislike.user.fullName }}</a>
                                                 </div>
-                                                <button v-if="followArr.has(dislike.user.id)" class="btn btn-primary" @click="unFollow(dislike.user.id)">
-                                                    Đã theo dõi
-                                                </button>
-                                                <button v-else class="btn btn-outline-primary" @click="follow(dislike.user.id)">
-                                                    Theo dõi
-                                                </button>
+                                                <div v-if="dislike.user.id != currentUser.id">
+                                                    <button v-if="followArr.has(dislike.user.id)" class="btn btn-primary" @click="unFollow(dislike.user.id)">
+                                                        Đã theo dõi
+                                                    </button>
+                                                    <button v-else class="btn btn-outline-primary" @click="follow(dislike.user.id)">
+                                                        Theo dõi
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                         </div>

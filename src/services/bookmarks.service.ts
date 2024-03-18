@@ -25,7 +25,7 @@ class BookmarksService {
     }
 
     async getMy(token: string) {
-        return await axios.get(`http://localhost:3000/api/bookmarks`, {
+        return await axios.get(`http://localhost:3000/api/bookmarks/me`, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
