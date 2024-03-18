@@ -15,6 +15,8 @@ import "vue-toastification/dist/index.css";
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import App from './App.vue'
 import router from './router'
@@ -26,7 +28,7 @@ const options = {
     // You can set your default options here
 };
 
-createApp(App).component("font-awesome-icon", FontAwesomeIcon)
+createApp(App).component("font-awesome-icon", FontAwesomeIcon).component('QuillEditor', QuillEditor)
     .use(Toast, options)
     .use(VueApexCharts)
     .use(createPinia())

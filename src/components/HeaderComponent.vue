@@ -14,7 +14,9 @@
                         <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                     </div>
                 </div>
-
+                <a v-if="isLogin" href="http://localhost:5173/upload-post">
+                    <button class="btn btn-danger" id="newPost" :style="{'padding': '10px', 'margin-left': '10px','border-radius': '50px', 'color': 'white'}">+ Đăng tải bài viết mới</button>
+                </a>
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li class="text-center" >
                         <a href="#" class="nav-link">

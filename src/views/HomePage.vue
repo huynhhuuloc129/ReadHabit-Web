@@ -58,8 +58,11 @@
                 <hr>
                 <h3>Nhãn</h3>
                 <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
-                    <div v-for="tag in filterTagsByCategoryId()" :key='tag.id'>
-                        <div class="btn btn-secondary" style="padding: 3px; margin: 2px;">{{ tag.name }}</div>
+                    <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;" role="group" aria-label="Basic checkbox toggle button group">
+                        <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
+                            <input type="checkbox" class="btn-check" :id="'btncheck' + tag.id" autocomplete="off">
+                            <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
+                        </div>
                     </div>
                 </div>
             </div>
