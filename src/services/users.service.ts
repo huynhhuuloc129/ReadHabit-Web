@@ -61,8 +61,10 @@ class UsersService {
         })
     }
 
-    async setCategories(id: string, category: any, token: string) {
-        return await axios.post(`http://localhost:3000/api/users/${id}/categories`, category, {
+    async setCategories(id: number, category: number[], token: string) {
+        return await axios.post(`http://localhost:3000/api/users/${id}/categories`, {
+            categoryIds: category
+        }, {
             headers: {
                 Authorization: 'Bearer ' + token
             }

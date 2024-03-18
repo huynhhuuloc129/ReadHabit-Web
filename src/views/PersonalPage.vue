@@ -32,7 +32,7 @@
                           <a href="#" data-bs-toggle="modal" data-bs-target="#followerModal" @click="getFollow">{{ user.totalFollower }}</a>
                           
                           <!-- Modal -->
-                          <div v-if="isLogin" class="modal fade " id="followerModal" tabindex="-1" aria-labelledby="followerModalLabel" aria-hidden="true">
+                          <div v-if="isLogin && user.totalFollower > 0" class="modal fade " id="followerModal" tabindex="-1" aria-labelledby="followerModalLabel" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered">
                                   <div class="modal-content">
                                   <div class="modal-header">
@@ -63,7 +63,7 @@
                           <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal" @click="getFollow">{{ user.totalFollowee }}</a>
 
                           <!-- Modal -->
-                          <div v-if="isLogin" class="modal fade " id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+                          <div v-if="isLogin && user.totalFollowee > 0" class="modal fade " id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered">
                                   <div class="modal-content">
                                   <div class="modal-header">
@@ -91,9 +91,9 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center w-100">
                           <h6 class="m-0">Số bài viết</h6>
-                          <span>620</span>
+                          <span>{{ posts.length }}</span>
                         </li>
-                      </ul>
+                      </ul> 
                       <div class="d-grid m-0" v-if="currentUser.id != user.id && isLogin">
                         <button v-if="!trackingFollowArr.has(user.id) || trackingFollowArr.get(user.id) == false" class="btn btn-outline-primary" type="button" @click="user.totalFollower+=1; follow(user.id);">Theo dõi</button>
                         <button v-else class="btn btn-primary" type="button" @click=" user.totalFollower-=1; unFollow(user.id)">Đang theo dõi</button>
@@ -133,24 +133,45 @@
                     <div class="card-header bg-main">Thể loại</div>
                     <div class="card-body">
                       <ul class="list-group list-group-flush mb-0">
-                        <li class="list-group-item w-100">
-                          <!-- TODO thêm category -->
-                          <h6 class="mb-1">
-                            <span class="bii bi-mortarboard-fill me-2"></span>
-                            Education
-                          </h6>
-                          <span>M.S Computer Science</span>
+                        <div v-for="category in categories" :key="category.id">
+                        <li v-if="trackingCategory[category.id]"  class="list-group-item w-100">
+                          <div >
+                            {{ category.name }}
+                          </div>
                         </li>
+                      </div>
                       </ul>
-                      <button v-if="isLogin && currentUser.id == user.id" class="btn btn-light w-100">
+                      <button v-if="isLogin && currentUser.id == user.id" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#categoryModalEdit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                         </svg>
                       </button>
+
+                      <!-- modal -->
+                      <div class="modal fade " id="categoryModalEdit" tabindex="-1" aria-labelledby="categoryModalEditLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="d-flex flex-column" style="margin-top: 10px;">
+                                <div class="form-check" v-for="(category, index) in categories" :key="category.id">
+                                  <input v-model="trackingCategory[categories[index].id]" class="form-check-input" type="checkbox" value="" :id="category.id + 'category'">
+                                  <label class="form-check-label" :for="category.id + 'category'">
+                                    {{ category.name }}
+                                  </label>
+                                </div>
+                              </div>
+                              <button @click="updateCategory()" class="btn btn-secondary w-100" style="margin-top: 10px;">Cập nhật</button>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                   </div>
                 </div>
+              </div>
                 <!-- <div class="col-12">
                   <div class="card widget-card border-light shadow-sm">
                     <div class="card-header bg-main">Các nhãn đã chọn</div>
@@ -393,6 +414,8 @@ import { useCookies } from 'vue3-cookies';
 import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import bookmarksService from '@/services/bookmarks.service';
+import categoriesService from '@/services/categories.service';
+import { map } from 'jquery';
 
 const toastTrigger = document.getElementById("liveToastBtn");
   const toastLiveExample = document.getElementById("liveToast");
@@ -442,7 +465,17 @@ const user = ref({
     phoneNumber: "",
     birthday: "",
     avatar: "",
-    role: ""
+    role: "",
+    categories: [
+    {
+      id:0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      name: "",
+      imageURL: null
+    },
+  ]
 })
 
 const posts = ref([{
@@ -699,6 +732,18 @@ const bookmarks = ref([
 }]
 )
 
+const categories = ref([
+    {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      name: "",
+      imageURL: null
+    }
+  ]
+)
+
 const showUpdateUserFail = ref(false)
 const showUpdateUserSuccess = ref(false)
 const showUpdatePasswordFail = ref(false)
@@ -709,7 +754,7 @@ const followings = ref([] as followType[])
 const followerOfUsers = ref([] as followType[])
 const followingOfUsers = ref([] as followType[])
 const trackingFollowArr = ref(new Map<number, boolean>())
-
+const trackingCategory = ref({} as Record<number, boolean>)
 
 async function getFollow() {
   let fs = await followsService.getAllByFollowerId(currentUser.value.id)
@@ -747,6 +792,20 @@ async function unFollow(followeeId: number){
     }
 }
 
+async function updateCategory(){
+  try {
+    let cs = [] as number[];
+    categories.value.forEach((category) => {
+      if (trackingCategory.value[category.id]) {
+        cs.push(category.id)
+      }
+    })
+    await usersService.setCategories(user.value.id, cs ,tokenBearer)
+
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 var onUpdateUser = async (e: any) => {
     e.preventDefault();
@@ -799,6 +858,7 @@ try {
 
 onMounted(async () => {
   try {
+    
     // get one user
     user.value = await usersService.getOne(id);
     updateUserForm.value.phoneNumber = user.value.phoneNumber;
@@ -809,6 +869,17 @@ onMounted(async () => {
     updateUserForm.value.facebookLink = user.value.facebookLink;
     updateUserForm.value.linkedinLink = user.value.linkedinLink;
     updateUserForm.value.twitterLink = user.value.twitterLink;
+    
+    // categories
+    let csTemp = await categoriesService.getAll();
+    categories.value = csTemp.data;
+    categories.value.forEach((category)=> {
+      trackingCategory.value[category.id] = false
+    })
+    user.value.categories.forEach((category) => {
+      trackingCategory.value[category.id] = true
+    })
+
 
     //get all post for user
     let resp = await postsService.getAllForUser(user.value.id);
@@ -820,7 +891,6 @@ onMounted(async () => {
         series.value[1].data.push(p.totalDislike)
         series.value[2].data.push(p.totalShare)
         chartOptions.value.xaxis.categories.push(p.title)
-        
         ps.push(post)
     };
     posts.value = ps;
@@ -828,8 +898,6 @@ onMounted(async () => {
     // bookmark
     let myBs = await bookmarksService.getMy(tokenBearer);
     bookmarks.value = myBs.data
-    console.log(bookmarks.value)
-
   } catch (err) {
       console.log(err);
   }   
