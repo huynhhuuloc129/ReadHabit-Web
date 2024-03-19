@@ -67,9 +67,9 @@
                                 </div>
                                 <div class="col-9">
                                 <div class="ps-3">
-                                    <div class="text-secondary mt-1 fs-7">Tài khoản thành viên</div>
-                                    <div class="text-secondary mt-1 fs-7">email@domain.com</div> 
-                                    <!-- TODO: Add real email -->
+                                    <div v-if="currentUser.role == 'member'" class="text-secondary mt-1 fs-7">Tài khoản thành viên</div>
+                                    <div v-else class="text-secondary mt-1 fs-7">Tài khoản quản trị viên</div>
+                                    <div class="text-secondary mt-1 fs-7">{{ currentUser.email }}</div> 
                                 </div>
                                 </div>
                             </div>
@@ -248,16 +248,37 @@ const registerData = ref({
 const showErrLogin = ref(false)
 const errMessage = ref('')
 const currentUser = ref({
-    id: '',
-    createdAt: '',
-    username: "",
-    firstName: "",
-    lastName: "",
-    fullName: "",
-    phoneNumber: "",
-    birthday: "",
-    avatar: "",
-    categories: []
+  id: 0,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: null,
+  email: "",
+  username: "",
+  firstName: "",
+  lastName: " ",
+  fullName: "",
+  about: "",
+  youtubeLink: "",
+  facebookLink: "",
+  linkedinLink: "",
+  twitterLink: "",
+  totalFollower: 4,
+  totalFollowee: 5,
+  refreshToken: null,
+  phoneNumber: "",
+  birthday: "",
+  avatar: "",
+  role: "",
+  categories: [
+    {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      name: "",
+      imageURL: null
+    }
+  ]
 });
 const currentToken = ref({
     access_token: '',

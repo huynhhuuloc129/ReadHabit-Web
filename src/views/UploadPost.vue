@@ -14,7 +14,7 @@
             <h5>Các bài viết đang được chỉnh sửa</h5>
             <div v-for="post in posts" :key="post.id">
                 <input @click="changeForm(post.id)" type="radio" class="btn-check" name="btnradio" :id="'btnradio'+post.id" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" :for="'btnradio'+post.id">{{ post.title }}</label>
+                <label class="btn btn-outline-dark" :for="'btnradio'+post.id">{{ post.title }}</label>
             </div>
             <div class="w-100">
                 <button class="btn btn-light" style="margin-top: 20px; height: 50px; width: 100%;" @click="clearForm()">Mới</button>
@@ -34,7 +34,7 @@
             <div> 
                 <div>Nhãn bài viết</div>
                 <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;" role="group" aria-label="Basic checkbox toggle button group">
-                    <div v-for="tag in tags" :key="tag.id">
+                    <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
                         <input type="checkbox" class="btn-check" :id="'btncheck' + tag.id" autocomplete="off">
                         <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
                     </div>
@@ -160,7 +160,7 @@ const tags = ref([
         }
       ],
       category: {
-        id: '',
+        id: 0,
         createdAt: "",
         updatedAt: "",
         deletedAt: null,
@@ -311,6 +311,10 @@ function clearForm(){
     editPostForm.value.imageCover = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
     editPostForm.value.content = ''
     editPostForm.value.originalLink = ''
+}
+
+function filterTagsByCategoryId(){
+    return tags.value.filter((tag) => tag.category.id == editPostForm.value.categoryId)
 }
 
 async function updatePost(status: string){

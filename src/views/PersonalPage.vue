@@ -378,7 +378,8 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="bookmark-tab-pane" role="tabpanel" aria-labelledby="bookmark-tab" tabindex="0">
-                      <div v-for="bookmark in bookmarks" :key="bookmark.id">
+                      <button class="btn btn-light w-100">Thêm</button>
+                      <div v-for="(bookmark, index) in bookmarks" :key="bookmark.id">
                         <div class="d-flex justify-content-start align-items-center">
                           <button class="btn btn-light m-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
@@ -387,7 +388,13 @@
                           </button>
                           <div style="font-size: larger;">{{ bookmark.name }}</div>
                         </div>
-                        <!-- <CardComponent :posts="bookmark.bookmarkPosts"></CardComponent> -->
+                        <CardComponent :posts="VisiblePost(index)"></CardComponent>
+                        <div class="d-flex justify-content-center">
+                          <button @click="postVisibles[index] += steps[index]" v-if="postVisibles[index] < trackingBookmarkPost[index].length"
+                          class="btn moreBtn" style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
+                              Xem thêm >> 
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -423,6 +430,7 @@ const toastTrigger = document.getElementById("liveToastBtn");
     const toast = new bootstrap.Toast(toastLiveExample);
     toast.show();
 });
+var postVisibles = ref([] as number[])
 
 const date = new Date(2018, 6, 1);
 const route = useRoute()
@@ -433,6 +441,8 @@ const contributionData = [
     { date: new Date(2017, 6, 1), count: 2 }, // February 1st, 2 contributions
     // ... add more objects for other days
 ];
+var steps = ref([] as number[])
+
 const options = {
     weekLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     weekdayStart: 1, // Start week on Monday
@@ -755,6 +765,75 @@ const followerOfUsers = ref([] as followType[])
 const followingOfUsers = ref([] as followType[])
 const trackingFollowArr = ref(new Map<number, boolean>())
 const trackingCategory = ref({} as Record<number, boolean>)
+const trackingBookmarkPost = ref([[
+{
+  id: 0,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: null,
+  title: "",
+  content: "",
+  sharePostId: null,
+  originalPostURL: "",
+  publishDate: "",
+  imageURL: "",
+  status: "",
+  type: "",
+  readTime: 0,
+  totalLike: 0,
+  totalDislike: 0,
+  totalShare: 0,
+  categoryId: 0,
+  createdById: 0,
+  contentSourceId: 0,
+  contentSource: {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    avatar: ""
+  },
+  category: {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    imageURL: null
+  },
+  createdBy: {
+    id: 3,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    about: "",
+    youtubeLink: "",
+    facebookLink: "",
+    linkedinLink: "",
+    twitterLink: "",
+    totalFollower: 0,
+    totalFollowee: 0,
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: ""
+  },
+  sharePost: null,
+  sharedByPosts: [],
+}
+]])
+
+// filter posts
+function VisiblePost(position: number){
+    return trackingBookmarkPost.value[position].slice(0, postVisibles.value[position])
+}
 
 async function getFollow() {
   let fs = await followsService.getAllByFollowerId(currentUser.value.id)
@@ -898,6 +977,19 @@ onMounted(async () => {
     // bookmark
     let myBs = await bookmarksService.getMy(tokenBearer);
     bookmarks.value = myBs.data
+    let arrTemp = []
+    for (let i =0; i< bookmarks.value.length; i++){
+      let ps = []
+      for (let j = 0; j< bookmarks.value[i].bookmarkPosts.length; j++){
+        let p = await postsService.getOne(bookmarks.value[i].bookmarkPosts[j].postId)
+        console.log(p)
+        ps.push(p)
+      }
+      arrTemp[i] = ps;
+      postVisibles.value[i] = 3;
+      steps.value[i] = 3;
+    }
+    trackingBookmarkPost.value = arrTemp
   } catch (err) {
       console.log(err);
   }   

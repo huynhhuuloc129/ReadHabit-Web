@@ -44,7 +44,7 @@
                     <div :id="category.name" class="display-4 font-weight-bolder m-5 text-start w-100 float-start">{{ category.name }}</div>
                     <CardComponent :posts="VisiblePost(index)"></CardComponent>
                     <button @click="postVisibles[index] += steps[index]" v-if="postVisibles[index] < posts[index].length"
-                     class="btn moreBtn" style="width: 31%; border-radius: 50px; border: 2px solid black; margin-left: 10px;">
+                     class="btn moreBtn" style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
                         Xem thêm >> 
                     </button>
                 </div>
@@ -421,6 +421,6 @@ hr {
 }
 .moreBtn:hover{
     color: white;
-    background-color: black;
+    background-color: #2B517A;
 }
 </style>

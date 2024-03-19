@@ -9,11 +9,11 @@
             <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tech,street" alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?">
             <div class="card-img-overlay d-flex flex-column">
                 <div class="card-body post-body">
-                    <small class="card-meta mb-2">{{ post.category.name }}</small>
+                    <small v-if="post.category!=null" class="card-meta mb-2">{{ post.category.name }}</small>
                     <h4 class="card-title mt-0 "><a class="text-dark" herf="https://creativemanner.com">{{ post.title }}</a></h4>
                     <small><i class="far fa-clock"></i>{{ post.createdAt.slice(0, 10) }}</small>
                 </div>
-                <div class="card-footer">
+                <div v-if="post.createdById != null" class="card-footer">
                     <div class="media">
                         <img class="mr-3 rounded-circle" :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')" alt="Generic placeholder image" style="width:50px; height: 50px;">
                         <div class="media-body">
@@ -29,7 +29,7 @@
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" :id="'offcanvasScrollingLabel' + post.id">{{ post.title }}</h5>
 			</div>
-			<h6 class="text-secondary text-uppercase" style="margin-left: 20px;">{{ post.category.name }}</h6>
+			<h6 v-if="post.category != null" class="text-secondary text-uppercase" style="margin-left: 20px;">{{ post.category.name }}</h6>
 			<div class="offcanvas-body">
 				<div class="row" style="margin-bottom: 20px;">
 					<div class="col-6 text-secondary" style="word-wrap: break-word;">
