@@ -187,10 +187,9 @@
                 </div>
                 <br>
                 <div id="post-content">
-
                     <img class="img-fluid rounded-3"
                         :src="post.imageURL"
-                        alt="">
+                        alt="" style="margin: auto;">
                     <div>
                         {{ post.content }}
                     </div>

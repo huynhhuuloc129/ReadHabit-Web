@@ -309,7 +309,7 @@
                           <textarea v-model="updateUserForm.about" class="form-control" id="inputAbout" required></textarea>
                         </div>
                         <div class="col-12">
-                          <button type="submit" id="liveToastBtn" class="btn btn-primary bg-main">Cập nhật</button>
+                          <button type="submit" class="btn btn-primary bg-main">Cập nhật</button>
                         </div>
                       </form>
                       <div v-if="showUpdateUserFail" class="alert alert-danger" role="alert" style="margin-top: 10px;">
@@ -378,18 +378,77 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="bookmark-tab-pane" role="tabpanel" aria-labelledby="bookmark-tab" tabindex="0">
-                      <button class="btn btn-light w-100">Thêm</button>
+                      <!-- <button class="btn btn-light w-100">Thêm</button> -->
                       <div v-for="(bookmark, index) in bookmarks" :key="bookmark.id">
-                        <div class="d-flex justify-content-start align-items-center">
-                          <button class="btn btn-light m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-                              <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center">
+                            <button v-if="index > 0" class="btn btn-light m-2" data-bs-toggle="modal" :data-bs-target="'#editBookmarkModel'+bookmark.id">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                              </svg>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" :id="'editBookmarkModel'+bookmark.id" tabindex="-1" aria-labelledby="editBookmarkModelLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <div id="d-flex flex-column">
+                                      <h5>Danh sách: {{ bookmark.name }}</h5>
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="d-flex w-100">
+                                      <input v-model="bookmark.name" type="text" class="form-control w-100">
+                                      <button class="btn btn-primary w-25" @click="updateNameBookmark(bookmark.id, bookmark.name, bookmark.position)">Cập nhật</button>
+                                    </div>
+                                    <div v-for="(bookmarkPost, index1) in bookmark.bookmarkPosts" :key ="bookmarkPost.id" class="d-flex justify-content-between align-items-center">
+                                      <div class="d-flex align-items-center">
+                                        <img :src="bookmarkPost.imageURL" width="100px" alt="" class="m-2 img-thumbnail">
+                                        <div>
+                                          <a :href="'http://localhost:5173/post/'+bookmarkPost.postId">{{ bookmarkPost.title }}</a>
+                                        </div>
+                                      </div>
+                                      <div class="">
+                                        <button class="btn btn-danger" @click="deletePostFromBookmark(bookmark.id , bookmarkPost.id, index, index1)">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                          </svg>
+                                        </button>                                    
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div style="font-size: larger;">{{ bookmark.name }}</div>
+                          </div>
+                          <button v-if="index>0" class="btn btn-danger" data-bs-toggle="modal" :data-bs-target="'#deleteBookmark'+bookmark.id">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                             </svg>
                           </button>
-                          <div style="font-size: larger;">{{ bookmark.name }}</div>
+
+                          <!-- Modal -->
+                          <div class="modal fade" :id="'deleteBookmark'+bookmark.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-body">
+                                  Bạn có chắc chắn muốn xóa danh sách này?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                                  <button type="button" class="btn btn-danger" @click="deleteBookmark(bookmark.id, index)">Xóa</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <CardComponent :posts="VisiblePost(index)"></CardComponent>
-                        <div class="d-flex justify-content-center">
+                        <CardComponent v-if="bookmark.bookmarkPosts != null && bookmark.bookmarkPosts.length > 0" :posts="VisiblePost(index)"></CardComponent>
+                        <div  v-if="bookmark.bookmarkPosts != null && bookmark.bookmarkPosts.length > 0" class="d-flex justify-content-center">
                           <button @click="postVisibles[index] += steps[index]" v-if="postVisibles[index] < trackingBookmarkPost[index].length"
                           class="btn moreBtn" style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
                               Xem thêm >> 
@@ -408,30 +467,24 @@
 </template>
 
 <script setup lang="ts">
-declare var bootstrap: any;
+// declare var bootstrap: any;
 import HeaderComponent from '@/components/HeaderComponent.vue';
 // @ts-ignore 
 import SidebarComponent from '@/components/SidebarComponent.vue';
 import CardComponent from '@/components/CardComponent.vue';
+import bookmarksService from '@/services/bookmarks.service';
+import categoriesService from '@/services/categories.service';
 import followsService from '@/services/follows.service';
 import usersService from '@/services/users.service';
 import postsService from '@/services/posts.service';
 import checkLogin from '@/utilities/utilities';
+
 import { useCookies } from 'vue3-cookies';
 import { useRoute } from 'vue-router';
+import { toast } from 'vue3-toastify';
 import { onMounted, ref } from 'vue';
-import bookmarksService from '@/services/bookmarks.service';
-import categoriesService from '@/services/categories.service';
-import { map } from 'jquery';
 
-const toastTrigger = document.getElementById("liveToastBtn");
-  const toastLiveExample = document.getElementById("liveToast");
-  toastTrigger?.addEventListener("click", () => {
-    const toast = new bootstrap.Toast(toastLiveExample);
-    toast.show();
-});
 var postVisibles = ref([] as number[])
-
 const date = new Date(2018, 6, 1);
 const route = useRoute()
 
@@ -452,6 +505,12 @@ const options = {
         return `hsl(${count * 20}, 100%, 50%)`; // Custom color based on count
     },
 };
+
+const notifyDeleteBookmarkPost = () => {
+      toast.success("Đã xóa!", {
+        autoClose: 1000,
+      }); // ToastOptions
+    }
 
 const user = ref({
     id: 0,
@@ -489,7 +548,7 @@ const user = ref({
 })
 
 const posts = ref([{
-    id: 1,
+    id: 0,
     createdAt: "",
     updatedAt: "",
     deletedAt: null,
@@ -835,6 +894,29 @@ function VisiblePost(position: number){
     return trackingBookmarkPost.value[position].slice(0, postVisibles.value[position])
 }
 
+async function deletePostFromBookmark(bookmarkId: number, bookmarkPostId: number, position: number, position1: number){
+    try {
+      await bookmarksService.deleteRelation(bookmarkId, bookmarkPostId, tokenBearer)
+      bookmarks.value[position].bookmarkPosts.splice(position1, 1);
+      trackingBookmarkPost.value[position].splice(position1, 1);
+      notifyDeleteBookmarkPost();
+
+    } catch (error) {
+      console.log(error)
+    }
+}
+
+async function deleteBookmark(bookmarkId: number, position: number){
+  try {
+      await bookmarksService.delete(bookmarkId, tokenBearer)
+      bookmarks.value.splice(position, 1);
+      
+      notifyDeleteBookmarkPost();
+    } catch (error) {
+      console.log(error)
+    }
+}
+
 async function getFollow() {
   let fs = await followsService.getAllByFollowerId(currentUser.value.id)
   followings.value = fs.data
@@ -905,6 +987,20 @@ var onUpdateUser = async (e: any) => {
     } catch (err: any) {
        console.log(err)
     }
+}
+
+async function updateNameBookmark(id: number, name: string, position: number){
+  try {
+     await bookmarksService.update(id, {
+      name: name,
+      position: position,
+    }, tokenBearer)
+    toast.success("Đã sửa thành công!", {
+        autoClose: 1000,
+    }); 
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 var onUpdatePassword = async (e: any) => {
@@ -982,7 +1078,6 @@ onMounted(async () => {
       let ps = []
       for (let j = 0; j< bookmarks.value[i].bookmarkPosts.length; j++){
         let p = await postsService.getOne(bookmarks.value[i].bookmarkPosts[j].postId)
-        console.log(p)
         ps.push(p)
       }
       arrTemp[i] = ps;

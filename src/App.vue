@@ -11,7 +11,7 @@ function scrollToTop() {
     
   </header>
   <Suspense>
-    <RouterView />
+    <RouterView/>
   </Suspense>
   <button @click="scrollToTop()"
         type="button"

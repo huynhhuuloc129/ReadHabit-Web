@@ -17,6 +17,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import Vue3Toasity, { type ToastContainerOptions } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 import App from './App.vue'
 import router from './router'
@@ -29,6 +31,13 @@ const options = {
 };
 
 createApp(App).component("font-awesome-icon", FontAwesomeIcon).component('QuillEditor', QuillEditor)
+.use(
+    Vue3Toasity,
+    {
+      autoClose: 3000,
+      // ...
+    } as ToastContainerOptions,
+  )
     .use(Toast, options)
     .use(VueApexCharts)
     .use(createPinia())

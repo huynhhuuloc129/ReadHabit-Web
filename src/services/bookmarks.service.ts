@@ -48,7 +48,7 @@ class BookmarksService {
         })
     }
 
-    async update(id: string, data: any, token: string) {
+    async update(id: number, data: any, token: string) {
         return await axios.patch(`http://localhost:3000/api/bookmarks/${id}`, data, {
             headers: {
                 Authorization: 'Bearer ' + token
@@ -72,7 +72,7 @@ class BookmarksService {
         })
     }
 
-    async delete(id: string, token: string) {
+    async delete(id: number, token: string) {
         return await axios.delete(`http://localhost:3000/api/bookmarks/${id}`, {
             headers: {
                 Authorization: 'Bearer ' + token
@@ -84,7 +84,7 @@ class BookmarksService {
         })
     }
 
-    async deleteRelation(id: string, bookmarkPostId: string,token: string) {
+    async deleteRelation(id: number, bookmarkPostId: number,token: string) {
         return await axios.delete(`http://localhost:3000/api/bookmarks/${id}/bookmark-post/${bookmarkPostId}`, {
             headers: {
                 Authorization: 'Bearer ' + token

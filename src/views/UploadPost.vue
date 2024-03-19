@@ -13,11 +13,12 @@
         <div class="btn-group btn-group-vertical justify-content-start d-flex flex-column" style="width: 13vw; margin-right: 50px;" role="group" aria-label="Basic radio toggle button group">
             <h5>Các bài viết đang được chỉnh sửa</h5>
             <div v-for="post in posts" :key="post.id">
-                <input @click="changeForm(post.id)" type="radio" class="btn-check" name="btnradio" :id="'btnradio'+post.id" autocomplete="off" checked>
+                <input @click="changeForm(post.id)" type="radio" class="btn-check" name="btnradio" :id="'btnradio'+post.id" autocomplete="off" :value="post.id">
                 <label class="btn btn-outline-dark" :for="'btnradio'+post.id">{{ post.title }}</label>
             </div>
-            <div class="w-100">
-                <button class="btn btn-light" style="margin-top: 20px; height: 50px; width: 100%;" @click="clearForm()">Mới</button>
+            <div class="w-100" style="margin-top: 20px;">
+                <input v-model="choosenCreatedPostId" @click="clearForm()" type="radio" class="btn-check" name="btnradio" id="clear" autocomplete="off" :value="0">
+                <label class="btn btn-outline-danger w-100" for="clear">Mới</label>
             </div>
         </div>
 
@@ -35,12 +36,12 @@
                 <div>Nhãn bài viết</div>
                 <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;" role="group" aria-label="Basic checkbox toggle button group">
                     <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
-                        <input type="checkbox" class="btn-check" :id="'btncheck' + tag.id" autocomplete="off">
+                        <input v-model="trackingTags[tag.id]" type="checkbox" class="btn-check" :id="'btncheck' + tag.id" autocomplete="off">
                         <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
+            <!-- <div class="d-flex">
                 <div class="w-50">
                     <div>Nguồn bài viết</div>
                     <select v-model="editPostForm.contentSourceId"  class="form-select" aria-label="Default select example">
@@ -54,7 +55,7 @@
                     <label for="originalLink">Link bài viết gốc (Nếu có)</label>
                     <input style="margin-bottom: 20px;" v-model="editPostForm.originalLink" id="originalLink" type="text" class="form-control" >
                 </div>
-            </div>
+            </div> -->
 
             
             <label for="titlePost" style="font-size: 30px;">Tiêu đề bài viết</label>
@@ -81,7 +82,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-end" v-if="isLogin">
-                <button class="m-1 btn btn-danger" @click="updatePost('published')" style="padding: 15px;">
+                <button class="m-1 btn btn-danger" @click="updatePost('reviewing')" style="padding: 15px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
                         <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
@@ -116,6 +117,7 @@ import tagsService from '@/services/tags.service';
 import { onMounted, ref } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill';
 import checkLogin from '@/utilities/utilities';
+import { useCookies } from 'vue3-cookies';
 const categories = ref([
     {
         id: '',
@@ -129,7 +131,7 @@ const categories = ref([
 
 const tags = ref([
     {
-        id: '',
+        id: 0,
         createdAt: "",
         updatedAt: "",
         deletedAt: null,
@@ -226,6 +228,8 @@ const posts = ref([{
   contentSourceId: 0
 }])
 
+const choosenCreatedPostId = ref(0)
+
 const editPostForm = ref({
     categoryId: 0,
     tag: [] as string[],
@@ -268,6 +272,10 @@ const currentUser = ref({
     }]
 })
 const isLogin = ref(false)
+const cookies = useCookies();
+const tokenBearer = cookies.cookies.get('Token');
+const trackingTags = ref({} as Record<number, boolean>)
+
 try {
     currentUser.value = await checkLogin();
     if (currentUser.value !== null && currentUser.value['id'] !== null) {
@@ -280,12 +288,14 @@ try {
 function displaySelectedImage(event: any, elementId: any) {
     const selectedImage = document.getElementById(elementId);
     const fileInput = event.target;
+    console.log(selectedImage);
     
     if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
             //@ts-ignore
             selectedImage.src = e.target.result;
+            //@ts-ignore
         };
         reader.readAsDataURL(fileInput.files[0]);
     }
@@ -314,11 +324,21 @@ function clearForm(){
 }
 
 function filterTagsByCategoryId(){
-    return tags.value.filter((tag) => tag.category.id == editPostForm.value.categoryId)
+    console.log(trackingTags.value)
+    const tagsTemp = tags.value.filter((tag) => tag.category.id == editPostForm.value.categoryId)
+    return tagsTemp
 }
 
 async function updatePost(status: string){
-
+    try {
+        if (choosenCreatedPostId.value == 0){
+            await postsService.create(editPostForm.value.categoryId, [], editPostForm.value.contentSourceId, editPostForm.value.title, editPostForm.value.content, editPostForm.value.originalLink, status, 'internal_post', editPostForm.value.imageCover, tokenBearer)
+        } else {
+            // await postsService.update()
+        }
+    } catch(err) {
+        console.log(err);
+    }
 }
 
 async function removePost(){
@@ -331,6 +351,7 @@ onMounted(async () => {
         let p = await postsService.getAllStatusForUser(currentUser.value.id, 'created');
         posts.value = p.data
         if (posts.value.length > 0){
+            choosenCreatedPostId.value = posts.value[0].id;
             editPostForm.value.categoryId = posts.value[0].categoryId
             editPostForm.value.title = posts.value[0].title
             editPostForm.value.contentSourceId = posts.value[0].contentSourceId

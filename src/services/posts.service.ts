@@ -52,8 +52,18 @@ class PostService {
         }
     }
 
-    async create(data: any, token: string) {
-        return await axios.post(`http://localhost:3000/api/posts`, data, {
+    async create(categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostUrl: string, status: string, type: string, postImage: string, token: string) {
+        const form = new FormData();
+        form.set("categoryId", JSON.stringify(categoryId))
+        if(tags.length> 0) form.set("tags", JSON.stringify(tags))
+        if(contentSourceId != 0) form.set("contentSourceId", JSON.stringify(contentSourceId))
+        form.set("title", title)
+        form.set("content", content)
+        if(originalPostUrl != '') form.set("originalPostUrl", originalPostUrl)
+        form.set("status", status)
+        form.set("type", type)
+        form.set("postImage", postImage)
+        return await axios.post(`http://localhost:3000/api/posts`, form, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
