@@ -24,6 +24,12 @@ const router = createRouter({
       name: 'upload post',
       component: () => import('../views/UploadPost.vue')
     }
+    ,
+    {
+      path: '/statistic',
+      name: 'statistic',
+      component: () => import('../views/StatisticPage.vue')
+    }
   ]
 })
 

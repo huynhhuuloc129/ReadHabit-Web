@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import FooterComponent from "./components/FooterComponent.vue"
 function scrollToTop() {
   window.scrollTo(0,0);

@@ -12,9 +12,9 @@
     <div class="d-flex p-lg-5">
         <div class="btn-group btn-group-vertical justify-content-start d-flex flex-column" style="width: 13vw; margin-right: 50px;" role="group" aria-label="Basic radio toggle button group">
             <h5>Các bài viết đang được chỉnh sửa</h5>
-            <div v-for="post in posts" :key="post.id">
+            <div v-for="post in posts" :key="post.id" class="w-100">
                 <input @click="changeForm(post.id)" type="radio" class="btn-check" name="btnradio" :id="'btnradio'+post.id" autocomplete="off" :value="post.id">
-                <label class="btn btn-outline-dark" :for="'btnradio'+post.id">{{ post.title }}</label>
+                <label class="btn btn-outline-dark w-100" :for="'btnradio'+post.id">{{ post.title }}</label>
             </div>
             <div class="w-100" style="margin-top: 20px;">
                 <input v-model="choosenCreatedPostId" @click="clearForm()" type="radio" class="btn-check" name="btnradio" id="clear" autocomplete="off" :value="0">
