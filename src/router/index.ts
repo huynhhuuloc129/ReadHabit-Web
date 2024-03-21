@@ -26,9 +26,15 @@ const router = createRouter({
     }
     ,
     {
-      path: '/statistic',
-      name: 'statistic',
-      component: () => import('../views/StatisticPage.vue')
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/AdminPage.vue')
+    }
+    ,
+    {
+      path: '/manage',
+      name: 'manage',
+      component: () => import('../views/ManagePage.vue')
     }
   ]
 })

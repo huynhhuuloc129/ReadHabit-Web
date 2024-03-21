@@ -12,22 +12,14 @@
     </Suspense>
 
     <div class="first-section container-fluid">
-        <!-- <div class="row"> -->
             <div class="first-header">
                 <br>
                 <div class="d-flex justify-content-start flex-column">
-                    <!-- <a class="btn btn-lg cover-btn" href="#" >
-                        <h2 class="fw-bold text-white" style="padding: 10px 5px 5px 5px;">Bắt đầu</h2>
-                    </a> -->
+
                     <h1 class="text-white" style="margin-left: 40px; font-size: 70px;">Start reading today</h1>
 
                 </div>
             </div>
-
-            <!-- <div class="col-md-9"> -->
-                <!-- <img id="image-cover" src="../assets/Cover.jpg" class="float-end" alt=""> -->
-            <!-- </div>
-        </div> -->
     </div>
     <div class="" style="margin: 30px 10px 10px 20px; ">
 
@@ -49,18 +41,22 @@
                     </button>
                 </div>
             </div>
+
             <div class="sidebarCate sticky-top" style="margin: 50px 0 0px 20px; max-height: 100vh; width: 350px; overflow-y: scroll;">
                 <br>
                 <h3>Thể loại</h3>
-                <a @click="changeCategory(category.id)" :href="'#'+category.name" class="category" v-for="category in categories" :key="category.id" style="text-decoration: none; display: block;">
+                <a @click="changeCategory(category.id)" v-for="category in categories" :key="category.id" :href="'#'+category.name" class="category" style="text-decoration: none; display: block;">
                         {{ category.name }}
                 </a>
                 <div class="w-100 d-flex justify-content-center">
-                    <button class="btn btn-light w-100">
+                    <button class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#modalC">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                             <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                         </svg>
                     </button>
+
+                   
+
                 </div>
                 <hr>
                 <h3>Nhãn</h3>
@@ -76,6 +72,30 @@
         </div>
 
     </div>
+
+    <div id="modalC" class="modal fade"  tabindex="-1" aria-labelledby="editBookmarkModelLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <div id="d-flex flex-column">
+                                <h5>Danh sách tất cả thể loại</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-check"  v-for="category in allCategories" :key="category.id">
+                                    <input v-model="trackingCategories[category.id]" class="form-check-input" type="checkbox" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        {{ category.name }}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button @click="updateCategory()" class="btn btn-primary">Cập nhật</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
 </template>
 
 <script setup lang="ts">
@@ -84,21 +104,24 @@ import SidebarComponent from "@/components/SidebarComponent.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import CardComponent from "../components/CardComponent.vue";
 import categoriesService from "@/services/categories.service";
+import usersService from "@/services/users.service";
 import postsService from "@/services/posts.service";
 import tagsService from "@/services/tags.service";
 import checkLogin from "@/utilities/utilities";
+import { useCookies } from "vue3-cookies";
+import { toast } from "vue3-toastify";
 import { onMounted, ref } from "vue";
+const cookies = useCookies();
+const tokenBearer = cookies.cookies.get('Token');
 
-const categories = ref([
-    {
-        id: 0,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        name: "",
-        imageURL: null
-    }
-])
+type categoryType =  {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    imageURL: null
+}
 
 const posts = ref([[{
     id: 1,
@@ -139,14 +162,7 @@ const posts = ref([[{
         name: "",
         avatar: ""
     },
-    category: {
-        id: 1,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        name: "",
-        imageURL: null
-    },
+    category: {} as categoryType,
     createdBy: {
         id: '',
         createdAt: "",
@@ -191,15 +207,11 @@ const currentUser = ref({
     birthday: "",
     avatar: "",
     role: "",
-    categories: [{
-        id: 0,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        name: "",
-        imageURL: null
-    }]
+    categories: [{} as categoryType]
 })
+const categories = ref([{} as categoryType])
+const trackingCategories = ref({} as Record<number, boolean>)
+const allCategories = ref([{} as categoryType])
 
 const tags = ref([{
     id: 0,
@@ -232,15 +244,9 @@ const tags = ref([{
         contentSourceId: 0
     },
     ],
-    category: {
-        id: 0,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        name: "",
-        imageURL: null
-    }
+    category: {} as categoryType
 }])
+
 var postVisibles = ref([] as number[])
 var steps = ref([] as number[])
 const categoryId = ref(0)
@@ -254,6 +260,13 @@ try {
 } catch (err) {
     console.log(err)
 }
+
+const notifyUpdateCategory = () => {
+    toast.success("Đã cập nhật!", {
+    autoClose: 1000,
+    }); // ToastOptions
+}
+
 // filter posts
 function VisiblePost(position: number){
     return posts.value[position].slice(0, postVisibles.value[position])
@@ -268,6 +281,30 @@ function changeCategory(cId: number){
     categoryId.value = cId
 }
 
+async function updateCategory(){
+  try {
+    let cs = [] as number[];
+    allCategories.value.forEach((category) => {
+      if (trackingCategories.value[category.id]) {
+        cs.push(category.id)
+        let check = false
+        categories.value.forEach((c) => {
+            if (c.id == category.id) check =  true
+        })
+
+        if (check == false) {
+            categories.value.push(category)
+        }
+      }
+    })
+    await usersService.setCategories(currentUser.value.id, cs ,tokenBearer)
+    notifyUpdateCategory()
+    window.location.reload();
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 onMounted(async () => {
     try {
         //tag
@@ -275,6 +312,15 @@ onMounted(async () => {
         tags.value = respTags.data
 
         //category
+        let tempAllCate = await categoriesService.getAll();
+        allCategories.value = tempAllCate.data;
+        allCategories.value.forEach(c => {
+            trackingCategories.value[c.id] = false;
+        });
+        currentUser.value.categories.forEach(c => {
+            trackingCategories.value[c.id] = true;
+        });
+
         if (isLogin.value){
             categories.value = currentUser.value.categories;
         } else {
