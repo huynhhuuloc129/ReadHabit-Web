@@ -59,13 +59,13 @@
             class="list-group-item list-group-item-action py-2 ripple"
             aria-current="false"
             data-bs-toggle="tab"
-            data-bs-target="#"
-            aria-controls="asdf"
+            data-bs-target="#contentSource"
+            aria-controls="contentSource"
           >
-            <i class="fas fa-chart-pie fa-fw me-3"></i>
-            <span>SEO</span>
+            <i class="fa-solid fa-people-group fa-fw me-3"></i>
+            <span>Nguồn</span>
           </a>
-          <a
+          <!-- <a
             href="#"
             class="list-group-item list-group-item-action py-2 ripple"
             aria-current="false"
@@ -128,7 +128,7 @@
           >
             <i class="fas fa-money-bill fa-fw me-3"></i>
             <span>Sales</span>
-          </a>
+          </a> -->
         </div>
       </div>
     </nav>
@@ -162,7 +162,7 @@
                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ users.length }}</div>
                   </div>
                   <div class="col-auto">
-                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
@@ -183,7 +183,7 @@
                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ posts.length }}</div>
                   </div>
                   <div class="col-auto">
-                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    <i class="fa-solid fa-newspaper fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
@@ -210,7 +210,7 @@
                     </div>
                   </div>
                   <div class="col-auto">
-                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    <i class="fa-regular fa-thumbs-up fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
@@ -233,7 +233,7 @@
                     </div>
                   </div>
                   <div class="col-auto">
-                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    <i class="fa-solid fa-hourglass-start fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
@@ -286,7 +286,7 @@
               <span class="position-absolute search"><i class="fa fa-search"></i></span>
               <input
                 v-model="search"
-                class="form-control w-100"
+                class="form-control form-control-special w-100"
                 placeholder="Tìm kiếm bằng tên bài viết"
               />
             </div>
@@ -353,7 +353,7 @@
               <span class="position-absolute search"><i class="fa fa-search"></i></span>
               <input
                 v-model="searchReview"
-                class="form-control w-100"
+                class="form-control form-control-special w-100"
                 placeholder="Tìm kiếm bằng tên bài viết"
               />
             </div>
@@ -424,7 +424,7 @@
               <span class="position-absolute search"><i class="fa fa-search"></i></span>
               <input
                 v-model="searchUser"
-                class="form-control w-100"
+                class="form-control form-control-special w-100"
                 placeholder="Tìm kiếm bằng tên người dùng"
               />
             </div>
@@ -496,7 +496,7 @@
           Thông tin tất cả thể loại và nhãn của hệ thống
         </h5>
 
-        <div class="d-flex align-items-start w-100 justify-content-start">
+        <div class="d-flex align-items-start w-100 justify-content-between">
           <div
             class="nav flex-column nav-pills me-3 w-25"
             id="v-pills-tab"
@@ -504,8 +504,8 @@
             aria-orientation="vertical"
           >
             <button
-              class="btn btn-outline-primary"
-              v-for="category in categories"
+              class="btn btn-outline-primary d-flex justify-content-between"
+              v-for="(category, index) in categories"
               :key="category.id"
               style="margin-bottom: 5px"
               :id="'v-pills-' + category.id + '-tab'"
@@ -515,11 +515,27 @@
               role="tab"
               :aria-controls="'v-pills-' + category.id"
               aria-selected="false"
-              @click="getAllTagsForCategory(category.id)"
+              @click="getAllTagsForCategory(category.id, index);"
             >
               {{ category.name }}
-            </button>
-            <button class="btn btn-light"><i class="fa-solid fa-plus"></i></button>
+            <div>
+              <button class="btn btn-light" data-bs-toggle="modal"
+                data-bs-target="#updateCategoryModal">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button
+                class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmDeleteCategoryModal"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+              
+            </div>
+          </button>
+          <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addCategory">
+            <i class="fa-solid fa-plus"></i>
+          </button>
           </div>
           <div class="tab-content" id="v-pills-tabContent">
             <div
@@ -531,20 +547,113 @@
               :aria-labelledby="'v-pills-' + category.id + '-tab'"
             >
               <span
-                v-for="tag in tags"
+                v-for="(tag, index) in tags"
                 :key="tag.id"
                 class="btn btn-secondary"
-                style="margin: 5px 5px 0 0"
+                style="margin: 5px 5px 0 0; color: white; cursor: default"
               >
                 {{ tag.name }}
+                <button class="btn btn-secondary" @click="deleteTag(tag.id, index)">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
               </span>
-              <button class="btn btn-light" style="margin: 5px 5px 0 0">
+              <button class="btn btn-light" style="margin: 5px 5px 0 0" data-bs-toggle="modal" data-bs-target="#addTag">
                 <i class="fa-solid fa-plus"></i>
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      <div
+        class="tab-pane fade"
+        id="contentSource"
+        role="tabpanel"
+        aria-labelledby="contentSource-tab"
+        style="width: 80vw"
+      >
+        <div>
+          <div class="container mt-5 px-2">
+            <h5 class="mb-2 d-flex justify-content-between align-items-center">
+              Thông tin tất cả nguồn của hệ thống
+            </h5>
+            <hr />
+            <div class="position-relative">
+              <span class="position-absolute search"><i class="fa fa-search"></i></span>
+              <input
+                v-model="searchContentSource"
+                class="form-control form-control-special w-100"
+                placeholder="Tìm kiếm bằng tên nguồn"
+              />
+            </div>
+            <div class="table-responsive">
+              <button class="btn btn-light w-100">Thêm</button>
+              <table class="table table-responsive table-borderless">
+                <thead>
+                  <tr class="bg-light">
+                    <th scope="col" width="1%">ID</th>
+                    <th scope="col" width="10%">Ngày tạo</th>
+                    <th scope="col" width="69%">Tên</th>
+                    <th scope="col" class="text-end" width="30%"><span></span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(cs) in VisibleContentSource()" :key="cs.id">
+                    <td>{{ cs.id }}</td>
+                    <td>{{ cs.createdAt.slice(0, 10) }}</td>
+                    <td class="align-items-center">
+                      <img
+                        style="border-radius: 50%; margin-right: 5px"
+                        :src="cs.avatar"
+                        width="25"
+                        height="25"
+                      />{{ cs.name }}
+                    </td>
+                    <td class="text-end d-flex">
+                      <button
+                        class="btn btn-primary"
+                        data-bs-toggle=""
+                        data-bs-target="#"
+                      >
+                        Cập nhật
+                      </button>
+                      <button
+                        class="btn btn-danger"
+                        data-bs-toggle=""
+                        data-bs-target="#"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="text-center">
+                <button
+                  @click="contentSourceVisibles += stepsContentSource"
+                  v-if="contentSourceVisibles < contentSources.length && searchContentSource == ''"
+                  class="btn moreUser"
+                  style="border-radius: 50px; border: 2px solid black"
+                >
+                  Xem thêm >>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="eventLogs"
+        role="tabpanel"
+        aria-labelledby="eventLogs-tab"
+        style="width: 80vw"
+      >
+        
+      </div>
+
 
       <div
         class="tab-pane fade"
@@ -608,6 +717,65 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmDeleteCategoryModal" tabindex="-1" aria-labelledby="confirmDeleteCategoryModelLabal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteCategoryModelLabal">Bạn có chắc chắn muốn xóa thể loại này (tất cả bài viết thuộc thể loại sẽ bị xóa)</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  @click="deleteCategory()" >Xóa</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="udpateCategoryModelLabal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <input type="text" class="form-control" v-model="newCategoryName" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateCategory">Cập nhật</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal add tag -->
+  <div class="modal fade" id="addTag" tabindex="-1" aria-labelledby="addTagLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <input type="text" class="form-control" v-model="newTagName" required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="addTag">Thêm</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal add category -->
+<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <input type="text" class="form-control" v-model="addCategoryName" required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="addCategory">Thêm</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -624,6 +792,7 @@ import categoriesService from '@/services/categories.service'
 import { useCookies } from 'vue3-cookies'
 import { toast } from 'vue3-toastify'
 import tagsService from '@/services/tags.service'
+import contentSourcesService from '@/services/contentSources.service'
 
 const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
@@ -801,6 +970,25 @@ var stepsReviewing = ref(3)
 var userVisibles = ref(10)
 var stepsUser = ref(10)
 
+var contentSourceVisibles = ref(10)
+var stepsContentSource = ref(10)
+
+
+const contentSources = ref([
+  {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    avatar: "",
+    posts: [
+      {
+      }
+    ]
+  }
+])
+
 function VisiblePost() {
   if (search.value != '') {
     return posts.value.filter((p) => {
@@ -831,9 +1019,21 @@ function VisibleUser() {
   }
 }
 
+function VisibleContentSource() {
+  if (searchContentSource.value != '') {
+    return contentSources.value.filter((cs) => {
+      return cs.name.toLowerCase().indexOf(searchContentSource.value.toLowerCase()) != -1
+    })
+  } else {
+    return contentSources.value.slice(0, contentSourceVisibles.value)
+  }
+}
+
 const search = ref('')
 const searchReview = ref('')
 const searchUser = ref('')
+const searchContentSource = ref('')
+
 
 const reactions = ref({
   filter: {
@@ -878,14 +1078,61 @@ function randomColor() {
   return 'rgb(' + r + ',' + g + ',' + b + ')'
 }
 
-async function getAllTagsForCategory(categoryId: number) {
+async function getAllTagsForCategory(categoryId: number, index: number) {
   try {
+    choosenCategoryId.value = categoryId; choosenCategoryIndex.value = index;
+    newCategoryName.value = categories.value[index].name;
     let tempTags = await tagsService.getAllByCategoryId(categoryId)
     tags.value = tempTags.data
   } catch (error) {
     console.log(error)
   }
 }
+async function deleteTag(tagId: number, index: number) {
+  try {
+    await tagsService.delete(tagId, tokenBearer)
+    toast.success('Đã xóa!', {
+      autoClose: 1000
+    })
+    tags.value.splice(index, 1)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const newTagName = ref('')
+
+async function addTag(){
+  try {
+    let resp = await tagsService.create({
+    tags: [
+      newTagName.value
+    ],
+    categoryId: choosenCategoryId.value
+     }, tokenBearer);
+    toast.success('Đã thêm thành công!', {
+      autoClose: 1000
+    })
+    tags.value.push(resp[0])
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const addCategoryName = ref('')
+
+async function addCategory(){
+  try {
+    let resp = await categoriesService.create(addCategoryName.value, tokenBearer);
+    toast.success('Đã thêm thành công!', {
+      autoClose: 1000
+    })
+    categories.value.push(resp)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 async function updateUser() {
   try {
@@ -900,6 +1147,35 @@ async function updateUser() {
       autoClose: 1000
     }) //
     users.value[chooseUserIndex.value].role = chooseRole.value
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const choosenCategoryId = ref(0)
+const choosenCategoryIndex = ref(0)
+
+async function deleteCategory(){
+  try {
+    await categoriesService.delete(choosenCategoryId.value, tokenBearer)
+    toast.success('Đã xóa!', {
+      autoClose: 1000
+    }) 
+    categories.value.splice(choosenCategoryIndex.value, 1)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const newCategoryName = ref('')
+
+async function updateCategory(){
+  try {
+    await categoriesService.update(choosenCategoryId.value, newCategoryName.value, tokenBearer)
+    toast.success('Đã cập nhật!', {
+      autoClose: 1000
+    }) 
+    categories.value[choosenCategoryIndex.value].name = newCategoryName.value
   } catch (error) {
     console.log(error)
   }
@@ -932,6 +1208,10 @@ onMounted(async () => {
 
     let reactionsTemp = await reactionsService.getAllReal()
     reactions.value = reactionsTemp
+
+    // contentSource
+    let csTemp = await contentSourcesService.getAll();
+    contentSources.value = csTemp.data;
   } catch (err) {
     console.log(err)
   }
@@ -951,12 +1231,12 @@ onMounted(async () => {
   left: 10px;
 }
 
-.form-control {
+.form-control-special {
   border: none;
   padding-left: 32px;
 }
 
-.form-control:focus {
+.form-control-special:focus {
   border: none;
   box-shadow: none;
 }

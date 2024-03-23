@@ -63,7 +63,7 @@
                 <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
                     <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;" role="group" aria-label="Basic checkbox toggle button group">
                         <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
-                            <input type="checkbox" class="btn-check" :id="'btncheck' + tag.id" autocomplete="off">
+                            <input v-model="checkedTags" :value="tag.id" type="checkbox" class="btn-check" :id="'btncheck' + tag.id" autocomplete="off">
                             <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
                         </div>
                     </div>
@@ -251,6 +251,7 @@ var postVisibles = ref([] as number[])
 var steps = ref([] as number[])
 const categoryId = ref(0)
 const isLogin = ref(false)
+const checkedTags = ref([] as string[])
 
 try {
     currentUser.value = await checkLogin();
@@ -269,6 +270,8 @@ const notifyUpdateCategory = () => {
 
 // filter posts
 function VisiblePost(position: number){
+    
+
     return posts.value[position].slice(0, postVisibles.value[position])
 }
 

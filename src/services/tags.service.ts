@@ -17,7 +17,7 @@ class TagsService {
     }
     async getAllByCategoryId(id: number) {
         try {
-            const tags = (await this.api.get(`/tags?sortOrder=asc&categoryId=${id}`));
+            const tags = (await this.api.get(`/tags?sortOrder=asc&categoryId=${id}&limit=100`));
             return tags.data;
         } catch (err) {
             handlingError(err);
@@ -56,7 +56,7 @@ class TagsService {
         })
     }
 
-    async delete(id: string, token: string) {
+    async delete(id: number, token: string) {
         return await axios.delete(`http://localhost:3000/api/tags/${id}`, {
             headers: {
                 Authorization: 'Bearer ' + token

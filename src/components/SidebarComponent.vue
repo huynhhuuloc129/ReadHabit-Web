@@ -75,6 +75,7 @@ try {
 
 $(function() {
 'use strict';
+// @ts-ignore
 $('.js-menu-toggle').click((e) => {
 
   var $this = $(this);

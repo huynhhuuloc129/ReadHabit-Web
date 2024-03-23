@@ -74,7 +74,7 @@ class PostService {
         })
     }
 
-    async createReview(id: string, data: any, token: string) {
+    async createReview(id: number, data: any, token: string) {
         return await axios.post(`http://localhost:3000/api/posts/${id}/review`, data, {
             headers: {
                 Authorization: 'Bearer ' + token
@@ -85,7 +85,7 @@ class PostService {
             handlingError(err);
         })
     }
-    async createComment(id: string, data: any, token: string) {
+    async createComment(id: number, data: any, token: string) {
         return await axios.post(`http://localhost:3000/api/posts/${id}/comments`, data, {
             headers: {
                 Authorization: 'Bearer ' + token
@@ -145,7 +145,7 @@ class PostService {
         })
     }
 
-    async delete(id: string, token: string) {
+    async delete(id: number, token: string) {
         return await axios.delete(`http://localhost:3000/api/posts/${id}`, {
             headers: {
                 Authorization: 'Bearer ' + token

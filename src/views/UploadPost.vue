@@ -12,8 +12,8 @@
     <div class="d-flex p-lg-5">
         <div class="btn-group btn-group-vertical justify-content-start d-flex flex-column" style="width: 13vw; margin-right: 50px;" role="group" aria-label="Basic radio toggle button group">
             <h5>Các bài viết đang được chỉnh sửa</h5>
-            <div v-for="post in posts" :key="post.id" class="w-100">
-                <input @click="changeForm(post.id)" type="radio" class="btn-check" name="btnradio" :id="'btnradio'+post.id" autocomplete="off" :value="post.id">
+            <div v-for="(post, index) in posts" :key="post.id" class="w-100">
+                <input @click="changeForm(post.id); choosenCreatedPostIndex = index" type="radio" class="btn-check" name="btnradio" :id="'btnradio'+post.id" autocomplete="off" :value="post.id">
                 <label class="btn btn-outline-dark w-100" :for="'btnradio'+post.id">{{ post.title }}</label>
             </div>
             <div class="w-100" style="margin-top: 20px;">
@@ -61,17 +61,9 @@
             <label for="titlePost" style="font-size: 30px;">Tiêu đề bài viết</label>
             <input v-model="editPostForm.title" id="titlePost" type="text" class="form-control" required>
 
-            <div style="margin-top: 50px;">
-                <div class="mb-4 d-flex justify-content-center">
-                    <img id="selectedImage" :src="editPostForm.imageCover"
-                    alt="example placeholder" style="width: 300px;" />
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="btn btn-primary btn-rounded">
-                        <label class="form-label text-white m-1" for="customFile1">Chọn ảnh bìa bài viết</label>
-                        <input type="file" class="form-control d-none" id="customFile1" @onchange="displaySelectedImage($event, 'selectedImage')"  required/>
-                    </div>
-                </div>
+            <div class="mb-3" style="margin: 50px 0 50px 0">
+                <label for="formFile" class="form-label">File ảnh bìa bài viết</label>
+                <input class="form-control" type="file" id="formFile">
             </div>
 
             <div style="height: 550px;">
@@ -229,6 +221,7 @@ const posts = ref([{
 }])
 
 const choosenCreatedPostId = ref(0)
+const choosenCreatedPostIndex = ref(0)
 
 const editPostForm = ref({
     categoryId: 0,
@@ -342,7 +335,12 @@ async function updatePost(status: string){
 }
 
 async function removePost(){
-
+    try {
+        await postsService.delete(choosenCreatedPostId.value, tokenBearer)
+        posts.value.splice(choosenCreatedPostIndex.value, 1)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 onMounted(async () => {

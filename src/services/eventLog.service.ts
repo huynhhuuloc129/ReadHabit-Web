@@ -8,17 +8,8 @@ class EventLogService {
     }
     async getAll() {
         try {
-            const eventLogs = (await this.api.get("/eventLogs?sortOrder=asc"));
+            const eventLogs = (await this.api.get("/event-logs?sortOrder=asc&limit=100"));
             return eventLogs.data;
-        } catch (err) {
-            handlingError(err);
-        }
-    }
-
-    async getOne(id: string) {
-        try {
-            const eventLog = (await this.api.get("/eventLogs/" + id)).data;
-            return eventLog;
         } catch (err) {
             handlingError(err);
         }

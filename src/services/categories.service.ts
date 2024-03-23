@@ -26,7 +26,10 @@ class CategoriesService {
     }
 
     async create(data: any, token: string) {
-        return await axios.post(`http://localhost:3000/api/categories`, data, {
+        const form = new FormData();
+        form.set("name",data)
+
+        return await axios.post(`http://localhost:3000/api/categories`, form, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -37,8 +40,11 @@ class CategoriesService {
         })
     }
 
-    async update(id: string, data: any, token: string) {
-        return await axios.patch(`http://localhost:3000/api/categories/${id}`, data, {
+    async update(id: number, data: any, token: string) {
+        const form = new FormData();
+        form.set("name",data)
+
+        return await axios.patch(`http://localhost:3000/api/categories/${id}`, form, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -49,7 +55,7 @@ class CategoriesService {
         })
     }
 
-    async delete(id: string, token: string) {
+    async delete(id: number, token: string) {
         return await axios.delete(`http://localhost:3000/api/categories/${id}`, {
             headers: {
                 Authorization: 'Bearer ' + token
