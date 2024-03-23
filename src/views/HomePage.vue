@@ -74,28 +74,28 @@
     </div>
 
     <div id="modalC" class="modal fade"  tabindex="-1" aria-labelledby="editBookmarkModelLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <div id="d-flex flex-column">
-                                <h5>Danh sách tất cả thể loại</h5>
-                            </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-check"  v-for="category in allCategories" :key="category.id">
-                                    <input v-model="trackingCategories[category.id]" class="form-check-input" type="checkbox" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        {{ category.name }}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button @click="updateCategory()" class="btn btn-primary">Cập nhật</button>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <div id="d-flex flex-column">
+                <h5>Danh sách tất cả thể loại</h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-check"  v-for="category in allCategories" :key="category.id">
+                    <input v-model="trackingCategories[category.id]" class="form-check-input" type="checkbox" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        {{ category.name }}
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button @click="updateCategory()" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
