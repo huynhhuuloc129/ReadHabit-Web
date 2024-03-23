@@ -48,7 +48,7 @@ class ContentSourcesService {
         })
     }
 
-    async delete(id: string, token: string) {
+    async delete(id: number, token: string) {
         return await axios.delete(`http://localhost:3000/api/content-sources/${id}`, {
             headers: {
                 Authorization: 'Bearer ' + token

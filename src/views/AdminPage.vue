@@ -598,7 +598,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(cs) in VisibleContentSource()" :key="cs.id">
+                  <tr v-for="(cs, index) in VisibleContentSource()" :key="cs.id">
                     <td>{{ cs.id }}</td>
                     <td>{{ cs.createdAt.slice(0, 10) }}</td>
                     <td class="align-items-center">
@@ -619,8 +619,9 @@
                       </button>
                       <button
                         class="btn btn-danger"
-                        data-bs-toggle=""
-                        data-bs-target="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#confirmDeleteContentSourceModal"
+                        @click="choosenContentSourceId = cs.id; choosenContentSourceIndex = index"
                       >
                         <i class="fa-solid fa-trash"></i>
                       </button>
@@ -736,6 +737,9 @@
   <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="udpateCategoryModelLabal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Chỉnh sửa thể loại</h5>
+        </div>
         <div class="modal-body">
           <input type="text" class="form-control" v-model="newCategoryName" required>
         </div>
@@ -751,6 +755,9 @@
   <div class="modal fade" id="addTag" tabindex="-1" aria-labelledby="addTagLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Thêm nhãn dán</h5>
+      </div>
       <div class="modal-body">
         <input type="text" class="form-control" v-model="newTagName" required>
       </div>
@@ -766,6 +773,9 @@
 <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="">Thêm thể loại</h5>
+        </div>
       <div class="modal-body">
         <input type="text" class="form-control" v-model="addCategoryName" required>
       </div>
@@ -776,6 +786,22 @@
     </div>
   </div>
 </div>
+
+  <!-- Confirm delete category -->
+  <div class="modal fade" id="confirmDeleteContentSourceModal" tabindex="-1" aria-labelledby="confirmDeleteContentSourceModelLabal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteContentSourceModelLabal">Bạn có chắc chắn muốn xóa nguồn này (tất cả bài viết thuộc người dùng này sẽ bị xóa)</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  @click="deleteContentSource();" >Xóa</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script setup lang="ts">
@@ -1095,6 +1121,21 @@ async function deleteTag(tagId: number, index: number) {
       autoClose: 1000
     })
     tags.value.splice(index, 1)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const choosenContentSourceId = ref(0)
+const choosenContentSourceIndex = ref(0)
+
+async function deleteContentSource() {
+  try {
+    await contentSourcesService.delete(choosenContentSourceId.value, tokenBearer)
+    toast.success('Đã xóa!', {
+      autoClose: 1000
+    })
+    contentSources.value.splice(choosenContentSourceIndex.value, 1)
   } catch (error) {
     console.log(error)
   }
