@@ -365,7 +365,7 @@
           </div>
         </div>
 
-        <div v-if="post.status == 'reviewing'" style="margin-top: 20px">
+        <div v-if="post.status == 'reviewing' && currentUser.role == 'admin'" style="margin-top: 20px">
           <button style="width: 100px; height: 50px; margin-right: 20px" class="btn btn-success" @click="confirmPost()">
             Duyệt
           </button>
@@ -821,7 +821,7 @@ async function confirmPost(){
       "status": "confirm",
       "message": ""
     }, tokenBearer  )
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     console.log(error)
   }

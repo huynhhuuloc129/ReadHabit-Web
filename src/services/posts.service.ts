@@ -18,7 +18,7 @@ class PostService {
           
     async getAllForUser(id: number) {
         try {
-            const posts = (await this.api.get(`/posts?sortOrder=asc&createdById=${id}`));
+            const posts = (await this.api.get(`/posts?sortOrder=asc&createdById=${id}&limit=100`));
             return posts.data;
         } catch (err) {
             handlingError(err);
@@ -52,7 +52,7 @@ class PostService {
         }
     }
 
-    async create(categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostUrl: string, status: string, type: string, postImage: string, token: string) {
+    async create(categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostUrl: string, status: string, type: string, postImage: any, token: string) {
         const form = new FormData();
         form.set("categoryId", JSON.stringify(categoryId))
         if(tags.length> 0) form.set("tags", JSON.stringify(tags))
@@ -133,8 +133,26 @@ class PostService {
         })
     }
 
-    async update(id: string, data: any, token: string) {
-        return await axios.patch(`http://localhost:3000/api/posts/${id}`, data, {
+    async update(id: number, categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostUrl: string, status: string, type: string, postImage: any, token: string) {
+        const form = new FormData();
+        form.set("categoryId", JSON.stringify(categoryId))
+        if(tags.length> 0) {
+            let tagName = ''
+            for(let i=0; i< tags.length; i++) {
+                if (i != 0) tagName += ','
+                tagName += tags[i]
+            }
+            form.set("tags", tagName)
+        }
+        
+        if(contentSourceId != 0) form.set("contentSourceId", JSON.stringify(contentSourceId))
+        form.set("title", title)
+        form.set("content", content)
+        if(originalPostUrl != '') form.set("originalPostUrl", originalPostUrl)
+        form.set("status", status)
+        form.set("type", type)
+        form.set("postImage", postImage)
+        return await axios.patch(`http://localhost:3000/api/posts/${id}`, form, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
