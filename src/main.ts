@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
-import VueCalendarHeatmap from 'vue3-calendar-heatmap'
 // @ts-ignore 
 import VueApexCharts from "vue3-apexcharts";
 import Toast from "vue-toastification";
@@ -42,5 +41,4 @@ createApp(App).component("font-awesome-icon", FontAwesomeIcon).component('QuillE
     .use(VueApexCharts)
     .use(createPinia())
     .use(router)
-    .use(VueCalendarHeatmap)
     .mount('#app')

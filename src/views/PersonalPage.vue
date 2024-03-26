@@ -16,13 +16,14 @@
               <div class="col-12">
                 <div class="card widget-card border-light shadow-sm">
                   <div class="card-body">
-                    <div class="text-center mb-3">
-                      <img
-                        :src="'http://localhost:8080' + user.avatar.replace('files', '')"
-                        width="150px"
-                        class="img-fluid rounded-circle"
-                        alt="Luna John"
-                      />
+                    <div class="text-center mb-3 w-100 d-flex">
+                      <div class="avatar d-flex">
+                        <img
+                          :src="'http://localhost:8080' + user.avatar.replace('files', '')"
+                          alt="Generic placeholder image"
+                          style="height: 150px"
+                        />
+                      </div>
                     </div>
                     <h5 class="text-center mb-1">{{ user.fullName }}</h5>
                     <p class="text-center text-secondary mb-4">
@@ -470,6 +471,20 @@
                       Yêu thích
                     </button>
                   </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="rank-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#rank-tab-pane"
+                      type="button"
+                      role="tab"
+                      aria-controls="rank-tab-pane"
+                      aria-selected="false"
+                    >
+                      Xếp hạng
+                    </button>
+                  </li>
                 </ul>
                 <div class="tab-content pt-4" id="profileTabContent">
                   <div
@@ -519,19 +534,36 @@
                         <div class="p-2">Ngày sinh</div>
                       </div>
                       <div
-                        class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3"
-                      >
+                        class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
                         <div class="p-2">{{ user.birthday.slice(0, 10) }}</div>
                       </div>
                     </div>
 
-                    <div id="calendar" class="w-100 m-3">
+                    <div>
                       <h5>Hoạt động</h5>
-                      <calendar-heatmap
-                        :values="contributionData"
+                      <CalendarHeatmap 
+                      :values="[{ date: '2024-9-22', count: 6 }]"
                         :options="options"
-                        :end-date="date"
+                        :end-date="2025-9-22"
                       />
+
+                      <div>
+                        <table class="table table-borderless">
+                          <tbody>
+                            <tr v-for="el in eventLogs" :key="el.id">
+                              <td>{{ el.createdAt.slice(0, 10) }}</td>
+                              <td v-if="el.action == 'create'">Tạo</td>
+                              <td v-if="el.action == 'comment'">Bình luận</td>
+                              <td v-if="el.action == 'share'">Chia sẻ</td>
+                              <td>
+                                <a :href="'http://localhost:5173/post/' + el.post.id">{{
+                                  el.post.title
+                                }}</a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1014,6 +1046,84 @@
                       </div>
                     </div>
                   </div>
+
+                  <div
+                    v-if="currentRank != null"
+                    class="tab-pane fade"
+                    id="rank-tab-pane"
+                    role="tabpanel"
+                    aria-labelledby="rank-tab"
+                    tabindex="0"
+                  >
+                    <div class="d-flex justify-content-start">
+                      <img
+                        width="100px"
+                        height="100px"
+                        v-if="currentRank.rankLevel != null"
+                        :src="
+                          'http://localhost:8080' +
+                          currentRank.rankLevel.imageURL.replace('files', '')
+                        "
+                        alt=""
+                      />
+                      <div v-if="currentRank.rankLevel != null" style="margin-left: 50px">
+                        <div>
+                          <span
+                            >Mức xếp hạng hiện tại:
+                            <span style="font-weight: bold">{{ currentRank.rankLevel.name }}</span>
+                          </span>
+                        </div>
+                        <div>
+                          <span
+                            >Ngày đạt được:
+                            <span style="font-weight: bold">{{
+                              currentRank.createdAt.slice(0, 10)
+                            }}</span>
+                          </span>
+                        </div>
+                        <div>
+                          <span
+                            >Tiến độ:
+                            <span style="font-weight: bold">{{ currentRank.process }}%</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style="margin-top: 30px">
+                      <h5>Lịch sử xếp hạng</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Ngày đạt được</th>
+                            <th scope="col"></th>
+                            <th scope="col">Tên</th>
+                            <th scope="col">Tiến trình</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="rank in ranks" :key="rank.id">
+                            <th scope="row" v-if="rank.createdAt != null">
+                              {{ rank.createdAt.slice(0, 10) }}
+                            </th>
+                            <td v-if="rank.rankLevel != null">
+                              <img
+                                width="25px"
+                                height="25px"
+                                :src="
+                                  'http://localhost:8080' +
+                                  rank.rankLevel.imageURL.replace('files', '')
+                                "
+                                alt=""
+                              />
+                            </td>
+                            <td v-if="rank.rankLevel != null">{{ rank.rankLevel.name }}</td>
+                            <td>{{ rank.process }}%</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1032,31 +1142,34 @@ import SidebarComponent from '@/components/SidebarComponent.vue'
 import CardComponent from '@/components/CardComponent.vue'
 import bookmarksService from '@/services/bookmarks.service'
 import categoriesService from '@/services/categories.service'
+import eventLogsService from '@/services/eventLog.service'
 import followsService from '@/services/follows.service'
 import usersService from '@/services/users.service'
 import postsService from '@/services/posts.service'
+import { CalendarHeatmap } from 'vue3-calendar-heatmap'
+
 import checkLogin from '@/utilities/utilities'
 
 import { useCookies } from 'vue3-cookies'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { onMounted, ref } from 'vue'
+import rankService from '@/services/rank.service'
 
 var postVisibles = ref([] as number[])
-const date = new Date(2018, 6, 1)
 const route = useRoute()
 
+const date = new Date(2024, 12 , 31)
 const id = Number(route.params.id)
 
 const contributionData = [
-  { date: new Date(2017, 6, 1), count: 2 } // February 1st, 2 contributions
+  { date: new Date(2024, 1, 1), count: 2 } // February 1st, 2 contributions
   // ... add more objects for other days
 ]
 var steps = ref([] as number[])
 
 const options = {
-  weekLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  weekdayStart: 1, // Start week on Monday
+  // weekdayStart: 1, // Start week on Monday
   color: (count: any) => {
     if (count === 0) return 'white'
     if (count > 5) return 'red'
@@ -1374,6 +1487,29 @@ const categories = ref([
   }
 ])
 
+type rank = {
+  id: 0
+  createdAt: ''
+  updatedAt: ''
+  deletedAt: null
+  rankLevelId: 0
+  ownerId: 0
+  process: 0
+  isLock: false
+  rankLevel: {
+    id: 0
+    createdAt: ''
+    updatedAt: ''
+    deletedAt: null
+    name: ''
+    imageURL: ''
+  }
+  owner: {}
+}
+
+const ranks = ref([{} as rank])
+const currentRank = ref({} as rank)
+
 const showUpdateUserFail = ref(false)
 const showUpdateUserSuccess = ref(false)
 const showUpdatePasswordFail = ref(false)
@@ -1450,6 +1586,41 @@ const trackingBookmarkPost = ref([
       sharedByPosts: []
     }
   ]
+])
+
+const eventLogs = ref([
+  {
+    id: 0,
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: null,
+    action: '',
+    actorId: 0,
+    postId: 0,
+    note: null,
+    actor: {},
+    post: {
+      id: 0,
+      createdAt: '',
+      updatedAt: '',
+      deletedAt: null,
+      title: '',
+      content: '',
+      sharePostId: null,
+      originalPostURL: null,
+      publishDate: '',
+      imageURL: '',
+      status: '',
+      type: '',
+      readTime: 0,
+      totalLike: 0,
+      totalDislike: 0,
+      totalShare: 0,
+      categoryId: 0,
+      createdById: 0,
+      contentSourceId: null
+    }
+  }
 ])
 
 // filter posts
@@ -1617,6 +1788,12 @@ onMounted(async () => {
     updateUserForm.value.linkedinLink = user.value.linkedinLink
     updateUserForm.value.twitterLink = user.value.twitterLink
 
+    let rankTemp = await rankService.getAllByOwnerId(user.value.id)
+    ranks.value = rankTemp.data
+
+    let currentRankTemp = await rankService.getCurrentRankOfUser(user.value.id)
+    currentRank.value = currentRankTemp.data[0]
+
     // categories
     let csTemp = await categoriesService.getAll()
     categories.value = csTemp.data
@@ -1656,6 +1833,10 @@ onMounted(async () => {
       steps.value[i] = 3
     }
     trackingBookmarkPost.value = arrTemp
+
+    // event log
+    let els = await eventLogsService.getAllByActorId(user.value.id)
+    eventLogs.value = els.data
   } catch (err) {
     console.log(err)
   }
@@ -1670,10 +1851,6 @@ onMounted(async () => {
   background-color: var(--main-color);
   color: white;
 }
-#calendar {
-  margin: auto;
-  width: 800px;
-}
 
 .list-group-item {
   text-align: center;
@@ -1684,4 +1861,10 @@ onMounted(async () => {
 .nav-link {
   color: var(--main-color);
 }
+.avatar {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+} 
 </style>

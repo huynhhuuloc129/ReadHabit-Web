@@ -41,7 +41,7 @@
                     />
                   </div>
                   <div class="media-body">
-                    <a :href="'personal/' + post.createdById" style="text-decoration: none"
+                    <a :href="'http://localhost:5173/personal/' + post.createdById" style="text-decoration: none"
                       ><h6 class="my-0 text-dark d-block">{{ post.createdBy.fullName }}</h6></a
                     >
                     <!-- <small>Director of UI/UX</small> -->

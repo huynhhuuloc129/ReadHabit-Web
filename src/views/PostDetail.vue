@@ -15,7 +15,7 @@
         <div class="d-flex row">
           <div class="col d-flex justify-content-between">
             <div class="d-flex">
-              <div class="avatar bg-white d-flex">
+              <div class="avatarMain bg-white d-flex">
                 <img
                   class="center-block"
                   :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')"
@@ -798,7 +798,7 @@ async function getReaction() {
   let rs = await reactionsService.getAll(post.value.id)
 
   let arrLike: typeof rs.data = [],
-    arrDisLike: typeof rs.data = []
+      arrDisLike: typeof rs.data = []
 
   rs.data.forEach((reaction: any) => {
     if (reaction.type == 'like') {
@@ -813,6 +813,7 @@ async function getReaction() {
   reactionDisLikes.value.forEach((dislike) => {
     if (dislike.user.id == currentUser.value.id) isDislike.value = true
   })
+
 }
 
 async function confirmPost(){
@@ -829,12 +830,16 @@ async function confirmPost(){
 
 onMounted(async () => {
   try {
+
     //post
     post.value = await postsService.getOne(id)
 
     //commentslv1
     let respCmts = await commentsService.getAll(post.value.id)
     commentsPassingLv1.value = respCmts.data
+
+    getReaction()
+
 
     //commentslv2
     for (let i = 0; i < commentsPassingLv1.value.length; i++) {
@@ -899,7 +904,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
-.avatar {
+.avatarMain {
   border-radius: 50%;
   width: 100px;
   height: 100px;

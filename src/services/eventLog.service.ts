@@ -14,6 +14,14 @@ class EventLogService {
             handlingError(err);
         }
     }
+    async getAllByActorId(id: number) {
+        try {
+            const eventLogs = (await this.api.get(`/event-logs?sortOrder=desc&sortField=createdAt&limit=100&actorId=${id}`));
+            return eventLogs.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
 }
 
 export default new EventLogService();
