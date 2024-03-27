@@ -17,7 +17,7 @@
                 <div class="card widget-card border-light shadow-sm">
                   <div class="card-body">
                     <div class="text-center mb-3 w-100 d-flex">
-                      <div class="avatar d-flex">
+                      <div class="avatarMain d-flex">
                         <img
                           :src="'http://localhost:8080' + user.avatar.replace('files', '')"
                           alt="Generic placeholder image"
@@ -539,7 +539,7 @@
                       </div>
                     </div>
 
-                    <div>
+                    <div v-if="eventLogs[0].id != 0">
                       <h5>Hoạt động</h5>
                       <calendar-heatmap v-if="contributionData.length > 1" id="calendar-heatmap"
                       :values="contributionData"
@@ -1856,7 +1856,6 @@ onMounted(async () => {
         count: value
       })
     })
-    console.log(contributionData.value  )
   } catch (err) {
     console.log(err)
   }
@@ -1881,7 +1880,7 @@ onMounted(async () => {
 .nav-link {
   color: var(--main-color);
 }
-.avatar {
+.avatarMain {
   border-radius: 50%;
   width: 150px;
   height: 150px;

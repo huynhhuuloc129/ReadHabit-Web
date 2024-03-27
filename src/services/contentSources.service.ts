@@ -8,7 +8,7 @@ class ContentSourcesService {
     }
     async getAll() {
         try {
-            const contentSources = (await this.api.get("/content-sources?sortOrder=asc&limit=100"));
+            const contentSources = (await this.api.get("/content-sources?sortOrder=desc&limit=100"));
             return contentSources.data;
         } catch (err) {
             handlingError(err);
@@ -24,8 +24,11 @@ class ContentSourcesService {
         }
     }
 
-    async create(data: any, token: string) {
-        return await axios.post(`http://localhost:3000/api/content-sources`, data, {
+    async create(name: string, file: any, token: string) {
+        const form = new FormData();
+        form.set("name", name)
+        form.set('contentSourceImage',file)
+        return await axios.post(`http://localhost:3000/api/content-sources`, form, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -36,8 +39,11 @@ class ContentSourcesService {
         })
     }
 
-    async update(id: string, data: any, token: string) {
-        return await axios.patch(`http://localhost:3000/api/content-sources/${id}`, data, {
+    async update(id: number,  name: string, file: any, token: string) {
+        const form = new FormData();
+        form.set("name", name)
+        if (file != null) form.set('contentSourceImage',file)
+        return await axios.patch(`http://localhost:3000/api/content-sources/${id}`, form, {
             headers: {
                 Authorization: 'Bearer ' + token
             }

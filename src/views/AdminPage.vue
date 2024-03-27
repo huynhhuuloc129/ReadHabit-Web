@@ -65,70 +65,17 @@
             <i class="fa-solid fa-people-group fa-fw me-3"></i>
             <span>Nguồn</span>
           </a>
-          <!-- <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#"
-            aria-controls="asdf"
-          >
-            <i class="fas fa-chart-bar fa-fw me-3"></i>
-            <span>Orders</span>
-          </a>
           <a
             href="#"
             class="list-group-item list-group-item-action py-2 ripple"
             aria-current="false"
             data-bs-toggle="tab"
-            data-bs-target="#"
-            aria-controls="asdf"
+            data-bs-target="#eventLog"
+            aria-controls="eventLog"
           >
-            <i class="fas fa-globe fa-fw me-3"></i>
-            <span>International</span>
+            <i class="fa-solid fa-calendar-days fa-fw me-3"></i>
+            <span>Hoạt động</span>
           </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#"
-            aria-controls="asdf"
-          >
-            <i class="fas fa-building fa-fw me-3"></i>
-            <span>Partners</span>
-          </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#"
-            aria-controls="asdf"
-          >
-            <i class="fas fa-calendar fa-fw me-3"></i>
-            <span>Calendar</span>
-          </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#"
-            aria-controls="asdf"
-            ><i class="fas fa-users fa-fw me-3"> </i><span>Users</span>
-          </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#"
-            aria-controls="asdf"
-          >
-            <i class="fas fa-money-bill fa-fw me-3"></i>
-            <span>Sales</span>
-          </a> -->
         </div>
       </div>
     </nav>
@@ -291,7 +238,7 @@
               />
             </div>
             <div class="table-responsive">
-              <table class="table table-responsive table-borderless">
+              <table class="table table-responsive">
                 <thead>
                   <tr class="bg-light">
                     <th scope="col" width="1%">ID</th>
@@ -358,7 +305,7 @@
               />
             </div>
             <div class="table-responsive">
-              <table class="table table-responsive table-borderless">
+              <table class="table table-responsive">
                 <thead>
                   <tr class="bg-light">
                     <th scope="col" width="1%">ID</th>
@@ -429,7 +376,7 @@
               />
             </div>
             <div class="table-responsive">
-              <table class="table table-responsive table-borderless">
+              <table class="table table-responsive">
                 <thead>
                   <tr class="bg-light">
                     <th scope="col" width="1%">ID</th>
@@ -443,9 +390,9 @@
                 </thead>
                 <tbody>
                   <tr v-for="(user, index) in VisibleUser()" :key="user.id">
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.createdAt.slice(0, 10) }}</td>
-                    <td>{{ user.username }}</td>
+                    <td scope="row">{{ user.id }}</td>
+                    <td scope="row">{{ user.createdAt.slice(0, 10) }}</td>
+                    <td scope="row">{{ user.username }}</td>
                     <td class="align-items-center">
                       <img
                         style="border-radius: 50%; margin-right: 5px"
@@ -587,8 +534,8 @@
               />
             </div>
             <div class="table-responsive">
-              <button class="btn btn-light w-100">Thêm</button>
-              <table class="table table-responsive table-borderless">
+              <button class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#addContentSourceModal">Thêm</button>
+              <table class="table table-responsive">
                 <thead>
                   <tr class="bg-light">
                     <th scope="col" width="1%">ID</th>
@@ -602,21 +549,23 @@
                     <td>{{ cs.id }}</td>
                     <td>{{ cs.createdAt.slice(0, 10) }}</td>
                     <td class="align-items-center">
-                      <img
-                        style="border-radius: 50%; margin-right: 5px"
-                        :src="cs.avatar"
-                        width="25"
-                        height="25"
-                      />{{ cs.name }}
+                        <img 
+                        style="border-radius: 50%; margin-right: 10px;"
+                          :src="'http://localhost:8080'+cs.avatar.replace('files', '')"
+                          width="25px"
+                          height="25px"
+                        />{{ cs.name }}
                     </td>
-                    <td class="text-end d-flex">
+                    <td class="text-end d-flex">  
                       <button
                         class="btn btn-primary"
-                        data-bs-toggle=""
-                        data-bs-target="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#updateContentSourceModal"
+                        @click="choosenContentSourceId = cs.id; choosenContentSourceIndex = index; newContentSourceName = cs.name"
                       >
                         Cập nhật
-                      </button>
+                    </button>
+
                       <button
                         class="btn btn-danger"
                         data-bs-toggle="modal"
@@ -647,12 +596,43 @@
 
       <div
         class="tab-pane fade"
-        id="eventLogs"
+        id="eventLog"
         role="tabpanel"
-        aria-labelledby="eventLogs-tab"
+        aria-labelledby="eventLog-tab"
         style="width: 80vw"
       >
-        
+        <div v-if="eventLogs[0].id != 0">
+          <div>
+            <h5>Danh sách hoạt động của toàn hệ thống</h5>
+            <table class="table table-borderless">
+              <thead>
+                <tr class="bg-light">
+                  <th scope="col" >Ngày</th>
+                  <th scope="col" >Người thực hiện</th>
+                  <th scope="col">Hành động</th>
+                  <th scope="col">Tên bài viết</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="el in eventLogs" :key="el.id">
+                  <td>{{ el.createdAt.slice(0, 10) }}</td>
+                  <td>
+                    <img style="border-radius: 50%; margin-right: 10px;" :src="'http://localhost:8080' + el.actor.avatar.replace('files', '')" width="30px" height="30px" alt="">
+                    {{ el.actor.fullName }}
+                  </td>
+                  <td v-if="el.action == 'create'">Tạo</td>
+                  <td v-if="el.action == 'comment'">Bình luận</td>
+                  <td v-if="el.action == 'share'">Chia sẻ</td>
+                  <td>
+                    <a :href="'http://localhost:5173/post/' + el.post.id">{{
+                      el.post.title
+                    }}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
 
@@ -802,6 +782,43 @@
     </div>
   </div>
 
+  <!-- update content source modal -->
+  <div class="modal fade" id="updateContentSourceModal" tabindex="-1" aria-labelledby="udpateContentSourceModelLabal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Chỉnh sửa nguồn</h5>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control" v-model="newContentSourceName" required>
+          <input type="file" @change="previewFile($event)" class="form-control">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateContentSource">Cập nhật</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- add content source modal -->
+   <div class="modal fade" id="addContentSourceModal" tabindex="-1" aria-labelledby="addContentSourceModelLabal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Thêm nguồn</h5>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control" v-model="addContentSourceName" required>
+          <input type="file" @change="previewFileAdd($event)" class="form-control" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="addContentSource">Thêm</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -819,6 +836,7 @@ import { useCookies } from 'vue3-cookies'
 import { toast } from 'vue3-toastify'
 import tagsService from '@/services/tags.service'
 import contentSourcesService from '@/services/contentSources.service'
+import eventLogService from '@/services/eventLog.service'
 
 const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
@@ -1096,6 +1114,63 @@ const categories = ref([
   }
 ])
 
+const eventLogs = ref( [
+    {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      action: "",
+      actorId: 0,
+      postId: 0,
+      note: null,
+      actor: {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        email: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        fullName: "",
+        about: "",
+        youtubeLink: "",
+        facebookLink: "",
+        linkedinLink: "",
+        twitterLink: "",
+        totalFollower: 0,
+        totalFollowee: 0,
+        refreshToken: null,
+        phoneNumber: "",
+        birthday: "",
+        avatar: "",
+        role: ""
+      },
+      post: {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        title: "",
+        content: "",
+        sharePostId: null,
+        originalPostURL: null,
+        publishDate: "",
+        imageURL: "",
+        status: "",
+        type: "",
+        readTime: 0,
+        totalLike: 0,
+        totalDislike: 0,
+        totalShare: 0,
+        categoryId: 0,
+        createdById: 0,
+        contentSourceId: null
+      }
+    }
+  ])
+
 function randomColor() {
   let r = Math.ceil(Math.random() * 255)
   let g = Math.ceil(Math.random() * 255)
@@ -1222,8 +1297,53 @@ async function updateCategory(){
   }
 }
 
+function previewFile(e: any){
+    fileImage.value = e.target.files[0]
+}
+const fileImage = ref({})
+
+const newContentSourceName = ref('')
+
+async function updateContentSource(){
+  try {
+    let resp = await contentSourcesService.update(choosenContentSourceId.value, newContentSourceName.value, fileImage.value, tokenBearer)
+    toast.success('Đã cập nhật!', {
+      autoClose: 1000
+    }) 
+    contentSources.value[choosenContentSourceIndex.value].name = newContentSourceName.value
+    if (fileImage.value != null) {
+      contentSources.value[choosenContentSourceIndex.value].avatar = resp.avatar
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function previewFileAdd(e: any){
+  fileImageAdd.value = e.target.files[0]
+}
+const fileImageAdd = ref({})
+
+const addContentSourceName = ref('')
+
+async function addContentSource(){
+  try {
+    let resp = await contentSourcesService.create(addContentSourceName.value, fileImageAdd.value, tokenBearer)
+    toast.success('Đã thêm!', {
+      autoClose: 1000
+    }) 
+    contentSources.value.push(resp)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 onMounted(async () => {
   try {
+    // eventlog
+    let eTemp = await eventLogService.getAll()
+    eventLogs.value = eTemp.data
+
     let usersTemp = await usersService.getAll()
     users.value = usersTemp.data
 
@@ -1285,4 +1405,10 @@ onMounted(async () => {
 .green {
   color: green;
 }
+/* .avatarMain {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  overflow: hidden;
+}  */
 </style>

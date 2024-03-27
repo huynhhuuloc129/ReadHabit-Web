@@ -31,7 +31,7 @@
                             </div>
                             <p>{{cmt.message}}</p>
                             <div class="pad-ver">
-                                <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                                <a class="btn btn-sm btn-default btn-hover-primary" href="#">Bình luận</a>
                             </div>
                             <hr>
 
@@ -48,7 +48,7 @@
                                         </div>
                                         <p>{{ cmt2.message }}</p>
                                         <div class="pad-ver">
-                                            <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                                            <a class="btn btn-sm btn-default btn-hover-primary" href="#">Bình luận</a>
                                         </div>
                                         <hr>
                                         <div>
@@ -63,7 +63,7 @@
                                                 </div>
                                                 <p>{{ cmt3.message }}</p>
                                                 <div class="pad-ver">
-                                                    <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                                                    <a class="btn btn-sm btn-default btn-hover-primary" href="#">Bình luận</a>
                                                 </div>
                                                 <hr>
                                             </div>
