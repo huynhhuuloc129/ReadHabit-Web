@@ -541,10 +541,10 @@
 
                     <div>
                       <h5>Hoạt động</h5>
-                      <CalendarHeatmap 
-                      :values="[{ date: '2024-9-22', count: 6 }]"
+                      <calendar-heatmap v-if="contributionData.length > 1" id="calendar-heatmap"
+                      :values="contributionData"
                         :options="options"
-                        :end-date="2025-9-22"
+                        :end-date=endDate()
                       />
 
                       <div>
@@ -1159,13 +1159,17 @@ import rankService from '@/services/rank.service'
 var postVisibles = ref([] as number[])
 const route = useRoute()
 
-const date = new Date(2024, 12 , 31)
+function endDate(){
+  return Date.now();
+}
+
 const id = Number(route.params.id)
 
-const contributionData = [
-  { date: new Date(2024, 1, 1), count: 2 } // February 1st, 2 contributions
-  // ... add more objects for other days
-]
+const contributionData = ref([
+  { date: "2024-03-25", count: 0 } 
+])
+const trackingContribution = ref(new Map<string, number>)
+
 var steps = ref([] as number[])
 
 const options = {
@@ -1837,6 +1841,22 @@ onMounted(async () => {
     // event log
     let els = await eventLogsService.getAllByActorId(user.value.id)
     eventLogs.value = els.data
+    eventLogs.value.forEach(e => {
+      if (!trackingContribution.value.has(e.createdAt.slice(0, 10))) {
+        trackingContribution.value.set(e.createdAt.slice(0, 10), 1)
+      } else {
+        let value = trackingContribution.value.get(e.createdAt.slice(0, 10))
+        if (value != undefined)
+          trackingContribution.value.set(e.createdAt.slice(0, 10), value + 1)
+      }
+    });
+    trackingContribution.value.forEach((value: number, key: string) => {
+      contributionData.value.push({
+        date: key,
+        count: value
+      })
+    })
+    console.log(contributionData.value  )
   } catch (err) {
     console.log(err)
   }
@@ -1867,4 +1887,7 @@ onMounted(async () => {
   height: 150px;
   overflow: hidden;
 } 
+#calendar-heatmap{
+  font-size: 10px
+}
 </style>
