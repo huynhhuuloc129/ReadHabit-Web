@@ -9,7 +9,7 @@ class NotificationsService {
     }
     async getAll() {
         try {
-            const notifications = (await this.api.get("/notifications?sortOrder=asc"));
+            const notifications = (await this.api.get("/notifications?sortOrder=desc&sortField=createdAt"));
             return notifications.data;
         } catch (err) {
             handlingError(err);
@@ -23,6 +23,17 @@ class NotificationsService {
         } catch (err) {
             handlingError(err);
         }
+    }
+    async getMy(token: string) {
+        return await axios.get(`http://localhost:3000/api/notifications/me?sortOrder=desc&sortField=createdAt`, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then((res) => {
+        return res.data;
+        }).catch((err) => {
+            handlingError(err);
+        })
     }
 
     async create(data: any, token: string) {

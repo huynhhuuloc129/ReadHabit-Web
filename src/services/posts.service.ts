@@ -109,8 +109,10 @@ class PostService {
         })
     }
 
-    async share(id: number, data: any, token: string) {
-        return await axios.post(`http://localhost:3000/api/posts/${id}/share`, data, {
+    async share(id: number, name: string, token: string) {
+        return await axios.post(`http://localhost:3000/api/posts/${id}/share`, {
+            title: name
+        }, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -121,7 +123,7 @@ class PostService {
         })
     }
 
-    async bookmark(id: string, data: any, token: string) {
+    async bookmark(id: number, data: any, token: string) {
         return await axios.post(`http://localhost:3000/api/posts/${id}/bookmark`, data, {
             headers: {
                 Authorization: 'Bearer ' + token

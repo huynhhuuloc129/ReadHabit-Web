@@ -263,7 +263,7 @@
               <div
                 class="interaction-icon d-flex flex-column align-items-center justify-content-end"
               >
-                <button class="btn btn-light h-100">
+                <button class="btn btn-light h-100" data-bs-toggle="modal" data-bs-target="#sharePostModal">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -283,6 +283,25 @@
                   </svg>
                   <!-- Chia sẻ -->
                 </button>
+
+                <div class="modal fade" id="sharePostModal" tabindex="-1" aria-labelledby="sharePostModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="sharePostModalLabel">Chia sẻ bài viết</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <textarea v-model="newShareName" name="" id="" cols="10" rows="5" class="form-control"></textarea>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="sharePost()">Chia sẻ</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <a class="interaction-count text-secondary px-1" href="#" style="">
                   {{ post.totalShare }}
                 </a>
@@ -318,7 +337,7 @@
                 </div>
               </div>
               <div class="interaction-icon d-flex flex-column">
-                <button class="btn btn-light h-100">
+                <button class="btn btn-light h-100" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -333,6 +352,28 @@
                   </svg>
                   <!-- Lưu -->
                 </button>
+
+                <!-- bookmark modal -->
+                <div class="modal fade" id="bookmarkModal" tabindex="-1" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="bookmarkModalLabel">Các danh sách đã tạo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div v-for="bm in bookmarks" :key="bm.id" class="d-flex justify-content-between" style="margin: 5px">
+                            <h5>{{ bm.name }}</h5>
+                            <button :disabled="trackingBMPost[bm.id]" class="btn btn-danger" @click="addToBookmark(bm.id)">Thêm</button>
+                        </div>
+                        <div class="d-flex">
+                          <input v-model="newBookmarkName" type="text" class="form-control">
+                          <button class="btn btn-light w-100" @click="addBookmark()">Thêm danh sách mới</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="">
                 <a :href="post.originalPostURL">
@@ -402,7 +443,8 @@ import checkLogin from '@/utilities/utilities'
 import { useCookies } from 'vue3-cookies'
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
-
+import { toast } from 'vue3-toastify'
+import bookmarksService from '@/services/bookmarks.service'
 const route = useRoute()
 
 const reactionLikes = ref([
@@ -705,6 +747,35 @@ type commentType = {
     role: ''
   }
 }
+
+const bookmarks = ref([
+  {
+    id: 0,
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: null,
+    name: '',
+    ownerId: 0,
+    position: 0,
+    bookmarkPosts: [
+      {
+        id: 0,
+        createdAt: '',
+        updatedAt: '',
+        deletedAt: null,
+        bookmarkId: 0,
+        postId: 0,
+        position: 0,
+        title: '',
+        imageURL: '',
+        createdById: null,
+        isDeleted: false,
+        createdBy: null
+      }
+    ]
+  }
+])
+
 const commentsPassingLv1 = ref([] as commentType[])
 const commentsPassingLv2 = ref([] as number[])
 const commentsPassingLv3 = ref([] as number[])
@@ -813,7 +884,6 @@ async function getReaction() {
   reactionDisLikes.value.forEach((dislike) => {
     if (dislike.user.id == currentUser.value.id) isDislike.value = true
   })
-
 }
 
 async function confirmPost(){
@@ -824,6 +894,50 @@ async function confirmPost(){
     }, tokenBearer  )
     window.location.reload();
   } catch (error) {
+    console.log(error)
+  }
+}
+
+const newShareName = ref('')
+
+async function sharePost(){
+  try {
+    await postsService.share(post.value.id, newShareName.value, tokenBearer)
+    toast.success("Đã chia sẻ bài viết thành công", {
+        autoClose: 2000,
+    })
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+const newBookmarkName = ref('')
+const trackingBMPost = ref({} as Record<number , boolean>)
+
+async function addBookmark() {
+  try {
+    let resp = await bookmarksService.create({
+      name: newBookmarkName.value
+    }, tokenBearer)
+    toast.success("Đã thêm danh sách thành công", {
+        autoClose: 2000,
+    })
+    bookmarks.value.push(resp.id)
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+async function addToBookmark(id: number) {
+  try {
+    await postsService.bookmark(post.value.id , {
+      bookmarkId: id
+    }, tokenBearer)
+    toast.success("Đã thêm vào danh sách thành công", {
+        autoClose: 2000,
+    })
+    trackingBMPost.value[id] = true
+  } catch(error) {
     console.log(error)
   }
 }
@@ -840,6 +954,17 @@ onMounted(async () => {
 
     getReaction()
 
+    // bookmarks
+    let bmTemp = await bookmarksService.getMy(tokenBearer);
+    bookmarks.value = bmTemp.data
+    bookmarks.value.forEach((bm) => {
+      trackingBMPost.value[bm.id] = false
+      bm.bookmarkPosts.forEach(bmP => {
+        if (bmP.postId == post.value.id) {
+          trackingBMPost.value[bm.id] = true
+        }
+      });
+    });
 
     //commentslv2
     for (let i = 0; i < commentsPassingLv1.value.length; i++) {

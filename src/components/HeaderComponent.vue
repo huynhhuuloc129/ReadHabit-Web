@@ -37,7 +37,7 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="text-center">
+                    <li class="text-center nav-item dropdown nav-link bsb-dropdown-toggle-caret-disable" v-if="isLogin"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <a href="#" class="nav-link text-secondary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                                 class="bi bi-bell-fill header" viewBox="0 0 16 16">
@@ -45,9 +45,23 @@
                                     d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                             </svg>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-md-end bsb-dropdown-animation bsb-fadeIn" style="width: 400px; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
+                            <h5 style="margin-left: 10px">Thông báo</h5>
+                            <hr class="dropdown-divider">
+                            <li class="dropdown-li" v-for="(noti, index) in notifications" :key="noti.id">
+                                <h6 class="dropdown-header" >
+                                    <p v-if="noti.seen == false" class="text-secondary text-wrap">
+                                        {{ noti.notification.message }}
+                                    </p>
+                                    <div v-else class="text-primary text-wrap">
+                                        {{ noti.notification.message }}
+                                    </div>
+                                </h6>
+                                <hr v-if="index != notifications.length -1" class="dropdown-divider">
+                            </li>
+                        </ul>
                     </li>
                 </ul>
-
                 <div v-if="isLogin" class="nav-item dropdown">
                     <a class="nav-link bsb-dropdown-toggle-caret-disable"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" width="40" height="40" class="img-fluid rounded-circle" :alt="currentUser.fullName">
@@ -238,7 +252,7 @@ import authServices from '@/services/auth.services';
 import checkLogin from "@/utilities/utilities";
 import { useCookies } from "vue3-cookies";
 import { ref } from 'vue'
-
+import notificationsService from '@/services/notifications.service';
 
 const props = defineProps(['textColor'])
 const cookies = useCookies();
@@ -293,6 +307,7 @@ const currentToken = ref({
     refresh_token: '',
 })
 const isLogin = ref(false);
+const tokenBearer = cookies.cookies.get('Token')
 
 var onLogin = async (e: any) => {
     e.preventDefault();
@@ -310,8 +325,32 @@ var onSignOut = () => {
     document.cookie = 'Token' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
     window.location.reload();
 }
+const notifications = ref( [
+    {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      notificationId: 0,
+      userId: 0,
+      seen: false,
+      notification: {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        message: "",
+        ownerId: null
+      }
+    }
+])
 try {
     currentUser.value = await checkLogin();
+
+    let nTemp = await notificationsService.getMy(tokenBearer)
+    notifications.value = nTemp.data
+
+    console.log(notifications.value)
     if (currentUser.value !== null && currentUser.value['id'] !== null) {
         isLogin.value = true;
     }
@@ -385,6 +424,10 @@ try {
     color: rgb(184, 182, 182);
 }
 
-
-
+.dropdown-li:hover{
+    background-color: rgb(220, 220, 220);
+}
+.dropdown-divider{
+    margin: 0
+}
 </style>

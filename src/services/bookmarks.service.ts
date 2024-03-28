@@ -8,7 +8,7 @@ class BookmarksService {
     }
     async getAll() {
         try {
-            const bookmarks = (await this.api.get("/bookmarks?sortOrder=asc"));
+            const bookmarks = (await this.api.get("/bookmarks?sortOrder=asc&limit=100"));
             return bookmarks.data;
         } catch (err) {
             handlingError(err);
