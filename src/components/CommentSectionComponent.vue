@@ -7,10 +7,7 @@
                     <textarea class="form-control" rows="2" placeholder="Bạn nghĩ gì về bài viết này?"></textarea>
                     <div class="mar-top clearfix">
                         <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i>
-                            Chia sẻ</button>
-                        <a class="btn btn-trans btn-icon fa fa-video-camera add-tooltip" href="#"></a>
-                        <a class="btn btn-trans btn-icon fa fa-camera add-tooltip" href="#"></a>
-                        <a class="btn btn-trans btn-icon fa fa-file add-tooltip" href="#"></a>
+                            Bình luận</button>
                     </div>
                 </div>
             </div>
@@ -25,13 +22,16 @@
                         <div class="media-body">
                             <div class="mar-btm">
                                 <a :href="'http://localhost:5173/personal/' + cmt.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt.createdBy.fullName }}</a>
-                                <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - 11 min ago 
-                                    <!-- TODO -->
-                                </p>
+                                <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - 11 min ago 
+                                </p> -->
                             </div>
                             <p>{{cmt.message}}</p>
                             <div class="pad-ver">
-                                <a class="btn btn-sm btn-default btn-hover-primary" href="#">Bình luận</a>
+                                <a class="btn btn-sm btn-default btn-hover-primary" @click="trackingComment = cmt.id">Phản hồi</a>
+                                <div v-if="trackingComment == cmt.id" class="d-flex align-items-center">
+                                    <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="" width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
+                                    <input type="text" class="form-control" style="height: 35px; margin-right: 10px;">
+                                </div>
                             </div>
                             <hr>
 
@@ -44,11 +44,15 @@
                                     <div class="media-body">
                                         <div class="mar-btm">
                                             <a :href="'http://localhost:5173/personal/' + cmt2.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt2.createdBy.fullName }}</a>
-                                            <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p>
+                                            <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p> -->
                                         </div>
                                         <p>{{ cmt2.message }}</p>
                                         <div class="pad-ver">
-                                            <a class="btn btn-sm btn-default btn-hover-primary" href="#">Bình luận</a>
+                                            <a class="btn btn-sm btn-default btn-hover-primary" @click="trackingComment = cmt2.id">Phản hồi</a>
+                                            <div v-if="trackingComment == cmt2.id"  class="d-flex align-items-center">
+                                                <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="" width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
+                                                <input type="text" class="form-control" style="height: 35px; margin-right: 10px;">
+                                            </div>
                                         </div>
                                         <hr>
                                         <div>
@@ -59,11 +63,15 @@
                                             <div class="media-body">
                                                 <div class="mar-btm">
                                                     <a :href="'http://localhost:5173/personal/' + cmt3.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt3.createdBy.fullName }}</a>
-                                                    <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p>
+                                                    <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p> -->
                                                 </div>
                                                 <p>{{ cmt3.message }}</p>
                                                 <div class="pad-ver">
-                                                    <a class="btn btn-sm btn-default btn-hover-primary" href="#">Bình luận</a>
+                                                    <a class="btn btn-sm btn-default btn-hover-primary" @click="trackingComment = cmt3.id;">Phản hồi</a>
+                                                </div>
+                                                <div v-if="trackingComment ==cmt3.id" class="d-flex align-items-center">
+                                                    <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="" width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
+                                                    <input type="text" class="form-control" style="height: 35px; margin-right: 10px;">
                                                 </div>
                                                 <hr>
                                             </div>
@@ -83,8 +91,57 @@
     </div>
 </template>
 <script setup lang="ts">
+import checkLogin from '@/utilities/utilities';
+import { ref } from 'vue';
+import { useCookies } from 'vue3-cookies';
 
 const props = defineProps(['postId', 'commentsLv1', 'commentsLv2', 'commentsLv3'])
+
+const currentUser = ref({
+  id: 0,
+  createdAt: "",
+  updatedAt: "",
+  deletedAt: null,
+  email: "",
+  username: "",
+  firstName: "",
+  lastName: " ",
+  fullName: "",
+  about: "",
+  youtubeLink: "",
+  facebookLink: "",
+  linkedinLink: "",
+  twitterLink: "",
+  totalFollower: 4,
+  totalFollowee: 5,
+  refreshToken: null,
+  phoneNumber: "",
+  birthday: "",
+  avatar: "",
+  role: "",
+  categories: [
+    {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      name: "",
+      imageURL: null
+    }
+  ]
+});
+const cookies = useCookies();
+
+const tokenBearer = cookies.cookies.get('Token')
+const trackingComment = ref(0)
+
+try {
+    currentUser.value = await checkLogin();
+    console.log(currentUser.value)
+} catch (err) {
+    console.log(err)
+}
+
 </script>
 <style>
 

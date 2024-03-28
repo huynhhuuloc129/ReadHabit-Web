@@ -57,7 +57,7 @@
                                         {{ noti.notification.message }}
                                     </div>
                                 </h6>
-                                <hr v-if="index != notifications.length -1" class="dropdown-divider">
+                                <hr v-if="index != notifications.length" class="dropdown-divider">
                             </li>
                         </ul>
                     </li>
