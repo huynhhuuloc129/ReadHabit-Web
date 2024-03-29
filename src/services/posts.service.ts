@@ -9,7 +9,7 @@ class PostService {
     }
     async getAll(limit: number, offset: number, status: string) {
         try {
-            const posts = (await this.api.get(`/posts?sortOrder=asc&limit=${limit}&offset=${offset}&status=${status}`));
+            const posts = (await this.api.get(`/posts?sortOrder=desc&sortField=createdAt&limit=${limit}&offset=${offset}&status=${status}`));
             return posts.data;
         } catch (err) {
             handlingError(err);
@@ -55,11 +55,18 @@ class PostService {
     async create(categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostUrl: string, status: string, type: string, postImage: any, token: string) {
         const form = new FormData();
         form.set("categoryId", JSON.stringify(categoryId))
-        if(tags.length> 0) form.set("tags", JSON.stringify(tags))
+        if(tags.length> 0) {
+            let newTags = ''
+            for (let i =0; i< tags.length; i++) {
+                if (i >0) newTags+=", "
+                newTags+=tags[i]
+            }
+            form.set("tags", newTags)
+        }
         if(contentSourceId != 0) form.set("contentSourceId", JSON.stringify(contentSourceId))
         form.set("title", title)
         form.set("content", content)
-        if(originalPostUrl != '') form.set("originalPostUrl", originalPostUrl)
+        if(originalPostUrl != '') form.set("originalPostURL", originalPostUrl)
         form.set("status", status)
         form.set("type", type)
         form.set("postImage", postImage)

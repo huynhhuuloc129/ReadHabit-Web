@@ -331,7 +331,6 @@ try {
     let nTemp = await notificationsService.getMy(tokenBearer)
     notifications.value = nTemp.data
 
-    console.log(notifications.value)
     if (currentUser.value !== null && currentUser.value['id'] !== null) {
         isLogin.value = true;
     }

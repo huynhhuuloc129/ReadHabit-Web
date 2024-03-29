@@ -23,7 +23,7 @@
                 <a :href="'http://localhost:5173/personal/' + post.createdBy.id">
                   <p class="fw-bold">{{ post.createdBy.fullName }}</p>
                 </a>
-                <div v-if="isLogin == true">
+                <div v-if="isLogin == true && currentUser.id != post.createdBy.id">
                   <button v-if="followArr.has(post.createdBy.id)" class="btn btn-primary"
                     @click="unFollow(post.createdBy.id)">
                     Đã theo dõi
@@ -251,8 +251,7 @@
           </div>
         </div>
         <div class="quote p-3" style="word-wrap: break-word">
-          <div class="fw-bold" style="color: #039be5">TLDR:</div>
-          {{ post.content }}
+          <div v-html="post.content" class="fw-bold" style="color: #039be5"></div>
         </div>
         <br />
         <div id="post-content">

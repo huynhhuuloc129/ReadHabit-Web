@@ -17,7 +17,7 @@
         <span  class="spinner-border spinner-border-sm mr-1" style="width: 20px; height: 20px; "></span>
         Đang tải...
     </div>
-    <form v-if="postGenerated.isSuccess == true">
+    <form v-if="postGenerated.isSuccess == true" @submit="createPost($event)">
         <label for="selectCategory">Thể loại của bài viết</label>
         <select v-model="uploadPostForm.categoryId" id="selectCategory" class="form-select" aria-label="Default select example" required>
                 <option v-for="cate in categories" :key="cate.id" :value="cate.id">
@@ -28,9 +28,9 @@
         <div style="margin-top: 30px;"> 
             <div>Nhãn bài viết</div>
             <div class="btn-group" style="flex-wrap: wrap;" role="group" aria-label="Basic checkbox toggle button group">
-                <div v-for="(value) in tagsGenerated" :key="value">
-                    <input type="checkbox" class="btn-check" :id="'btncheck' + value" autocomplete="off">
-                    <label class="btn btn-outline-secondary" :for="'btncheck' + value">{{ value }}</label>
+                <div v-for="(tag) in filterTagsByCategoryId()" :key="tag">
+                    <input v-model="trackingTagChoosen" :value="tag" type="checkbox" class="btn-check" :id="'btncheck' + tag" autocomplete="off">
+                    <label class="btn btn-outline-secondary" :for="'btncheck' + tag">{{ tag }}</label>
                 </div>
             </div>
         </div>
@@ -64,13 +64,28 @@ import postsService from "@/services/posts.service";
 import { QuillEditor } from '@vueup/vue-quill';
 
 import { useCookies } from "vue3-cookies";
-import { onMounted, ref, toValue } from "vue";
-import { title } from "process";
+import { onMounted, ref } from "vue";
 import tagsService from "@/services/tags.service";
+import { toast } from "vue3-toastify";
 
 
 const cookies = useCookies();
 const tokenBearer = cookies.cookies.get('Token')
+
+const contentSources = ref([
+  {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    name: "",
+    avatar: "",
+    posts: [
+      {
+      }
+    ]
+  }
+])
 
 const tags = ref([
     {
@@ -113,21 +128,6 @@ const tags = ref([
         imageURL: null
       }
     }
-])
-
-const contentSources = ref([
-  {
-    id: 0,
-    createdAt: "",
-    updatedAt: "",
-    deletedAt: null,
-    name: "",
-    avatar: "",
-    posts: [
-      {
-      }
-    ]
-  }
 ])
 
 const categories = ref([
@@ -173,13 +173,13 @@ function splitString(str: string, splitStr: string) {
 const fileImage = ref({})
 function previewFile(e: any){
     fileImage.value = e.target.files[0]
-    console.log(fileImage.value)
 }
 
-async function filterTagsByCategoryId(){
-    let tags = await tagsService.getAllByCategoryId(uploadPostForm.value.categoryId)
-    // const tagsTemp = tags.value.filter((tag) => tag.category.id == editPostForm.value.categoryId)
-    return tags.data;
+const trackingTagChoosen = ref([] as string[])
+const trackingTagCategory = ref({} as Record<string, number >)
+
+function filterTagsByCategoryId(){
+    return tagsGenerated.value.filter((tag) => (trackingTagCategory.value[tag] == uploadPostForm.value.categoryId) || (trackingTagCategory.value[tag] == 0))
 }
 
 async function generatePost(e: any) {
@@ -190,7 +190,11 @@ async function generatePost(e: any) {
             url: url.value
         }, tokenBearer)
         isSubmitting.value = false
-        tagsGenerated.value = splitString(postGenerated.value.tags, ", ")
+        let tempTags = splitString(postGenerated.value.tags, ",").map( item => item.trim())
+        tempTags.forEach(tag => {
+            trackingTagCategory.value[tag] =  0
+            tagsGenerated.value.push(tag)
+        });
         uploadPostForm.value.originalPostUrl = postGenerated.value.originalPostURL
         uploadPostForm.value.contentSourceId = postGenerated.value.contentSourceId
         uploadPostForm.value.title = postGenerated.value.title
@@ -201,8 +205,36 @@ async function generatePost(e: any) {
     }
 }
 
+async function createPost(e: any){
+    try {
+        e.preventDefault()
+        let tagsToCreate = [] as string[]
+        trackingTagChoosen.value.forEach(tagChoosen => {
+            if ((trackingTagCategory.value[tagChoosen] == uploadPostForm.value.categoryId) || (trackingTagCategory.value[tagChoosen] == 0)) {
+                tagsToCreate.push(tagChoosen)
+            }
+        });
+
+        await postsService.create(uploadPostForm.value.categoryId, tagsToCreate, uploadPostForm.value.contentSourceId, uploadPostForm.value.title, uploadPostForm.value.content, uploadPostForm.value.originalPostUrl, "reviewing", "external_post", fileImage.value, tokenBearer)
+
+        toast.success('Đã thêm vào thành công!', {
+            autoClose: 1000
+        })
+        window.location.reload();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 onMounted(async () => {
     try {
+        let ts = await tagsService.getAll();
+        tags.value = ts.data
+
+        tags.value.forEach(tag => {
+            trackingTagCategory.value[tag.name] =  tag.categoryId
+            tagsGenerated.value.push(tag.name)
+        });
         let cTemp = await contentSourcesService.getAll();
         contentSources.value = cTemp.data;
 
