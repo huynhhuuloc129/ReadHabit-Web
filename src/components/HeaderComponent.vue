@@ -237,7 +237,7 @@ import notificationsService from '@/services/notifications.service';
 
 const props = defineProps(['textColor'])
 const cookies = useCookies();
-
+const tokenBearer = cookies.cookies.get('Token')
 const loginData = ref({
     email: '',
     password: ''
@@ -288,7 +288,7 @@ const currentToken = ref({
     refresh_token: '',
 })
 const isLogin = ref(false);
-const tokenBearer = cookies.cookies.get('Token')
+
 
 var onLogin = async (e: any) => {
     e.preventDefault();

@@ -176,6 +176,18 @@ class PostService {
             handlingError(err);
         })
     }
+
+    async generatePost(data: any, token: string){
+        return await axios.post(`http://localhost:3000/api/scraping/quick-generate`, data, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then((res) => {
+            return res.data;
+        }).catch((err) => {
+            handlingError(err);
+        })
+    }
 }
 
 export default new PostService();

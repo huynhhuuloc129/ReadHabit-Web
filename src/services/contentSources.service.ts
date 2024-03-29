@@ -8,7 +8,7 @@ class ContentSourcesService {
     }
     async getAll() {
         try {
-            const contentSources = (await this.api.get("/content-sources?sortOrder=desc&limit=100"));
+            const contentSources = (await this.api.get("/content-sources?sortOrder=asc&sortField=id&limit=100"));
             return contentSources.data;
         } catch (err) {
             handlingError(err);

@@ -10,80 +10,39 @@
     <nav id="sidebarMenu" style="z-index: 0" class="bg-white sticky-top">
       <div class="position-sticky">
         <div class="list-group list-group-flush mx-3 mt-4">
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple active"
-            aria-current="true"
-            data-bs-toggle="tab"
-            data-bs-target="#dashboard"
-          >
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple active" aria-current="true"
+            data-bs-toggle="tab" data-bs-target="#dashboard">
             <i class="fas fa-chart-line fa-fw me-3"></i>
             <span>Bảng thống kê</span>
           </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#post"
-            aria-controls="post"
-          >
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+            data-bs-toggle="tab" data-bs-target="#post" aria-controls="post">
             <i class="fa-solid fa-newspaper fa-fw me-3"></i>
             <span>Bài viết</span>
           </a>
 
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#users"
-            aria-controls="users"
-          >
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+            data-bs-toggle="tab" data-bs-target="#users" aria-controls="users">
             <i class="fa-solid fa-users fa-fw me-3"></i>
             <span>Người dùng</span>
           </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#categories"
-            aria-controls="categories"
-          >
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+            data-bs-toggle="tab" data-bs-target="#categories" aria-controls="categories">
             <i class="fa-solid fa-list fa-fw me-3"></i>
             <span>Thể loại và nhãn</span>
           </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#contentSource"
-            aria-controls="contentSource"
-          >
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+            data-bs-toggle="tab" data-bs-target="#contentSource" aria-controls="contentSource">
             <i class="fa-solid fa-people-group fa-fw me-3"></i>
             <span>Nguồn</span>
           </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#eventLog"
-            aria-controls="eventLog"
-          >
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+            data-bs-toggle="tab" data-bs-target="#eventLog" aria-controls="eventLog">
             <i class="fa-solid fa-calendar-days fa-fw me-3"></i>
             <span>Hoạt động</span>
           </a>
-          <a
-            href="#"
-            class="list-group-item list-group-item-action py-2 ripple"
-            aria-current="false"
-            data-bs-toggle="tab"
-            data-bs-target="#generatePost"
-            aria-controls="generatePost"
-          >
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+            data-bs-toggle="tab" data-bs-target="#generatePost" aria-controls="generatePost">
             <i class="fa-solid fa-gears fa-fw me-3"></i>
             <span>Tạo bài viết</span>
           </a>
@@ -92,25 +51,16 @@
     </nav>
 
     <div class="tab-content" id="v-pills-tabContent">
-      <div
-        class="tab-pane fade show active mt-4"
-        id="dashboard"
-        role="tabpanel"
-        aria-labelledby="dashboard-tab"
-        style="width: 80vw"
-      >
+      <div class="tab-pane fade show active mt-4" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab"
+        style="width: 80vw">
         <div class="container d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Bảng thống kê</h1>
-          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-            ><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a
-          >
+          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+              class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
         </div>
         <div class="container d-flex justify-content-between">
           <div class="mb-4">
-            <div
-              class="card border-left-primary shadow h-100 py-2"
-              style="border-left: 5px solid #8cccfa"
-            >
+            <div class="card border-left-primary shadow h-100 py-2" style="border-left: 5px solid #8cccfa">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -128,10 +78,7 @@
           </div>
 
           <div class="mb-4">
-            <div
-              class="card border-left-success shadow h-100 py-2"
-              style="border-left: 5px solid #cb444a"
-            >
+            <div class="card border-left-success shadow h-100 py-2" style="border-left: 5px solid #cb444a">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -149,10 +96,7 @@
           </div>
 
           <div class="mb-4">
-            <div
-              class="card border-left-info shadow h-100 py-2"
-              style="border-left: 5px solid #6cc7ec"
-            >
+            <div class="card border-left-info shadow h-100 py-2" style="border-left: 5px solid #6cc7ec">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -176,10 +120,7 @@
           </div>
 
           <div class="mb-4">
-            <div
-              class="card border-left-warning shadow h-100 py-2"
-              style="border-left: 5px solid #f6c352"
-            >
+            <div class="card border-left-warning shadow h-100 py-2" style="border-left: 5px solid #f6c352">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -202,9 +143,7 @@
         <div class="container d-flex justify-content-between">
           <div class="flex-grow-1" style="margin-right: 30px">
             <div class="card shadow mb-4">
-              <div
-                class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-              >
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Thống kê người dùng</h6>
               </div>
               <div class="card-body">
@@ -215,9 +154,7 @@
 
           <div class="">
             <div class="card shadow mb-4">
-              <div
-                class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-              >
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-danger">Thống kê bài viết</h6>
               </div>
               <div class="card-body">
@@ -227,13 +164,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="tab-pane fade"
-        id="post"
-        role="tabpanel"
-        aria-labelledby="post-tab"
-        style="width: 80vw"
-      >
+      <div class="tab-pane fade" id="post" role="tabpanel" aria-labelledby="post-tab" style="width: 80vw">
         <div>
           <div class="container mt-4 px-2">
             <h5 class="mb-2 d-flex justify-content-between align-items-center">
@@ -242,11 +173,8 @@
             <hr />
             <div class="position-relative">
               <span class="position-absolute search"><i class="fa fa-search"></i></span>
-              <input
-                v-model="search"
-                class="form-control form-control-special w-100"
-                placeholder="Tìm kiếm bằng tên bài viết"
-              />
+              <input v-model="search" class="form-control form-control-special w-100"
+                placeholder="Tìm kiếm bằng tên bài viết" />
             </div>
             <div class="table-responsive">
               <table class="table table-responsive">
@@ -269,31 +197,22 @@
                     <td>{{ post.type }}</td>
                     <td>{{ post.title }}</td>
                     <td>
-                      <img
-                        style="border-radius: 50%; margin-right: 5px"
-                        :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')"
-                        width="25"
-                        height="25"
-                      />{{ post.createdBy.fullName }}
+                      <img style="border-radius: 50%; margin-right: 5px"
+                        :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')" width="25"
+                        height="25" />{{ post.createdBy.fullName }}
                     </td>
                     <td class="text-center">{{ post.totalLike }}</td>
                     <td class="text-center">{{ post.totalShare }}</td>
 
                     <td class="text-end">
-                      <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-primary"
-                        >Chi tiết</a
-                      >
+                      <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-primary">Chi tiết</a>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <div class="text-center">
-                <button
-                  @click="postVisibles += steps"
-                  v-if="postVisibles < posts.length && search == ''"
-                  class="btn moreUser"
-                  style="border-radius: 50px; border: 2px solid black; margin-left: 10px"
-                >
+                <button @click="postVisibles += steps" v-if="postVisibles < posts.length && search == ''"
+                  class="btn moreUser" style="border-radius: 50px; border: 2px solid black; margin-left: 10px">
                   Xem thêm >>
                 </button>
               </div>
@@ -309,11 +228,8 @@
             <hr />
             <div class="position-relative">
               <span class="position-absolute search"><i class="fa fa-search"></i></span>
-              <input
-                v-model="searchReview"
-                class="form-control form-control-special w-100"
-                placeholder="Tìm kiếm bằng tên bài viết"
-              />
+              <input v-model="searchReview" class="form-control form-control-special w-100"
+                placeholder="Tìm kiếm bằng tên bài viết" />
             </div>
             <div class="table-responsive">
               <table class="table table-responsive">
@@ -334,30 +250,22 @@
                     <td>{{ post.type }}</td>
                     <td>{{ post.title }}</td>
                     <td class="align-items-center">
-                      <img
-                        style="border-radius: 50%; margin-right: 5px"
-                        :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')"
-                        width="25"
-                        height="25"
-                      />{{ post.createdBy.fullName }}
+                      <img style="border-radius: 50%; margin-right: 5px"
+                        :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')" width="25"
+                        height="25" />{{ post.createdBy.fullName }}
                     </td>
 
                     <td class="text-end d-flex">
                       <button class="btn btn-success">Duyệt</button>
-                      <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-primary"
-                        >Chi tiết</a
-                      >
+                      <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-primary">Chi tiết</a>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <div class="text-center">
-                <button
-                  @click="postVisiblesReviewing += stepsReviewing"
-                  v-if="postVisiblesReviewing < postsReviewing.length && searchReview == ''"
-                  class="btn moreUser"
-                  style="border-radius: 50px; border: 2px solid black"
-                >
+                <button @click="postVisiblesReviewing += stepsReviewing"
+                  v-if="postVisiblesReviewing < postsReviewing.length && searchReview == ''" class="btn moreUser"
+                  style="border-radius: 50px; border: 2px solid black">
                   Xem thêm >>
                 </button>
               </div>
@@ -365,13 +273,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="tab-pane fade"
-        id="users"
-        role="tabpanel"
-        aria-labelledby="users-tab"
-        style="width: 80vw"
-      >
+      <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab" style="width: 80vw">
         <div>
           <div class="container mt-5 px-2">
             <h5 class="mb-2 d-flex justify-content-between align-items-center">
@@ -380,11 +282,8 @@
             <hr />
             <div class="position-relative">
               <span class="position-absolute search"><i class="fa fa-search"></i></span>
-              <input
-                v-model="searchUser"
-                class="form-control form-control-special w-100"
-                placeholder="Tìm kiếm bằng tên người dùng"
-              />
+              <input v-model="searchUser" class="form-control form-control-special w-100"
+                placeholder="Tìm kiếm bằng tên người dùng" />
             </div>
             <div class="table-responsive">
               <table class="table table-responsive">
@@ -405,22 +304,15 @@
                     <td scope="row">{{ user.createdAt.slice(0, 10) }}</td>
                     <td scope="row">{{ user.username }}</td>
                     <td class="align-items-center">
-                      <img
-                        style="border-radius: 50%; margin-right: 5px"
-                        :src="'http://localhost:8080' + user.avatar.replace('files', '')"
-                        width="25"
-                        height="25"
-                      />{{ user.fullName }}
+                      <img style="border-radius: 50%; margin-right: 5px"
+                        :src="'http://localhost:8080' + user.avatar.replace('files', '')" width="25" height="25" />{{
+                      user.fullName }}
                     </td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
                     <td class="text-end d-flex">
-                      <button
-                        class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalUpdateUser"
-                        @click="(chooseUserIndex = index), (chooseRole = user.role)"
-                      >
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUpdateUser"
+                        @click="(chooseUserIndex = index), (chooseRole = user.role)">
                         Cập nhật
                       </button>
                     </td>
@@ -429,12 +321,8 @@
               </table>
 
               <div class="text-center">
-                <button
-                  @click="userVisibles += stepsUser"
-                  v-if="userVisibles < users.length && searchUser == ''"
-                  class="btn moreUser"
-                  style="border-radius: 50px; border: 2px solid black"
-                >
+                <button @click="userVisibles += stepsUser" v-if="userVisibles < users.length && searchUser == ''"
+                  class="btn moreUser" style="border-radius: 50px; border: 2px solid black">
                   Xem thêm >>
                 </button>
               </div>
@@ -443,73 +331,38 @@
         </div>
       </div>
 
-      <div
-        class="tab-pane fade"
-        id="categories"
-        role="tabpanel"
-        aria-labelledby="categories-tab"
-        style="width: 80vw"
-      >
+      <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab" style="width: 80vw">
         <h5 class="mb-2 d-flex justify-content-between align-items-center">
           Thông tin tất cả thể loại và nhãn của hệ thống
         </h5>
 
         <div class="d-flex align-items-start w-100 justify-content-between">
-          <div
-            class="nav flex-column nav-pills me-3 w-25"
-            id="v-pills-tab"
-            role="tablist"
-            aria-orientation="vertical"
-          >
-            <button
-              class="btn btn-outline-primary d-flex justify-content-between"
-              v-for="(category, index) in categories"
-              :key="category.id"
-              style="margin-bottom: 5px"
-              :id="'v-pills-' + category.id + '-tab'"
-              data-bs-toggle="pill"
-              :data-bs-target="'#v-pills-' + category.id"
-              type="button"
-              role="tab"
-              :aria-controls="'v-pills-' + category.id"
-              aria-selected="false"
-              @click="getAllTagsForCategory(category.id, index);"
-            >
+          <div class="nav flex-column nav-pills me-3 w-25" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <button class="btn btn-outline-primary d-flex justify-content-between"
+              v-for="(category, index) in categories" :key="category.id" style="margin-bottom: 5px"
+              :id="'v-pills-' + category.id + '-tab'" data-bs-toggle="pill" :data-bs-target="'#v-pills-' + category.id"
+              type="button" role="tab" :aria-controls="'v-pills-' + category.id" aria-selected="false"
+              @click="getAllTagsForCategory(category.id, index);">
               {{ category.name }}
-            <div>
-              <button class="btn btn-light" data-bs-toggle="modal"
-                data-bs-target="#updateCategoryModal">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button
-                class="btn btn-danger"
-                data-bs-toggle="modal"
-                data-bs-target="#confirmDeleteCategoryModal"
-              >
-                <i class="fa-solid fa-trash"></i>
-              </button>
-              
-            </div>
-          </button>
-          <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addCategory">
-            <i class="fa-solid fa-plus"></i>
-          </button>
+              <div>
+                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteCategoryModal">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+
+              </div>
+            </button>
+            <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addCategory">
+              <i class="fa-solid fa-plus"></i>
+            </button>
           </div>
           <div class="tab-content" id="v-pills-tabContent">
-            <div
-              class="tab-pane fade"
-              v-for="category in categories"
-              :key="category.id"
-              :id="'v-pills-' + category.id"
-              role="tabpanel"
-              :aria-labelledby="'v-pills-' + category.id + '-tab'"
-            >
-              <span
-                v-for="(tag, index) in tags"
-                :key="tag.id"
-                class="btn btn-secondary"
-                style="margin: 5px 5px 0 0; color: white; cursor: default"
-              >
+            <div class="tab-pane fade" v-for="category in categories" :key="category.id" :id="'v-pills-' + category.id"
+              role="tabpanel" :aria-labelledby="'v-pills-' + category.id + '-tab'">
+              <span v-for="(tag, index) in tags" :key="tag.id" class="btn btn-secondary"
+                style="margin: 5px 5px 0 0; color: white; cursor: default">
                 {{ tag.name }}
                 <button class="btn btn-secondary" @click="deleteTag(tag.id, index)">
                   <i class="fa-solid fa-xmark"></i>
@@ -523,13 +376,8 @@
         </div>
       </div>
 
-      <div
-        class="tab-pane fade"
-        id="contentSource"
-        role="tabpanel"
-        aria-labelledby="contentSource-tab"
-        style="width: 80vw"
-      >
+      <div class="tab-pane fade" id="contentSource" role="tabpanel" aria-labelledby="contentSource-tab"
+        style="width: 80vw">
         <div>
           <div class="container mt-5 px-2">
             <h5 class="mb-2 d-flex justify-content-between align-items-center">
@@ -538,14 +386,12 @@
             <hr />
             <div class="position-relative">
               <span class="position-absolute search"><i class="fa fa-search"></i></span>
-              <input
-                v-model="searchContentSource"
-                class="form-control form-control-special w-100"
-                placeholder="Tìm kiếm bằng tên nguồn"
-              />
+              <input v-model="searchContentSource" class="form-control form-control-special w-100"
+                placeholder="Tìm kiếm bằng tên nguồn" />
             </div>
             <div class="table-responsive">
-              <button class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#addContentSourceModal">Thêm</button>
+              <button class="btn btn-light w-100" data-bs-toggle="modal"
+                data-bs-target="#addContentSourceModal">Thêm</button>
               <table class="table table-responsive">
                 <thead>
                   <tr class="bg-light">
@@ -560,29 +406,19 @@
                     <td>{{ cs.id }}</td>
                     <td>{{ cs.createdAt.slice(0, 10) }}</td>
                     <td class="align-items-center">
-                        <img 
-                        style="border-radius: 50%; margin-right: 10px;"
-                          :src="'http://localhost:8080'+cs.avatar.replace('files', '')"
-                          width="25px"
-                          height="25px"
-                        />{{ cs.name }}
+                      <img style="border-radius: 50%; margin-right: 10px;"
+                        :src="'http://localhost:8080' + cs.avatar.replace('files', '')" width="25px" height="25px" />{{
+                      cs.name }}
                     </td>
-                    <td class="text-end d-flex">  
-                      <button
-                        class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#updateContentSourceModal"
-                        @click="choosenContentSourceId = cs.id; choosenContentSourceIndex = index; newContentSourceName = cs.name"
-                      >
+                    <td class="text-end d-flex">
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateContentSourceModal"
+                        @click="choosenContentSourceId = cs.id; choosenContentSourceIndex = index; newContentSourceName = cs.name">
                         Cập nhật
-                    </button>
+                      </button>
 
-                      <button
-                        class="btn btn-danger"
-                        data-bs-toggle="modal"
+                      <button class="btn btn-danger" data-bs-toggle="modal"
                         data-bs-target="#confirmDeleteContentSourceModal"
-                        @click="choosenContentSourceId = cs.id; choosenContentSourceIndex = index"
-                      >
+                        @click="choosenContentSourceId = cs.id; choosenContentSourceIndex = index">
                         <i class="fa-solid fa-trash"></i>
                       </button>
                     </td>
@@ -591,12 +427,9 @@
               </table>
 
               <div class="text-center">
-                <button
-                  @click="contentSourceVisibles += stepsContentSource"
-                  v-if="contentSourceVisibles < contentSources.length && searchContentSource == ''"
-                  class="btn moreUser"
-                  style="border-radius: 50px; border: 2px solid black"
-                >
+                <button @click="contentSourceVisibles += stepsContentSource"
+                  v-if="contentSourceVisibles < contentSources.length && searchContentSource == ''" class="btn moreUser"
+                  style="border-radius: 50px; border: 2px solid black">
                   Xem thêm >>
                 </button>
               </div>
@@ -605,21 +438,15 @@
         </div>
       </div>
 
-      <div
-        class="tab-pane fade"
-        id="eventLog"
-        role="tabpanel"
-        aria-labelledby="eventLog-tab"
-        style="width: 80vw"
-      >
+      <div class="tab-pane fade" id="eventLog" role="tabpanel" aria-labelledby="eventLog-tab" style="width: 80vw">
         <div v-if="eventLogs[0].id != 0">
           <div>
             <h5>Danh sách hoạt động của toàn hệ thống</h5>
             <table class="table table-borderless">
               <thead>
                 <tr class="bg-light">
-                  <th scope="col" >Ngày</th>
-                  <th scope="col" >Người thực hiện</th>
+                  <th scope="col">Ngày</th>
+                  <th scope="col">Người thực hiện</th>
                   <th scope="col">Hành động</th>
                   <th scope="col">Tên bài viết</th>
                 </tr>
@@ -628,7 +455,9 @@
                 <tr v-for="el in eventLogs" :key="el.id">
                   <td>{{ el.createdAt.slice(0, 10) }}</td>
                   <td>
-                    <img style="border-radius: 50%; margin-right: 10px;" :src="'http://localhost:8080' + el.actor.avatar.replace('files', '')" width="30px" height="30px" alt="">
+                    <img style="border-radius: 50%; margin-right: 10px;"
+                      :src="'http://localhost:8080' + el.actor.avatar.replace('files', '')" width="30px" height="30px"
+                      alt="">
                     {{ el.actor.fullName }}
                   </td>
                   <td v-if="el.action == 'create'">Tạo</td>
@@ -646,68 +475,34 @@
         </div>
       </div>
 
-      <div
-        class="tab-pane fade"
-        id="generatePost"
-        role="tabpanel"
-        aria-labelledby="generatePost-tab"
-        style="width: 80vw"
-      >
+      <div class="tab-pane fade" id="generatePost" role="tabpanel" aria-labelledby="generatePost-tab"
+        style="width: 80vw">
         <GenerateFormComponent></GenerateFormComponent>
       </div>
 
-      <div
-        class="tab-pane fade"
-        id="v-pills-settings"
-        role="tabpanel"
-        aria-labelledby="v-pills-settings-tab"
-      >
+      <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
         ...
       </div>
     </div>
 
-    <div
-      id="modalUpdateUser"
-      class="modal fade"
-      tabindex="-8"
-      aria-labelledby="editUserModelLabel"
-      aria-hidden="true"
-    >
+    <div id="modalUpdateUser" class="modal fade" tabindex="-8" aria-labelledby="editUserModelLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <div id="d-flex flex-column">
               <h5>Cập nhật vai trò của tài khoản {{ users[chooseUserIndex].username }}</h5>
             </div>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="form-check">
-              <input
-                value="admin"
-                v-model="chooseRole"
-                class="form-check-input"
-                type="radio"
-                name="flexRadioDefault"
-                id="flexRadioAdmin"
-              />
+              <input value="admin" v-model="chooseRole" class="form-check-input" type="radio" name="flexRadioDefault"
+                id="flexRadioAdmin" />
               <label class="form-check-label" for="flexRadioAdmin"> Quản trị viên </label>
             </div>
             <div class="form-check">
-              <input
-                value="member"
-                v-model="chooseRole"
-                class="form-check-input"
-                type="radio"
-                name="flexRadioDefault"
-                id="flexRadioMember"
-                checked
-              />
+              <input value="member" v-model="chooseRole" class="form-check-input" type="radio" name="flexRadioDefault"
+                id="flexRadioMember" checked />
               <label class="form-check-label" for="flexRadioMember"> Thành viên </label>
             </div>
           </div>
@@ -720,21 +515,25 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="confirmDeleteCategoryModal" tabindex="-1" aria-labelledby="confirmDeleteCategoryModelLabal" aria-hidden="true">
+  <div class="modal fade" id="confirmDeleteCategoryModal" tabindex="-1"
+    aria-labelledby="confirmDeleteCategoryModelLabal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="confirmDeleteCategoryModelLabal">Bạn có chắc chắn muốn xóa thể loại này (tất cả bài viết thuộc thể loại sẽ bị xóa)</h5>
+          <h5 class="modal-title" id="confirmDeleteCategoryModelLabal">Bạn có chắc chắn muốn xóa thể loại này (tất cả
+            bài
+            viết thuộc thể loại sẽ bị xóa)</h5>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  @click="deleteCategory()" >Xóa</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="deleteCategory()">Xóa</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="udpateCategoryModelLabal" aria-hidden="true">
+  <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="udpateCategoryModelLabal"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -744,7 +543,8 @@
           <input type="text" class="form-control" v-model="newCategoryName" required>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateCategory">Cập nhật</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateCategory">Cập
+            nhật</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
       </div>
@@ -753,57 +553,61 @@
 
   <!-- Modal add tag -->
   <div class="modal fade" id="addTag" tabindex="-1" aria-labelledby="addTagLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="">Thêm nhãn dán</h5>
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" v-model="newTagName" required>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="addTag">Thêm</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal add category -->
-<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-          <h5 class="modal-title" id="">Thêm thể loại</h5>
-        </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" v-model="addCategoryName" required>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="addCategory">Thêm</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- Confirm delete category -->
-  <div class="modal fade" id="confirmDeleteContentSourceModal" tabindex="-1" aria-labelledby="confirmDeleteContentSourceModelLabal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="confirmDeleteContentSourceModelLabal">Bạn có chắc chắn muốn xóa nguồn này (tất cả bài viết thuộc người dùng này sẽ bị xóa)</h5>
+          <h5 class="modal-title" id="">Thêm nhãn dán</h5>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control" v-model="newTagName" required>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  @click="deleteContentSource();" >Xóa</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="addTag">Thêm</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal add category -->
+  <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Thêm thể loại</h5>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control" v-model="addCategoryName" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="addCategory">Thêm</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm delete category -->
+  <div class="modal fade" id="confirmDeleteContentSourceModal" tabindex="-1"
+    aria-labelledby="confirmDeleteContentSourceModelLabal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteContentSourceModelLabal">Bạn có chắc chắn muốn xóa nguồn này (tất cả
+            bài viết thuộc người dùng này sẽ bị xóa)</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+            @click="deleteContentSource();">Xóa</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- update content source modal -->
-  <div class="modal fade" id="updateContentSourceModal" tabindex="-1" aria-labelledby="udpateContentSourceModelLabal" aria-hidden="true">
+  <div class="modal fade" id="updateContentSourceModal" tabindex="-1" aria-labelledby="udpateContentSourceModelLabal"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -814,15 +618,17 @@
           <input type="file" @change="previewFile($event)" class="form-control">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateContentSource">Cập nhật</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateContentSource">Cập
+            nhật</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
       </div>
     </div>
   </div>
 
-   <!-- add content source modal -->
-   <div class="modal fade" id="addContentSourceModal" tabindex="-1" aria-labelledby="addContentSourceModelLabal" aria-hidden="true">
+  <!-- add content source modal -->
+  <div class="modal fade" id="addContentSourceModal" tabindex="-1" aria-labelledby="addContentSourceModelLabal"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -1134,62 +940,62 @@ const categories = ref([
   }
 ])
 
-const eventLogs = ref( [
-    {
+const eventLogs = ref([
+  {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    action: "",
+    actorId: 0,
+    postId: 0,
+    note: null,
+    actor: {
       id: 0,
       createdAt: "",
       updatedAt: "",
       deletedAt: null,
-      action: "",
-      actorId: 0,
-      postId: 0,
-      note: null,
-      actor: {
-        id: 0,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        email: "",
-        username: "",
-        firstName: "",
-        lastName: "",
-        fullName: "",
-        about: "",
-        youtubeLink: "",
-        facebookLink: "",
-        linkedinLink: "",
-        twitterLink: "",
-        totalFollower: 0,
-        totalFollowee: 0,
-        refreshToken: null,
-        phoneNumber: "",
-        birthday: "",
-        avatar: "",
-        role: ""
-      },
-      post: {
-        id: 0,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        title: "",
-        content: "",
-        sharePostId: null,
-        originalPostURL: null,
-        publishDate: "",
-        imageURL: "",
-        status: "",
-        type: "",
-        readTime: 0,
-        totalLike: 0,
-        totalDislike: 0,
-        totalShare: 0,
-        categoryId: 0,
-        createdById: 0,
-        contentSourceId: null
-      }
+      email: "",
+      username: "",
+      firstName: "",
+      lastName: "",
+      fullName: "",
+      about: "",
+      youtubeLink: "",
+      facebookLink: "",
+      linkedinLink: "",
+      twitterLink: "",
+      totalFollower: 0,
+      totalFollowee: 0,
+      refreshToken: null,
+      phoneNumber: "",
+      birthday: "",
+      avatar: "",
+      role: ""
+    },
+    post: {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      title: "",
+      content: "",
+      sharePostId: null,
+      originalPostURL: null,
+      publishDate: "",
+      imageURL: "",
+      status: "",
+      type: "",
+      readTime: 0,
+      totalLike: 0,
+      totalDislike: 0,
+      totalShare: 0,
+      categoryId: 0,
+      createdById: 0,
+      contentSourceId: null
     }
-  ])
+  }
+])
 
 function randomColor() {
   let r = Math.ceil(Math.random() * 255)
@@ -1238,14 +1044,14 @@ async function deleteContentSource() {
 
 const newTagName = ref('')
 
-async function addTag(){
+async function addTag() {
   try {
     let resp = await tagsService.create({
-    tags: [
-      newTagName.value
-    ],
-    categoryId: choosenCategoryId.value
-     }, tokenBearer);
+      tags: [
+        newTagName.value
+      ],
+      categoryId: choosenCategoryId.value
+    }, tokenBearer);
     toast.success('Đã thêm thành công!', {
       autoClose: 1000
     })
@@ -1257,7 +1063,7 @@ async function addTag(){
 
 const addCategoryName = ref('')
 
-async function addCategory(){
+async function addCategory() {
   try {
     let resp = await categoriesService.create(addCategoryName.value, tokenBearer);
     toast.success('Đã thêm thành công!', {
@@ -1291,12 +1097,12 @@ async function updateUser() {
 const choosenCategoryId = ref(0)
 const choosenCategoryIndex = ref(0)
 
-async function deleteCategory(){
+async function deleteCategory() {
   try {
     await categoriesService.delete(choosenCategoryId.value, tokenBearer)
     toast.success('Đã xóa!', {
       autoClose: 1000
-    }) 
+    })
     categories.value.splice(choosenCategoryIndex.value, 1)
   } catch (error) {
     console.log(error)
@@ -1305,31 +1111,31 @@ async function deleteCategory(){
 
 const newCategoryName = ref('')
 
-async function updateCategory(){
+async function updateCategory() {
   try {
     await categoriesService.update(choosenCategoryId.value, newCategoryName.value, tokenBearer)
     toast.success('Đã cập nhật!', {
       autoClose: 1000
-    }) 
+    })
     categories.value[choosenCategoryIndex.value].name = newCategoryName.value
   } catch (error) {
     console.log(error)
   }
 }
 
-function previewFile(e: any){
-    fileImage.value = e.target.files[0]
+function previewFile(e: any) {
+  fileImage.value = e.target.files[0]
 }
 const fileImage = ref({})
 
 const newContentSourceName = ref('')
 
-async function updateContentSource(){
+async function updateContentSource() {
   try {
     let resp = await contentSourcesService.update(choosenContentSourceId.value, newContentSourceName.value, fileImage.value, tokenBearer)
     toast.success('Đã cập nhật!', {
       autoClose: 1000
-    }) 
+    })
     contentSources.value[choosenContentSourceIndex.value].name = newContentSourceName.value
     if (fileImage.value != null) {
       contentSources.value[choosenContentSourceIndex.value].avatar = resp.avatar
@@ -1339,19 +1145,19 @@ async function updateContentSource(){
   }
 }
 
-function previewFileAdd(e: any){
+function previewFileAdd(e: any) {
   fileImageAdd.value = e.target.files[0]
 }
 const fileImageAdd = ref({})
 
 const addContentSourceName = ref('')
 
-async function addContentSource(){
+async function addContentSource() {
   try {
     let resp = await contentSourcesService.create(addContentSourceName.value, fileImageAdd.value, tokenBearer)
     toast.success('Đã thêm!', {
       autoClose: 1000
-    }) 
+    })
     contentSources.value.push(resp)
   } catch (error) {
     console.log(error)
@@ -1403,10 +1209,12 @@ onMounted(async () => {
 .text-gray-300 {
   color: #e0e0e0;
 }
+
 .moreUser:hover {
   color: white;
   background-color: black;
 }
+
 .search {
   top: 6px;
   left: 10px;
@@ -1425,6 +1233,7 @@ onMounted(async () => {
 .green {
   color: green;
 }
+
 /* .avatarMain {
   border-radius: 50%;
   width: 25px;
