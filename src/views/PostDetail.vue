@@ -251,7 +251,7 @@
           </div>
         </div>
         <div class="quote p-3" style="word-wrap: break-word">
-          <div v-html="post.content" class="fw-bold" style="color: #039be5"></div>
+          <div v-html="post.content"></div>
         </div>
         <br />
         <div id="post-content">
@@ -280,7 +280,7 @@
     </div>
     <Suspense v-if="post.status == 'published'">
       <CommentComponent :postId="route.params.id[0]" :commentsLv1="commentsPassingLv1" :commentsLv2="commentsPassingLv2"
-        :commentsLv3="commentsPassingLv2">
+        :commentsLv3="commentsPassingLv3">
       </CommentComponent>
     </Suspense>
     <!-- Comment section -->
@@ -303,6 +303,7 @@ import { onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
 import bookmarksService from '@/services/bookmarks.service'
 const route = useRoute()
+const id = Number(route.params.id)
 
 const reactionLikes = ref([
   {
@@ -634,10 +635,9 @@ const bookmarks = ref([
 ])
 
 const commentsPassingLv1 = ref([] as commentType[])
-const commentsPassingLv2 = ref([] as number[])
-const commentsPassingLv3 = ref([] as number[])
+const commentsPassingLv2 = ref([] as commentType[])
+const commentsPassingLv3 = ref(new Array(new Array(new Array)))
 
-const id = Number(route.params.id)
 const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
 
@@ -650,7 +650,6 @@ try {
   if (currentUser.value !== null && currentUser.value['id'] !== null) {
     isLogin.value = true
   }
-  console.log(currentUser)
 } catch (err) {
   console.log(err)
 }
@@ -825,20 +824,19 @@ onMounted(async () => {
 
     //commentslv2
     for (let i = 0; i < commentsPassingLv1.value.length; i++) {
+      let index = i
       commentsPassingLv2.value.push()
-      let respTemp = await commentsService.getAllByPath(
-        post.value.id,
-        commentsPassingLv1.value[i].path
-      )
-      commentsPassingLv2.value[i] = respTemp.data
-
+      commentsPassingLv3.value.push([])
+      let respTemp = await commentsService.getAllByPath(post.value.id, commentsPassingLv1.value[i].path)
+      commentsPassingLv2.value[index] = respTemp.data
       //commentslv3
       for (let j = 0; j < respTemp.data.length; j++) {
-        commentsPassingLv3.value.push()
+        commentsPassingLv3.value[i].push()
         let respTemp2 = await commentsService.getAllByPath(post.value.id, respTemp.data[j].path)
-        commentsPassingLv3.value[i] = respTemp2.data
+        commentsPassingLv3.value[i][j] = respTemp2.data
       }
     }
+
 
     // follows
     let fs = await followsService.getAllByFollowerId(currentUser.value.id)

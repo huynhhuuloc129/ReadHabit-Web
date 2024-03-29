@@ -23,7 +23,7 @@ class TagsService {
             handlingError(err);
         }
     }
-    async getOne(id: string) {
+    async getOne(id: number) {
         try {
             const tag = (await this.api.get("/tags/" + id));
             return tag.data;

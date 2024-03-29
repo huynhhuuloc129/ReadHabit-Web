@@ -4,9 +4,11 @@
         <div class="col-md-12 bootstrap snippets">
             <div class="panel">
                 <div class="panel-body">
-                    <textarea class="form-control" rows="2" placeholder="Bạn nghĩ gì về bài viết này?"></textarea>
+                    <textarea v-model="messageFather" class="form-control" rows="2"
+                        placeholder="Bạn nghĩ gì về bài viết này?"></textarea>
                     <div class="mar-top clearfix">
-                        <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i>
+                        <button :disabled="messageFather == ''" @click="createCommentFather();"
+                            class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i>
                             Bình luận</button>
                     </div>
                 </div>
@@ -17,68 +19,93 @@
                     <!--===================================================-->
                     <div class="media-block" v-for="(cmt, index) in props.commentsLv1" :key="cmt.id">
                         <a class="media-left" :href="'http://localhost:5173/personal/' + cmt.createdById">
-                            <img :src="'http://localhost:8080' + cmt.createdBy.avatar.replace('files', '')" width="50px" height="50px" class="rounded-circle" :alt="cmt.createdBy.fullName" style="margin-right: 18px;">
-                            </a>
+                            <img :src="'http://localhost:8080' + cmt.createdBy.avatar.replace('files', '')" width="50px"
+                                height="50px" class="rounded-circle" :alt="cmt.createdBy.fullName"
+                                style="margin-right: 18px;">
+                        </a>
                         <div class="media-body">
                             <div class="mar-btm">
-                                <a :href="'http://localhost:5173/personal/' + cmt.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt.createdBy.fullName }}</a>
+                                <a :href="'http://localhost:5173/personal/' + cmt.createdById"
+                                    class="btn-link text-semibold media-heading box-inline">{{ cmt.createdBy.fullName
+                                    }}</a>
                                 <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - 11 min ago 
                                 </p> -->
                             </div>
-                            <p>{{cmt.message}}</p>
+                            <p>{{ cmt.message }}</p>
                             <div class="pad-ver">
-                                <a class="btn btn-sm btn-default btn-hover-primary" @click="trackingComment = cmt.id">Phản hồi</a>
-                                <div v-if="trackingComment == cmt.id" class="d-flex align-items-center">
-                                    <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="" width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
-                                    <input type="text" class="form-control" style="height: 35px; margin-right: 10px;">
+                                <a class="btn btn-sm btn-default btn-hover-primary"
+                                    @click="trackingComment = props.commentsLv1[index].id">Phản hồi</a>
+                                <div v-if="trackingComment == props.commentsLv1[index].id"
+                                    class="d-flex align-items-center">
+                                    <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt=""
+                                        width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
+                                    <input v-model="message" type="text" class="form-control"
+                                        style="height: 35px; margin-right: 10px;" required>
+                                    <button :disabled="message == ''" class="btn btn-outline-primary"
+                                        @click="parentId = props.commentsLv1[index].id; createComment();">Gửi</button>
                                 </div>
                             </div>
                             <hr>
 
                             <!-- Comments -->
                             <div>
-                                <div v-for="(cmt2, index2) in props.commentsLv2[index]" :key="cmt2.id" class="media-block">
-                                    <a class="media-left" :href="'http://localhost:5173/personal/' + cmt2.createdById">                            
-                                        <img :src="'http://localhost:8080' + cmt2.createdBy.avatar.replace('files', '')" width="50px" height="50px" class="rounded-circle" :alt="cmt2.createdBy.fullName" style="margin-right: 18px;">
+                                <div v-for="(cmt2, index2) in props.commentsLv2[index]" :key="cmt2.id"
+                                    class="media-block">
+                                    <a class="media-left" :href="'http://localhost:5173/personal/' + cmt2.createdById">
+                                        <img :src="'http://localhost:8080' + cmt2.createdBy.avatar.replace('files', '')"
+                                            width="50px" height="50px" class="rounded-circle"
+                                            :alt="cmt2.createdBy.fullName" style="margin-right: 18px;">
                                     </a>
                                     <div class="media-body">
                                         <div class="mar-btm">
-                                            <a :href="'http://localhost:5173/personal/' + cmt2.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt2.createdBy.fullName }}</a>
+                                            <a :href="'http://localhost:5173/personal/' + cmt2.createdById"
+                                                class="btn-link text-semibold media-heading box-inline">{{
+                        cmt2.createdBy.fullName }}</a>
                                             <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p> -->
                                         </div>
                                         <p>{{ cmt2.message }}</p>
                                         <div class="pad-ver">
-                                            <a class="btn btn-sm btn-default btn-hover-primary" @click="trackingComment = cmt2.id">Phản hồi</a>
-                                            <div v-if="trackingComment == cmt2.id"  class="d-flex align-items-center">
-                                                <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="" width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
-                                                <input type="text" class="form-control" style="height: 35px; margin-right: 10px;">
+                                            <a class="btn btn-sm btn-default btn-hover-primary"
+                                                @click="trackingComment = props.commentsLv2[index][index2].id">Phản
+                                                hồi</a>
+                                            <div v-if="trackingComment == props.commentsLv2[index][index2].id"
+                                                class="d-flex align-items-center">
+                                                <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')"
+                                                    alt="" width="50px" height="50px" class="rounded-circle"
+                                                    style="margin-right: 18px;">
+                                                <input v-model="message" type="text" class="form-control"
+                                                    style="height: 35px; margin-right: 10px;" required>
+                                                <button :disabled="message == ''" class="btn btn-outline-primary"
+                                                    @click="parentId = props.commentsLv2[index][index2].id; createComment();">Gửi</button>
                                             </div>
                                         </div>
                                         <hr>
-                                        <div>
-                                        <div v-for="cmt3 in props.commentsLv3[index2]" :key="cmt3.id" class="media-block">
-                                            <a class="media-left" :href="'http://localhost:5173/personal/' + cmt3.createdById">                            
-                                                <img :src="'http://localhost:8080' + cmt3.createdBy.avatar.replace('files', '')" width="50px" height="50px" class="rounded-circle" :alt="cmt3.createdBy.fullName" style="margin-right: 18px;">
-                                            </a>
-                                            <div class="media-body">
-                                                <div class="mar-btm">
-                                                    <a :href="'http://localhost:5173/personal/' + cmt3.createdById" class="btn-link text-semibold media-heading box-inline">{{ cmt3.createdBy.fullName }}</a>
-                                                    <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p> -->
-                                                </div>
-                                                <p>{{ cmt3.message }}</p>
-                                                <div class="pad-ver">
-                                                    <a class="btn btn-sm btn-default btn-hover-primary" @click="trackingComment = cmt3.id;">Phản hồi</a>
-                                                </div>
-                                                <div v-if="trackingComment ==cmt3.id" class="d-flex align-items-center">
-                                                    <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="" width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
-                                                    <input type="text" class="form-control" style="height: 35px; margin-right: 10px;">
-                                                </div>
-                                                <hr>
-                                            </div>
-        
-                                        </div>
 
-                                    </div>
+                                        <!-- Comments -->
+                                        <div>
+                                            <div v-for="(cmt3) in props.commentsLv3[index][index2]" :key="cmt3.id"
+                                                class="media-block">
+                                                <div>
+                                                    <a class="media-left"
+                                                        :href="'http://localhost:5173/personal/' + cmt3.createdById">
+                                                        <img :src="'http://localhost:8080' + cmt3.createdBy.avatar.replace('files', '')"
+                                                            width="50px" height="50px" class="rounded-circle"
+                                                            :alt="cmt3.createdBy.fullName" style="margin-right: 18px;">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="mar-btm">
+                                                            <a :href="'http://localhost:5173/personal/' + cmt3.createdById"
+                                                                class="btn-link text-semibold media-heading box-inline">{{
+                        cmt3.createdBy.fullName }}</a>
+
+                                                        </div>
+                                                        <p>{{ cmt3.message }}</p>
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -90,7 +117,10 @@
         </div>
     </div>
 </template>
+
+
 <script setup lang="ts">
+import postsService from '@/services/posts.service';
 import checkLogin from '@/utilities/utilities';
 import { ref } from 'vue';
 import { useCookies } from 'vue3-cookies';
@@ -98,53 +128,79 @@ import { useCookies } from 'vue3-cookies';
 const props = defineProps(['postId', 'commentsLv1', 'commentsLv2', 'commentsLv3'])
 
 const currentUser = ref({
-  id: 0,
-  createdAt: "",
-  updatedAt: "",
-  deletedAt: null,
-  email: "",
-  username: "",
-  firstName: "",
-  lastName: " ",
-  fullName: "",
-  about: "",
-  youtubeLink: "",
-  facebookLink: "",
-  linkedinLink: "",
-  twitterLink: "",
-  totalFollower: 4,
-  totalFollowee: 5,
-  refreshToken: null,
-  phoneNumber: "",
-  birthday: "",
-  avatar: "",
-  role: "",
-  categories: [
-    {
-      id: 0,
-      createdAt: "",
-      updatedAt: "",
-      deletedAt: null,
-      name: "",
-      imageURL: null
-    }
-  ]
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: " ",
+    fullName: "",
+    about: "",
+    youtubeLink: "",
+    facebookLink: "",
+    linkedinLink: "",
+    twitterLink: "",
+    totalFollower: 4,
+    totalFollowee: 5,
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: "",
+    categories: [
+        {
+            id: 0,
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            name: "",
+            imageURL: null
+        }
+    ]
 });
 const cookies = useCookies();
 
 const tokenBearer = cookies.cookies.get('Token')
 const trackingComment = ref(0)
 
+const message = ref('')
+const parentId = ref(0)
+
+const messageFather = ref('')
+
+async function createCommentFather() {
+    try {
+        await postsService.createComment(props.postId, {
+            message: messageFather.value
+        }, tokenBearer)
+        window.location.reload()
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function createComment() {
+    try {
+        await postsService.createComment(props.postId, {
+            message: message.value,
+            parentId: parentId.value
+        }, tokenBearer)
+        window.location.reload()
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 try {
     currentUser.value = await checkLogin();
-    console.log(currentUser.value)
 } catch (err) {
     console.log(err)
 }
 
 </script>
 <style>
-
 .img-sm {
     width: 46px;
     height: 46px;
@@ -256,4 +312,5 @@ a.text-muted:focus {
 
 .mar-top {
     margin-top: 15px;
-}</style>
+}
+</style>

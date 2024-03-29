@@ -43,6 +43,15 @@ class PostService {
         }
     }
 
+    async getAllByTagId(id: number) {
+        try {
+            const posts = (await this.api.get(`/posts?sortOrder=asc&tagId=${id}&status=published`));
+            return posts.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
+
     async getOne(id: number) {
         try {
             const post = (await this.api.get("/posts/" + id));

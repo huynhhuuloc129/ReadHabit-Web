@@ -1,9 +1,10 @@
 <template>
-    <img src="../assets/Cover.jpg" style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;"/>
+    <img src="../assets/Cover.jpg"
+        style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;" />
     <Suspense>
         <HeaderComponent text-color="white"></HeaderComponent>
         <template #fallback>
-            
+
         </template>
     </Suspense>
     <Suspense>
@@ -12,14 +13,14 @@
     </Suspense>
 
     <div class="first-section container-fluid">
-            <div class="first-header">
-                <br>
-                <div class="d-flex justify-content-start flex-column">
+        <div class="first-header">
+            <br>
+            <div class="d-flex justify-content-start flex-column">
 
-                    <h1 class="text-white" style="margin-left: 40px; font-size: 70px;">Start reading today</h1>
+                <h1 class="text-white" style="margin-left: 40px; font-size: 70px;">Start reading today</h1>
 
-                </div>
             </div>
+        </div>
     </div>
     <div class="" style="margin: 30px 10px 10px 20px; ">
 
@@ -29,42 +30,52 @@
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
-        
+
         <div class="d-flex flex-row flex-wrap justify-content-center">
             <div>
                 <div v-for="(category, index) in categories" :key="category.id">
-                    <div :id="category.name" class="display-4 font-weight-bolder m-5 text-start w-100 float-start">{{ category.name }}</div>
+                    <div :id="category.name" class="display-4 font-weight-bolder m-5 text-start w-100 float-start">{{
+                    category.name }}</div>
                     <CardComponent :posts="VisiblePost(index)"></CardComponent>
-                    <button @click="postVisibles[index] += steps[index]" v-if="postVisibles[index] < posts[index].length"
-                     class="btn moreBtn" style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
-                        Xem thêm >> 
+                    <button @click="postVisibles[index] += steps[index]"
+                        v-if="postVisibles[index] < posts[index].length" class="btn moreBtn"
+                        style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
+                        Xem thêm >>
                     </button>
                 </div>
             </div>
 
-            <div class="sidebarCate sticky-top" style="margin: 50px 0 0px 20px; max-height: 100vh; width: 350px; overflow-y: scroll;">
+            <div class="sidebarCate sticky-top"
+                style="margin: 50px 0 0px 20px; max-height: 100vh; width: 350px; overflow-y: scroll;">
                 <br>
                 <h3>Thể loại</h3>
-                <a @click="changeCategory(category.id)" v-for="category in categories" :key="category.id" :href="'#'+category.name" class="category" style="text-decoration: none; display: block;">
-                        {{ category.name }}
+                <a @click="changeCategory(category.id)" v-for="category in categories" :key="category.id"
+                    :href="'#' + category.name" class="category" style="text-decoration: none; display: block;">
+                    {{ category.name }}
                 </a>
                 <div class="w-100 d-flex justify-content-center">
                     <button class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#modalC">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pen" viewBox="0 0 16 16">
+                            <path
+                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
                         </svg>
                     </button>
 
-                   
+
 
                 </div>
                 <hr>
                 <h3>Nhãn</h3>
                 <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
-                    <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;" role="group" aria-label="Basic checkbox toggle button group">
+                    <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;" role="group"
+                        aria-label="Basic checkbox toggle button group">
                         <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
-                            <input v-model="checkedTags" :value="tag.id" type="checkbox" class="btn-check" :id="'btncheck' + tag.id" autocomplete="off">
-                            <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
+                            <a :href="'http://localhost:5173/tag/' + tag.id">
+                                <button class="btn btn-outline-secondary">
+                                    {{ tag.name }}
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -73,27 +84,28 @@
 
     </div>
 
-    <div id="modalC" class="modal fade"  tabindex="-1" aria-labelledby="editBookmarkModelLabel" aria-hidden="true">
+    <div id="modalC" class="modal fade" tabindex="-1" aria-labelledby="editBookmarkModelLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-            <div id="d-flex flex-column">
-                <h5>Danh sách tất cả thể loại</h5>
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-check"  v-for="category in allCategories" :key="category.id">
-                    <input v-model="trackingCategories[category.id]" class="form-check-input" type="checkbox" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        {{ category.name }}
-                    </label>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div id="d-flex flex-column">
+                        <h5>Danh sách tất cả thể loại</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-check" v-for="category in allCategories" :key="category.id">
+                        <input v-model="trackingCategories[category.id]" class="form-check-input" type="checkbox"
+                            id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {{ category.name }}
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button @click="updateCategory()" class="btn btn-primary">Cập nhật</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button @click="updateCategory()" class="btn btn-primary">Cập nhật</button>
-            </div>
-        </div>
         </div>
     </div>
 </template>
@@ -114,7 +126,7 @@ import { onMounted, ref } from "vue";
 const cookies = useCookies();
 const tokenBearer = cookies.cookies.get('Token');
 
-type categoryType =  {
+type categoryType = {
     id: 0,
     createdAt: "",
     updatedAt: "",
@@ -144,15 +156,15 @@ const posts = ref([[{
     createdById: '',
     contentSourceId: '',
     tags: [
-    {
-        id: '',
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        name: "",
-        categoryId: '',
-        createdById: ''
-    }
+        {
+            id: '',
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            name: "",
+            categoryId: '',
+            createdById: ''
+        }
     ],
     contentSource: {
         id: "",
@@ -222,27 +234,27 @@ const tags = ref([{
     categoryId: 0,
     createdById: 0,
     posts: [
-    {
-        id: 0,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        title: "",
-        content: "",
-        sharePostId: null,
-        originalPostURL: "",
-        publishDate: "",
-        imageURL: "",
-        status: "",
-        type: "",
-        readTime: 0,
-        totalLike: 0,
-        totalDislike: 0,
-        totalShare: 0,
-        categoryId: 0,
-        createdById: 0,
-        contentSourceId: 0
-    },
+        {
+            id: 0,
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            title: "",
+            content: "",
+            sharePostId: null,
+            originalPostURL: "",
+            publishDate: "",
+            imageURL: "",
+            status: "",
+            type: "",
+            readTime: 0,
+            totalLike: 0,
+            totalDislike: 0,
+            totalShare: 0,
+            categoryId: 0,
+            createdById: 0,
+            contentSourceId: 0
+        },
     ],
     category: {} as categoryType
 }])
@@ -264,48 +276,48 @@ try {
 
 const notifyUpdateCategory = () => {
     toast.success("Đã cập nhật!", {
-    autoClose: 1000,
+        autoClose: 1000,
     }); // ToastOptions
 }
 
 // filter posts
-function VisiblePost(position: number){
-    
+function VisiblePost(position: number) {
+
 
     return posts.value[position].slice(0, postVisibles.value[position])
 }
 
 // filter tags
-function filterTagsByCategoryId(): typeof tags.value{
-    return tags.value.filter((tag) =>tag.category.id == categoryId.value)
+function filterTagsByCategoryId(): typeof tags.value {
+    return tags.value.filter((tag) => tag.category.id == categoryId.value)
 }
 
-function changeCategory(cId: number){
+function changeCategory(cId: number) {
     categoryId.value = cId
 }
 
-async function updateCategory(){
-  try {
-    let cs = [] as number[];
-    allCategories.value.forEach((category) => {
-      if (trackingCategories.value[category.id]) {
-        cs.push(category.id)
-        let check = false
-        categories.value.forEach((c) => {
-            if (c.id == category.id) check =  true
-        })
+async function updateCategory() {
+    try {
+        let cs = [] as number[];
+        allCategories.value.forEach((category) => {
+            if (trackingCategories.value[category.id]) {
+                cs.push(category.id)
+                let check = false
+                categories.value.forEach((c) => {
+                    if (c.id == category.id) check = true
+                })
 
-        if (check == false) {
-            categories.value.push(category)
-        }
-      }
-    })
-    await usersService.setCategories(currentUser.value.id, cs ,tokenBearer)
-    notifyUpdateCategory()
-    window.location.reload();
-  } catch (err) {
-    console.log(err)
-  }
+                if (check == false) {
+                    categories.value.push(category)
+                }
+            }
+        })
+        await usersService.setCategories(currentUser.value.id, cs, tokenBearer)
+        notifyUpdateCategory()
+        window.location.reload();
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 onMounted(async () => {
@@ -324,7 +336,7 @@ onMounted(async () => {
             trackingCategories.value[c.id] = true;
         });
 
-        if (isLogin.value){
+        if (isLogin.value) {
             categories.value = currentUser.value.categories;
         } else {
             let respTemp = await categoriesService.getAll()
@@ -333,9 +345,9 @@ onMounted(async () => {
         categoryId.value = categories.value[0].id
         //post
         let resp = await postsService.getAll(0, 0, 'published');
-        
-        for(let i =0; i< categories.value.length; i++ ){
-            let arr: typeof resp.data =  []
+
+        for (let i = 0; i < categories.value.length; i++) {
+            let arr: typeof resp.data = []
             arr = await postsService.getAllByCategoryId(categories.value[i].id)
 
             postVisibles.value[i] = 3;
@@ -350,29 +362,32 @@ onMounted(async () => {
         }
     } catch (err) {
         console.log(err);
-    }   
+    }
 })
 
 </script>
 
 <style>
-.sidebarCate { 
-  position: sticky; 
-  top: 0; 
-  right: 0; 
-  width: 250px; 
-  background-color: #ffffff; 
-  border-radius: 5px; 
-} 
-.category:hover{
+.sidebarCate {
+    position: sticky;
+    top: 0;
+    right: 0;
+    width: 250px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.category:hover {
     background-color: rgb(205, 205, 205);
     cursor: pointer;
     text-decoration: underline;
     border-left: 10px solid rgb(234, 234, 237);
 }
-.category{
+
+.category {
     padding: 10px;
 }
+
 h1 {
     color: black;
 }
@@ -380,6 +395,7 @@ h1 {
 hr {
     margin: 0px 0px 15px 0px;
 }
+
 .d-flex {
     justify-content: center;
 }
@@ -397,10 +413,12 @@ hr {
 #other-option {
     text-align: center;
 }
-#image-cover{
+
+#image-cover {
     width: 78vw;
 }
-.cover-btn{
+
+.cover-btn {
     margin-right: 20px;
     color: #fff;
     background: transparent;
@@ -409,23 +427,28 @@ hr {
     font-style: italic;
     padding: 3px 15px;
     border-radius: 0;
-    border: 2px solid rgba(255,255,255,0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.3), 8px 8px 0 rgba(255, 255, 255, 0.2);
     position: relative;
     z-index: 1;
     transition: all 0.3s ease 0.1s;
 }
-.cover-btn:hover{
+
+.cover-btn:hover {
     color: #fff;
     box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.4);
     border-color: #fff;
-    transform:scale(1.1);
+    transform: scale(1.1);
 }
-.cover-btn span{ display: block; }
+
+.cover-btn span {
+    display: block;
+}
+
 .cover-btn:before,
 .cover-btn:after,
 .cover-btn span:before,
-.cover-btn span:after{
+.cover-btn span:after {
     content: '';
     background-color: #fff;
     width: 50%;
@@ -437,45 +460,67 @@ hr {
     top: -2px;
     transition: all 0.3s ease 0s;
 }
-.cover-btn:after{
+
+.cover-btn:after {
     top: auto;
     bottom: -2px;
 }
+
 .cover-btn span:before,
-.cover-btn span:after{
+.cover-btn span:after {
     height: 50%;
     width: 2px;
     top: 25%;
     left: -2px;
 }
-.cover-btn span:after{
+
+.cover-btn span:after {
     left: auto;
     right: -2px;
 }
+
 .cover-btn:hover:before,
 .cover-btn:hover:after,
 .cover-btn:hover span:before,
-.cover-btn:hover span:after{
+.cover-btn:hover span:after {
     opacity: 1;
     visibility: visible;
 }
-.cover-btn:hover:before{ left: 0; }
-.cover-btn:hover:after{ left: 50%; }
-.cover-btn:hover span:before{ top: 50%; }
-.cover-btn:hover span:after{ top: 0; }
-@media only screen and (max-width: 767px){
-    .cover-btn{ margin-bottom: 20px; }
+
+.cover-btn:hover:before {
+    left: 0;
 }
-.first-header{
+
+.cover-btn:hover:after {
+    left: 50%;
+}
+
+.cover-btn:hover span:before {
+    top: 50%;
+}
+
+.cover-btn:hover span:after {
+    top: 0;
+}
+
+@media only screen and (max-width: 767px) {
+    .cover-btn {
+        margin-bottom: 20px;
+    }
+}
+
+.first-header {
     height: 100vh;
 }
-.first-section{
+
+.first-section {
     background-image: url("./../assets/Cover.jpg");
     background-size: 100vw 110vh;
     background-repeat: no-repeat;
     background-position: right;
 }
-.moreBtn:hover{
+
+.moreBtn:hover {
     color: white;
     background-color: #2B517A;
 }

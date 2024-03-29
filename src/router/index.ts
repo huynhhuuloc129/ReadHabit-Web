@@ -30,6 +30,12 @@ const router = createRouter({
       name: 'admin',
       component: () => import('../views/AdminPage.vue')
     }
+    ,
+    {
+      path: '/tag/:id',
+      name: 'tag',
+      component: () => import('../views/ListPostTags.vue')
+    }
   ]
 })
 
