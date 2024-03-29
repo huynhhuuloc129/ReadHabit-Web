@@ -76,6 +76,17 @@
             <i class="fa-solid fa-calendar-days fa-fw me-3"></i>
             <span>Hoạt động</span>
           </a>
+          <a
+            href="#"
+            class="list-group-item list-group-item-action py-2 ripple"
+            aria-current="false"
+            data-bs-toggle="tab"
+            data-bs-target="#generatePost"
+            aria-controls="generatePost"
+          >
+            <i class="fa-solid fa-gears fa-fw me-3"></i>
+            <span>Tạo bài viết</span>
+          </a>
         </div>
       </div>
     </nav>
@@ -635,6 +646,15 @@
         </div>
       </div>
 
+      <div
+        class="tab-pane fade"
+        id="generatePost"
+        role="tabpanel"
+        aria-labelledby="generatePost-tab"
+        style="width: 80vw"
+      >
+        <GenerateFormComponent></GenerateFormComponent>
+      </div>
 
       <div
         class="tab-pane fade"
@@ -822,6 +842,7 @@
 </template>
 
 <script setup lang="ts">
+import GenerateFormComponent from '@/components/GenerateFormComponent.vue'
 import HeaderComponent from '@/components/HeaderComponent.vue'
 // @ts-ignore
 import SidebarComponent from '@/components/SidebarComponent.vue'
@@ -837,7 +858,6 @@ import { toast } from 'vue3-toastify'
 import tagsService from '@/services/tags.service'
 import contentSourcesService from '@/services/contentSources.service'
 import eventLogService from '@/services/eventLog.service'
-
 const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
 Chart.register(...registerables)

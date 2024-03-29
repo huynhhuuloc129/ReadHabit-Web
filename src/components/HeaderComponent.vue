@@ -18,25 +18,6 @@
                     <button class="btn btn-danger" id="newPost" :style="{'padding': '10px', 'margin-left': '10px','border-radius': '50px', 'color': 'white'}">+ Đăng tải bài viết mới</button>
                 </a>
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li class="text-center" >
-                        <a href="#" class="nav-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" :style="{'color': props['textColor']}"
-                                class="bi bi-house-fill header" viewBox="0 0 16 16">
-                                <path
-                                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
-                                <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="text-center">
-                        <a href="#" class="nav-link text-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                class="bi bi-sliders header" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z" />
-                            </svg>
-                        </a>
-                    </li>
                     <li class="text-center nav-item dropdown nav-link bsb-dropdown-toggle-caret-disable" v-if="isLogin"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <a href="#" class="nav-link text-secondary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
