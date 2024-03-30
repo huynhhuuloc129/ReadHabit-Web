@@ -28,7 +28,7 @@
         <div style="margin-top: 30px;"> 
             <div>Nhãn bài viết</div>
             <div class="btn-group" style="flex-wrap: wrap;" role="group" aria-label="Basic checkbox toggle button group">
-                <div v-for="(tag) in filterTagsByCategoryId()" :key="tag">
+                <div v-for="(tag) in filterTagsByCategoryId()" :key="tag" style="margin: 0 5px 5px 0;">
                     <input v-model="trackingTagChoosen" :value="tag" type="checkbox" class="btn-check" :id="'btncheck' + tag" autocomplete="off">
                     <label class="btn btn-outline-secondary" :for="'btncheck' + tag">{{ tag }}</label>
                 </div>

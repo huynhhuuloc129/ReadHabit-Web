@@ -5,16 +5,19 @@
 
         <div v-for="post in posts" :key="post.id" class="card">
           <div class="card-img-body">
-            <img class="card-img" :src="post.imageURL" alt="Card image cap">
+            <img class="card-img" :src="'http://localhost:8080' + post.imageURL.replace('files', '')"
+              alt="Card image cap">
           </div>
-          <div class="card-body">
-            <h4 class="card-title">{{ post.title }}</h4>
-            <p class="card-text">{{ post.content }}</p>
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+              <h4 class="card-title">{{ post.title }}</h4>
+              <p style="height: 70px; overflow: hidden" class="card-text">{{ post.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
-                <div class="avatar d-flex" style="margin-right: 10px;">
+                <div class="avatar d-flex" style="margin: 10px;">
                   <img class="center-block" :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')"
-                    alt="Generic placeholder image" style="height: 50px" />
+                    alt="Generic placeholder image" style="height: 50px;" />
                 </div>
                 <a class="name" :href="'http://localhost:5173/personal/' + post.createdBy.id"
                   style="text-decoration: none; color: black; font-weight: bold ">
@@ -23,7 +26,7 @@
               </div>
 
               <div>
-                <span style="margin: 20px 0 20px 20px">
+                <span style="margin: 20px 0 0px 20px">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
                     class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
                     <path
@@ -31,7 +34,7 @@
                   </svg>
                   {{ post.totalLike }}
                 </span>
-                <span style="margin: 20px 0 20px 20px">
+                <span style="margin: 20px 0 0px 20px">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
                     class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">
                     <path
@@ -39,7 +42,7 @@
                   </svg>
                   {{ post.totalDislike }}
                 </span>
-                <span style="margin: 20px 50px 20px 20px">
+                <span style="margin: 20px 50px 0px 20px">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
                     class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -51,8 +54,7 @@
                 </span>
               </div>
             </div>
-            <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-outline-primary"
-              style="margin-top: 20px;">Xem chi tiết</a>
+            <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-outline-primary w-25">Xem chi tiết</a>
           </div>
 
         </div>

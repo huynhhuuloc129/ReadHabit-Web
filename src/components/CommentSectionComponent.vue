@@ -27,14 +27,16 @@
                             <div class="mar-btm">
                                 <a :href="'http://localhost:5173/personal/' + cmt.createdById"
                                     class="btn-link text-semibold media-heading box-inline">{{ cmt.createdBy.fullName
-                                    }}</a>
+                                    }}
+                                </a>
                                 <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - 11 min ago 
                                 </p> -->
                             </div>
-                            <p>{{ cmt.message }}</p>
+                            <span>{{ cmt.message }}</span>
                             <div class="pad-ver">
                                 <a class="btn btn-sm btn-default btn-hover-primary"
-                                    @click="trackingComment = props.commentsLv1[index].id">Phản hồi</a>
+                                    @click="trackingComment = props.commentsLv1[index].id">Phản hồi
+                                </a>
                                 <div v-if="trackingComment == props.commentsLv1[index].id"
                                     class="d-flex align-items-center">
                                     <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt=""
@@ -63,7 +65,7 @@
                         cmt2.createdBy.fullName }}</a>
                                             <!-- <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>- 7 min ago</p> -->
                                         </div>
-                                        <p>{{ cmt2.message }}</p>
+                                        <span>{{ cmt2.message }}</span>
                                         <div class="pad-ver">
                                             <a class="btn btn-sm btn-default btn-hover-primary"
                                                 @click="trackingComment = props.commentsLv2[index][index2].id">Phản
@@ -175,6 +177,7 @@ async function createCommentFather() {
         await postsService.createComment(props.postId, {
             message: messageFather.value
         }, tokenBearer)
+
         window.location.reload()
     } catch (error) {
         console.log(error)
@@ -192,9 +195,12 @@ async function createComment() {
         console.log(error)
     }
 }
-
+const isLogin = ref(false)
 try {
     currentUser.value = await checkLogin();
+    if (currentUser.value.id != 0) {
+        isLogin.value = true
+    }
 } catch (err) {
     console.log(err)
 }

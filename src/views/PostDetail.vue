@@ -36,7 +36,8 @@
             </div>
             <div v-if="post.status == 'published'" class="d-flex flex-row text-center">
               <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                <button v-if="isLike == false" class="btn btn-light h-100" @click="like(post.id)">
+                <button :disabled="isLogin == false" v-if="isLike == false" class="btn btn-light h-100"
+                  @click="like(post.id)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                     <path
@@ -94,7 +95,8 @@
                 </div>
               </div>
               <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                <button v-if="isDislike == false" class="btn btn-light h-100" @click="dislike(post.id)">
+                <button :disabled="isLogin == false" v-if="isDislike == false" class="btn btn-light h-100"
+                  @click="dislike(post.id)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
                     <path
@@ -151,7 +153,8 @@
                 </div>
               </div>
               <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
-                <button class="btn btn-light h-100" data-bs-toggle="modal" data-bs-target="#sharePostModal">
+                <button :disabled="isLogin == false" class="btn btn-light h-100" data-bs-toggle="modal"
+                  data-bs-target="#sharePostModal">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -208,7 +211,8 @@
                 </div>
               </div>
               <div class="interaction-icon d-flex flex-column">
-                <button class="btn btn-light h-100" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
+                <button :disabled="isLogin == false" class="btn btn-light h-100" data-bs-toggle="modal"
+                  data-bs-target="#bookmarkModal">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-bookmark" viewBox="0 0 16 16">
                     <path
@@ -250,8 +254,10 @@
             </div>
           </div>
         </div>
-        <div class="quote p-3" style="word-wrap: break-word">
-          <div v-html="post.content"></div>
+        <div class="p-3" style="word-wrap: break-word">
+          <!-- <quill-editor v-model:content="post.content" content-type="html" theme="snow"></quill-editor> -->
+
+          <div class="ql-editor" v-html="post.content"></div>
         </div>
         <br />
         <div id="post-content">
@@ -260,10 +266,11 @@
             {{ post.content }}
           </div> -->
         </div>
-        <div id="tag-section" class="row">
-          <div v-for="tag in post.tags" :key="tag.id" class="tags badge bg-secondary text-wrap"
-            style="width: 6rem; height: 2rem">
-            {{ tag.name }}
+        <div id="tag-section" class="">
+          <div v-for="tag in post.tags" :key="tag.id" class="tags badge bg-secondary text-wrap" style="padding: 10px;">
+            <a :href="'http://localhost:5173/tag/' + tag.id" style="color: white">
+              {{ tag.name }}
+            </a>
           </div>
         </div>
 
@@ -274,12 +281,12 @@
           <button style="width: 100px; height: 50px" class="btn btn-danger">Từ chối</button>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3" v-if="post.status == 'published'">
         <h1>Các bài viết tương tự</h1>
       </div>
     </div>
     <Suspense v-if="post.status == 'published'">
-      <CommentComponent :postId="route.params.id[0]" :commentsLv1="commentsPassingLv1" :commentsLv2="commentsPassingLv2"
+      <CommentComponent :postId="id" :commentsLv1="commentsPassingLv1" :commentsLv2="commentsPassingLv2"
         :commentsLv3="commentsPassingLv3">
       </CommentComponent>
     </Suspense>
@@ -637,7 +644,6 @@ const bookmarks = ref([
 const commentsPassingLv1 = ref([] as commentType[])
 const commentsPassingLv2 = ref([] as commentType[])
 const commentsPassingLv3 = ref(new Array(new Array(new Array)))
-
 const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
 
@@ -850,6 +856,8 @@ onMounted(async () => {
 })
 </script>
 <style>
+@import "../style/vue_quill.css";
+
 .quote {
   margin-left: 10px;
   border-left: 5px solid #039be5;

@@ -25,6 +25,7 @@ function scrollToTop() {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+@import "https://unpkg.com/@vueup/vue-quill@1.0.0-beta.9/dist/vue-quill.snow.css";
 
 :root {
   --main-color: #2B517A;

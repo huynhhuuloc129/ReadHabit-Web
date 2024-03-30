@@ -18,7 +18,7 @@ class PostService {
           
     async getAllForUser(id: number) {
         try {
-            const posts = (await this.api.get(`/posts?sortOrder=asc&createdById=${id}&limit=100`));
+            const posts = (await this.api.get(`/posts?sortOrder=desc&sortField=createdAt&createdById=${id}&limit=100`));
             return posts.data;
         } catch (err) {
             handlingError(err);

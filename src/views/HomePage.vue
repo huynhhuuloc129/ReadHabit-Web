@@ -33,6 +33,10 @@
 
         <div class="d-flex flex-row flex-wrap justify-content-center">
             <div>
+                <CardTagComponent :posts="posts[0]"></CardTagComponent>
+            </div>
+
+            <div>
                 <div v-for="(category, index) in categories" :key="category.id">
                     <div :id="category.name" class="display-4 font-weight-bolder m-5 text-start w-100 float-start">{{
                     category.name }}</div>
@@ -114,6 +118,7 @@
 // @ts-ignore 
 import SidebarComponent from "@/components/SidebarComponent.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
+import CardTagComponent from "@/components/CardTagComponent.vue";
 import CardComponent from "../components/CardComponent.vue";
 import categoriesService from "@/services/categories.service";
 import usersService from "@/services/users.service";

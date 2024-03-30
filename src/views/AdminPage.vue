@@ -44,7 +44,7 @@
           <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
             data-bs-toggle="tab" data-bs-target="#generatePost" aria-controls="generatePost">
             <i class="fa-solid fa-gears fa-fw me-3"></i>
-            <span>Tạo bài viết</span>
+            <span>Tạo bài viết nhanh</span>
           </a>
         </div>
       </div>
@@ -256,7 +256,9 @@
                     </td>
 
                     <td class="text-end d-flex">
-                      <button class="btn btn-success">Duyệt</button>
+                      <button class="btn btn-success" style="margin-right: 5px">Duyệt</button>
+                      <button class="btn btn-danger" style="margin-right: 5px">Từ chối</button>
+
                       <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-primary">Chi tiết</a>
                     </td>
                   </tr>
@@ -302,11 +304,17 @@
                   <tr v-for="(user, index) in VisibleUser()" :key="user.id">
                     <td scope="row">{{ user.id }}</td>
                     <td scope="row">{{ user.createdAt.slice(0, 10) }}</td>
-                    <td scope="row">{{ user.username }}</td>
+                    <td scope="row">
+                      {{ user.username }}
+                    </td>
                     <td class="align-items-center">
                       <img style="border-radius: 50%; margin-right: 5px"
-                        :src="'http://localhost:8080' + user.avatar.replace('files', '')" width="25" height="25" />{{
-                      user.fullName }}
+                        :src="'http://localhost:8080' + user.avatar.replace('files', '')" width="25" height="25" />
+                      <a class="userNameLink" :href="'http://localhost:5173/personal/' + user.id" target="_blank"
+                        style="color: black">
+                        {{ user.fullName }}
+                      </a>
+
                     </td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
@@ -339,13 +347,14 @@
         <div class="d-flex align-items-start w-100 justify-content-between">
           <div class="nav flex-column nav-pills me-3 w-25" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <button class="btn btn-outline-primary d-flex justify-content-between"
-              v-for="(category, index) in categories" :key="category.id" style="margin-bottom: 5px"
+              v-for="(category, index) in categories" :key="category.id" style="margin-bottom: 5px; width: 300px;"
               :id="'v-pills-' + category.id + '-tab'" data-bs-toggle="pill" :data-bs-target="'#v-pills-' + category.id"
               type="button" role="tab" :aria-controls="'v-pills-' + category.id" aria-selected="false"
               @click="getAllTagsForCategory(category.id, index);">
               {{ category.name }}
               <div>
-                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">
+                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#updateCategoryModal"
+                  style="margin-right: 5px">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteCategoryModal">
@@ -412,6 +421,7 @@
                     </td>
                     <td class="text-end d-flex">
                       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateContentSourceModal"
+                        style="margin-right: 5px"
                         @click="choosenContentSourceId = cs.id; choosenContentSourceIndex = index; newContentSourceName = cs.name">
                         Cập nhật
                       </button>
@@ -1240,4 +1250,11 @@ onMounted(async () => {
   height: 25px;
   overflow: hidden;
 }  */
+.userNameLink {
+  text-decoration: none;
+}
+
+.userNameLink:hover {
+  text-decoration: underline;
+}
 </style>
