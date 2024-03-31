@@ -26,13 +26,21 @@
                 <label class="btn btn-outline-dark w-100" :for="'btnradio' + post.id">{{ post.title }}</label>
             </div>
 
-            <h5 class="" style="margin-top: 20px;" v-if="postsReviewing.length > 0">Bài viết chờ
+            <h5 class="text-primary" style="margin-top: 20px;" v-if="postsReviewing.length > 0">Bài viết chờ
                 duyệt </h5>
             <div v-for="(post, index) in postsReviewing" :key="post.id" class="w-100" style="margin-bottom: 5px">
                 <input @click="changeForm(post.id); choosenCreatedPostIndex = index; choosenCreatedPostId = post.id"
                     type="radio" class="btn-check" name="btnradio" :id="'btnradio' + post.id" autocomplete="off"
                     :value="post.id">
-                <label class="btn btn-outline-dark w-100" :for="'btnradio' + post.id">{{ post.title }}</label>
+                <label class="btn btn-outline-primary w-100" :for="'btnradio' + post.id">{{ post.title }}</label>
+            </div>
+
+            <h5 class="text-danger" style="margin-top: 20px;" v-if="postsRejected.length > 0">Bài viết bị từ chối</h5>
+            <div v-for="(post, index) in postsRejected" :key="post.id" class="w-100" style="margin-bottom: 5px">
+                <input @click="changeForm(post.id); choosenCreatedPostIndex = index; choosenCreatedPostId = post.id"
+                    type="radio" class="btn-check" name="btnradio" :id="'btnradio' + post.id" autocomplete="off"
+                    :value="post.id">
+                <label class="btn btn-outline-danger w-100" :for="'btnradio' + post.id">{{ post.title }}</label>
             </div>
         </div>
 
@@ -41,7 +49,7 @@
             <label for="selectCategory">Thể loại của bài viết</label>
             <select v-model="editPostForm.categoryId" id="selectCategory" class="form-select"
                 aria-label="Default select example" required>
-                \ <option v-for="cate in categories" :key="cate.id" :value="cate.id">
+                <option v-for="cate in categories" :key="cate.id" :value="cate.id">
                     <span>{{ cate.name }}</span>
                 </option>
             </select>
@@ -265,6 +273,7 @@ type postType = {
 
 const posts = ref([{} as postType])
 const postsReviewing = ref([{} as postType])
+const postsRejected = ref([{} as postType])
 const postAllUser = ref([{} as postType])
 
 const choosenCreatedPostId = ref(0)
@@ -440,6 +449,10 @@ onMounted(async () => {
         // Post reviewing
         let pR = await postsService.getAllStatusForUser(currentUser.value.id, 'reviewing');
         postsReviewing.value = pR.data
+
+        // Post rejected
+        let pRejected = await postsService.getAllStatusForUser(currentUser.value.id, 'reject');
+        postsRejected.value = pRejected.data
 
         // categories
         let ts = await tagsService.getAll();

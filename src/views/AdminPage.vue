@@ -256,8 +256,8 @@
                     </td>
 
                     <td class="text-end d-flex">
-                      <button class="btn btn-success" style="margin-right: 5px">Duyệt</button>
-                      <button class="btn btn-danger" style="margin-right: 5px">Từ chối</button>
+                      <button class="btn btn-success" style="margin-right: 5px" @click="confirmPost(post.id)">Duyệt</button>
+                      <button class="btn btn-danger" style="margin-right: 5px" data-bs-toggle="modal" data-bs-target="#rejectPostModal" @click="choosenPostId = post.id">Từ chối</button>
 
                       <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-primary">Chi tiết</a>
                     </td>
@@ -655,6 +655,27 @@
       </div>
     </div>
   </div>
+
+<!-- reject post -->
+  <div class="modal fade" id="rejectPostModal" tabindex="-1" aria-labelledby="rejectPostModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rejectPostModalLabel">Bạn có chắc chắn muốn từ chối bài viết này?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="reason">Lý do:</label>
+            <input name="reason" type="text" v-model="messageReject" class="form-control">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="rejectPost()">Từ chối</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -1173,6 +1194,32 @@ async function addContentSource() {
     console.log(error)
   }
 }
+
+async function confirmPost(id: number) {
+  try {
+    await postsService.createReview(id, {
+      "status": "confirm",
+      "message": ""
+    }, tokenBearer)
+    window.location.reload();
+  } catch (error) {
+    console.log(error)
+  }
+}
+const messageReject = ref('')
+const choosenPostId = ref(0)
+async function rejectPost() {
+  try {
+    await postsService.createReview(choosenPostId.value, {
+      "status": "reject",
+      "message": messageReject.value
+    }, tokenBearer)
+    window.location.reload();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 onMounted(async () => {
   try {

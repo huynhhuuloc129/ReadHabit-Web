@@ -44,7 +44,7 @@
                                     <input v-model="message" type="text" class="form-control"
                                         style="height: 35px; margin-right: 10px;" required>
                                     <button :disabled="message == ''" class="btn btn-outline-primary"
-                                        @click="parentId = props.commentsLv1[index].id; createComment();">Gửi</button>
+                                        @click="parentId = props.commentsLv1[index].id; createComment1();">Gửi</button>
                                 </div>
                             </div>
                             <hr>
@@ -78,7 +78,7 @@
                                                 <input v-model="message" type="text" class="form-control"
                                                     style="height: 35px; margin-right: 10px;" required>
                                                 <button :disabled="message == ''" class="btn btn-outline-primary"
-                                                    @click="parentId = props.commentsLv2[index][index2].id; createComment();">Gửi</button>
+                                                    @click="parentId = props.commentsLv2[index][index2].id; createComment2();">Gửi</button>
                                             </div>
                                         </div>
                                         <hr>
@@ -124,10 +124,50 @@
 <script setup lang="ts">
 import postsService from '@/services/posts.service';
 import checkLogin from '@/utilities/utilities';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useCookies } from 'vue3-cookies';
 
+type commentType = {
+    id: 0
+    createdAt: ''
+    updatedAt: ''
+    deletedAt: null
+    message: ''
+    postId: 0
+    parentId: null
+    path: ''
+    createdById: 0
+    post: {}
+    createdBy: {
+        id: 0
+        createdAt: ''
+        updatedAt: ''
+        deletedAt: null
+        email: ''
+        username: ''
+        firstName: ''
+        lastName: ''
+        fullName: ''
+        about: null
+        youtubeLink: null
+        facebookLink: null
+        linkedinLink: null
+        twitterLink: null
+        totalFollower: 0
+        totalFollowee: 0
+        refreshToken: null
+        phoneNumber: ''
+        birthday: ''
+        avatar: ''
+        role: ''
+    }
+}
+
 const props = defineProps(['postId', 'commentsLv1', 'commentsLv2', 'commentsLv3'])
+// const commentsPassingLv1 = ref([] as commentType[])
+// const commentsPassingLv2 = ref([[] as commentType[]])
+// const commentsPassingLv3 = ref([[[] as commentType[]]])
+
 
 const currentUser = ref({
     id: 0,
@@ -174,18 +214,28 @@ const messageFather = ref('')
 
 async function createCommentFather() {
     try {
-        await postsService.createComment(props.postId, {
+        let resp = await postsService.createComment(props.postId, {
             message: messageFather.value
         }, tokenBearer)
-
-        window.location.reload()
     } catch (error) {
         console.log(error)
     }
 }
 
-async function createComment() {
+async function createComment1() {
     try {
+        await postsService.createComment(props.postId, {
+            message: message.value,
+            parentId: parentId.value
+        }, tokenBearer)
+        window.location.reload()
+    } catch (error) {
+        console.log(error)
+    }
+}
+async function createComment2() {
+    try {
+
         await postsService.createComment(props.postId, {
             message: message.value,
             parentId: parentId.value
@@ -205,6 +255,27 @@ try {
     console.log(err)
 }
 
+
+// TODO
+// onMounted(() => {
+//     commentsPassingLv1.value = Object.assign([], props.commentsLv1)
+//     commentsPassingLv2.value = Object.assign([], props.commentsLv2)
+
+
+//     commentsPassingLv2.value = props.commentsLv2.map(function (arr: any) {
+//         return arr.slice();
+//     });
+
+
+//     // for (let i = 0; i < props.commentsLv2.length; i++) {
+//     //     // console.log(props.commentsLv2)
+//     //     commentsPassingLv2.value[i] = Object.assign([], props.commentsLv2[i])
+
+//     // }
+
+//     commentsPassingLv3.value = Object.assign([], props.commentsLv3)
+//     console.log(props.commentsLv2.length)
+// })
 </script>
 <style>
 .img-sm {

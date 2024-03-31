@@ -278,13 +278,36 @@
           <button style="width: 100px; height: 50px; margin-right: 20px" class="btn btn-success" @click="confirmPost()">
             Duyệt
           </button>
-          <button style="width: 100px; height: 50px" class="btn btn-danger">Từ chối</button>
+          <button style="width: 100px; height: 50px" class="btn btn-danger" data-bs-toggle="modal"
+            data-bs-target="#rejectPostModal">Từ chối</button>
         </div>
+        <h2 v-if="post.status == 'reject'" class="text-danger">Bài viết đã bị từ chối</h2>
       </div>
       <div class="col-3" v-if="post.status == 'published'">
         <h1>Các bài viết tương tự</h1>
       </div>
     </div>
+    <!-- reject modal -->
+    <div class="modal fade" id="rejectPostModal" tabindex="-1" aria-labelledby="rejectPostModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rejectPostModalLabel">Bạn có chắc chắn muốn từ chối bài viết này?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="reason">Lý do:</label>
+            <input name="reason" type="text" v-model="messageReject" class="form-control">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="rejectPost()">Từ chối</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <Suspense v-if="post.status == 'published'">
       <CommentComponent :postId="id" :commentsLv1="commentsPassingLv1" :commentsLv2="commentsPassingLv2"
         :commentsLv3="commentsPassingLv3">
@@ -642,8 +665,8 @@ const bookmarks = ref([
 ])
 
 const commentsPassingLv1 = ref([] as commentType[])
-const commentsPassingLv2 = ref([] as commentType[])
-const commentsPassingLv3 = ref(new Array(new Array(new Array)))
+const commentsPassingLv2 = ref([[] as commentType[]])
+const commentsPassingLv3 = ref([[[] as commentType[]]])
 const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
 
@@ -760,6 +783,20 @@ async function confirmPost() {
   }
 }
 
+const messageReject = ref('')
+async function rejectPost() {
+  try {
+    await postsService.createReview(post.value.id, {
+      "status": "reject",
+      "message": messageReject.value
+    }, tokenBearer)
+    window.location.reload();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 const newShareName = ref('')
 
 async function sharePost() {
@@ -842,6 +879,7 @@ onMounted(async () => {
         commentsPassingLv3.value[i][j] = respTemp2.data
       }
     }
+
 
 
     // follows

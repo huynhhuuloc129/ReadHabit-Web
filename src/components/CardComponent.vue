@@ -31,7 +31,9 @@
                     <a :href="'http://localhost:5173/personal/' + post.createdById" style="text-decoration: none">
                       <h6 class="my-0 text-dark d-block">{{ post.createdBy.fullName }}</h6>
                     </a>
-                    <!-- <small>Director of UI/UX</small> -->
+                    <small class="text-secondary" v-if="post.createdBy.role == 'admin'">Quản trị viên</small>
+                    <small class="text-secondary" v-else>Thành viên</small>
+
                   </div>
                 </div>
               </div>
