@@ -76,8 +76,8 @@
                             <img :src="'http://localhost:8080' + like.user.avatar.replace('files', '')" width="50px"
                               height="50px" style="border-radius: 50%; margin-right: 20px" alt="" />
                             <a :href="'http://localhost:5173/personal/' + like.user.id">{{
-      like.user.fullName
-    }}</a>
+                              like.user.fullName
+                              }}</a>
                           </div>
                           <div v-if="like.user.id != currentUser.id">
                             <button v-if="followArr.has(like.user.id)" class="btn btn-primary"
@@ -132,10 +132,10 @@
                           class="d-flex justify-content-between" style="margin: 20px 20px 20px 0">
                           <div>
                             <img :src="'http://localhost:8080' + dislike.user.avatar.replace('files', '')
-      " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="" />
+                              " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="" />
                             <a :href="'http://localhost:5173/personal/' + dislike.user.id">{{
-      dislike.user.fullName
-    }}</a>
+                              dislike.user.fullName
+                              }}</a>
                           </div>
                           <div v-if="dislike.user.id != currentUser.id">
                             <button v-if="followArr.has(dislike.user.id)" class="btn btn-primary"
@@ -284,7 +284,16 @@
         <h2 v-if="post.status == 'reject'" class="text-danger">Bài viết đã bị từ chối</h2>
       </div>
       <div class="col-3" v-if="post.status == 'published'">
-        <h1>Các bài viết tương tự</h1>
+        <h2>Bài viết tương tự</h2>
+        <a v-for="post in relatedPosts" :key="post.id" :href="'http://localhost:5173/post/'+ post.id" class="card-link a-underline link-underline-opacity-0">
+          <div v-if="post.id != null" class="card border card-related" style="margin-bottom: 10px">
+            <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <h6 v-if="post.category != null" class="card-subtitle mb-2 text-muted">{{ post.category.name }}</h6>
+              <p class="card-text" style="height: 70px; overflow: hidden; font-weight: 400;">{{post.content}}</p>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
     <!-- reject modal -->
@@ -426,6 +435,89 @@ const reactionDisLikes = ref([
       avatar: '',
       role: ''
     }
+  }
+])
+
+const relatedPosts = ref([
+  {
+    id: 0,
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: null,
+    title: '',
+    content: '',
+    sharePostId: null,
+    originalPostURL: '',
+    publishDate: '',
+    imageURL: '',
+    status: '',
+    type: '',
+    readTime: '',
+    totalLike: 0,
+    totalDislike: 0,
+    totalShare: 0,
+    categoryId: '',
+    createdById: '',
+    contentSourceId: '',
+    tags: [
+      {
+        id: 0,
+        createdAt: '',
+        updatedAt: '',
+        deletedAt: null,
+        name: '',
+        categoryId: '',
+        createdById: ''
+      }
+    ],
+    contentSource: {
+      id: 0,
+      createdAt: '',
+      updatedAt: '',
+      deletedAt: null,
+      name: '',
+      avatar: ''
+    },
+    category: {
+      id: 1,
+      createdAt: '',
+      updatedAt: '',
+      deletedAt: null,
+      name: '',
+      imageURL: null
+    },
+    createdBy: {
+      id: 0,
+      createdAt: '',
+      updatedAt: '',
+      deletedAt: null,
+      email: '',
+      password: '',
+      username: '',
+      firstName: '',
+      lastName: '',
+      fullName: '',
+      refreshToken: null,
+      phoneNumber: '',
+      birthday: '',
+      avatar: '',
+      role: ''
+    },
+    sharePost: null,
+    sharedByPosts: [],
+    comments: [
+      {
+        id: 0,
+        createdAt: '',
+        updatedAt: '',
+        deletedAt: null,
+        message: '',
+        postId: 0,
+        parentId: null,
+        path: '',
+        createdById: 0
+      }
+    ]
   }
 ])
 
@@ -847,6 +939,14 @@ onMounted(async () => {
     //post
     post.value = await postsService.getOne(id)
 
+    let ids = await postsService.getRelatedPost(id)
+    let tempRelatedPost: typeof post.value[] = []
+    for (let i = 0; i < ids.ids.length; i++) {
+      let postTemp: typeof post.value = await postsService.getOne(ids.ids[i])
+      tempRelatedPost.push(postTemp)
+    }
+    relatedPosts.value = tempRelatedPost
+    console.log(relatedPosts.value)
     //commentslv1
     let respCmts = await commentsService.getAll(post.value.id)
     commentsPassingLv1.value = respCmts.data
@@ -944,4 +1044,20 @@ a:hover {
   height: 100px;
   overflow: hidden;
 }
+.card-related{
+  text-decoration: none;
+}
+.card-related:hover{
+  text-decoration: none;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: 0.2s;
+}
+.a-underline{
+  text-decoration: none;
+}
+.a-underline:hover{
+  text-decoration: none;
+}
+
 </style>

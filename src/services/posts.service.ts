@@ -204,6 +204,14 @@ class PostService {
             handlingError(err);
         })
     }
+
+    async getRelatedPost(id: number) {
+        return await axios.get(`http://localhost:5000?id=${id}`).then((res) => {
+            return res.data;
+        }).catch((err) => {
+            handlingError(err);
+        })
+    }
 }
 
 export default new PostService();
