@@ -1,6 +1,6 @@
 <template>
     <!--  style="background-color: var(--main-color);"  -->
-    <div class="px-3 py-2">
+    <div class="px-3 py-2 header">
         <div class="container-fluid">
             <div style="margin-left: 50px;"
                 class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">

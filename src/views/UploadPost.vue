@@ -9,14 +9,14 @@
         <SidebarComponent text-color="black"></SidebarComponent>
     </Suspense>
 
-    <div class="d-flex p-lg-5">
+    <div class="d-flex p-lg-5" style="background-color: white;">
         <div class="btn-group btn-group-vertical justify-content-start d-flex flex-column sticky-top"
             style="width: 13vw; margin-right: 50px; height: 50vh;" role="group"
             aria-label="Basic radio toggle button group">
             <div class="w-100" style="margin-bottom: 20px;">
                 <input @click="clearForm()" type="radio" class="btn-check" name="btnradio" id="clear" autocomplete="off"
                     :value="0" checked>
-                <label class="btn btn-outline-danger w-100" for="clear">Mới</label>
+                <label class="btn btn-outline-secondary w-100" for="clear">Mới</label>
             </div>
             <h5 class="text-center" v-if="posts.length > 0">Các bài viết đang được chỉnh sửa</h5>
             <div v-for="(post, index) in posts" :key="post.id" class="w-100">
@@ -471,5 +471,8 @@ onMounted(async () => {
 <style>
 .form-select {
     margin-bottom: 40px;
+}
+.header{ 
+    background-color: white;
 }
 </style>

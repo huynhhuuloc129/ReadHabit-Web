@@ -1,160 +1,162 @@
 <template>
-    <img src="../assets/Cover.jpg"
-        style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;" />
-    <Suspense>
-        <HeaderComponent text-color="white"></HeaderComponent>
-        <template #fallback>
+    <div>
+        <img src="../assets/Cover.jpg"
+            style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;" />
+        <Suspense>
+            <HeaderComponent text-color="white"></HeaderComponent>
+            <template #fallback>
 
-        </template>
-    </Suspense>
-    <Suspense>
+            </template>
+        </Suspense>
+        <Suspense>
 
-        <SidebarComponent text-color="white"></SidebarComponent>
-    </Suspense>
+            <SidebarComponent text-color="white"></SidebarComponent>
+        </Suspense>
 
-    <div class="first-section container-fluid">
-        <div class="first-header">
-            <br>
-            <div class="d-flex justify-content-start flex-column">
+        <div class="first-section container-fluid" >
+            <div class="first-header">
+                <br>
+                <div class="d-flex justify-content-start flex-column">
 
-                <h1 class="text-white" style="margin-left: 40px; font-size: 70px;">Start reading today</h1>
+                    <h1 class="text-white" style="margin-left: 40px; font-size: 70px;">Start reading today</h1>
 
+                </div>
             </div>
         </div>
-    </div>
-    <div class="" style="margin: 30px 10px 10px 20px; ">
+        <div class="" style="margin: 30px 10px 10px 20px;">
 
-        <div>
-            <div class="card widget-card border-light w-100">
-                <div class="card-body p-4  d-flex justify-content-center flex-column align-items-center">
-                    <ul class="nav nav-tabs " id="profileTab" role="tablist">
+            <div>
+                <div class="card widget-card border-light w-100">
+                    <div class="card-body p-4  d-flex justify-content-center flex-column align-items-center">
+                        <ul class="nav nav-tabs " id="profileTab" role="tablist">
 
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="overview-tab" data-bs-toggle="tab"
-                                data-bs-target="#overview-tab-pane" type="button" role="tab"
-                                aria-controls="overview-tab-pane" aria-selected="true">
-                                Tổng quan
-                            </button>
-                        </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab"
+                                    data-bs-target="#overview-tab-pane" type="button" role="tab"
+                                    aria-controls="overview-tab-pane" aria-selected="true">
+                                    Tổng quan
+                                </button>
+                            </li>
 
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="post-tab" data-bs-toggle="tab" data-bs-target="#post-tab-pane"
-                                type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false">
-                                Bài viết
-                            </button>
-                        </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="post-tab" data-bs-toggle="tab" data-bs-target="#post-tab-pane"
+                                    type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false">
+                                    Bài viết
+                                </button>
+                            </li>
 
-                    </ul>
+                        </ul>
 
-                    <div class="tab-content pt-4" id="profileTabContent">
+                        <div class="tab-content pt-4" id="profileTabContent">
 
-                        <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel"
-                            aria-labelledby="overview-tab" tabindex="0">
+                            <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel"
+                                aria-labelledby="overview-tab" tabindex="0">
 
-                            <div class="d-flex flex-row flex-wrap justify-content-center">
+                                <div class="d-flex flex-row flex-wrap justify-content-center">
 
 
-                                <div>
-                                    <div v-for="(category, index) in categories" :key="category.id">
-                                        <div :id="category.name"
-                                            class="display-4 font-weight-bolder m-5 text-start w-100 float-start">{{
-                                        category.name }}</div>
-                                        <CardComponent :posts="VisiblePost(index)"></CardComponent>
-                                        <button @click="postVisibles[index] += steps[index]"
-                                            v-if="postVisibles[index] < posts[index].length" class="btn moreBtn"
-                                            style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
-                                            Xem thêm >>
-                                        </button>
+                                    <div>
+                                        <div v-for="(category, index) in categories" :key="category.id">
+                                            <h1 :id="category.name"
+                                                class="font-weight-bolder m-5 text-start w-100 float-start" style="font-weight: 500;">{{
+                                            category.name }}</h1>
+                                            <CardComponent :posts="VisiblePost(index)"></CardComponent>
+                                            <button @click="postVisibles[index] += steps[index]"
+                                                v-if="postVisibles[index] < posts[index].length" class="btn moreBtn"
+                                                style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
+                                                Xem thêm >>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="sidebarCate sticky-top"
-                                    style="margin: 50px 0 0px 20px; max-height: 100vh; width: 350px; overflow-y: scroll;">
-                                    <br>
-                                    <h3>Thể loại</h3>
-                                    <a @click="changeCategory(category.id)" v-for="category in categories"
-                                        :key="category.id" :href="'#' + category.name" class="category"
-                                        style="text-decoration: none; display: block;">
-                                        {{ category.name }}
-                                    </a>
-                                    <div class="w-100 d-flex justify-content-center">
-                                        <button class="btn btn-light w-100" data-bs-toggle="modal"
-                                            data-bs-target="#modalC">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-                                                <path
-                                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                                            </svg>
-                                        </button>
-
+                                    <div class="sidebarCate sticky-top"
+                                        style="margin: 50px 0 0px 20px; max-height: 100vh; width: 350px; overflow-y: scroll;">
+                                        <br>
+                                        <h3>Thể loại</h3>
+                                        <a @click="changeCategory(category.id)" v-for="category in categories"
+                                            :key="category.id" :href="'#' + category.name" class="category"
+                                            style="text-decoration: none; display: block;">
+                                            {{ category.name }}
+                                        </a>
+                                        <div class="w-100 d-flex justify-content-center">
+                                            <button class="btn btn-light w-100" data-bs-toggle="modal"
+                                                data-bs-target="#modalC">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                                </svg>
+                                            </button>
 
 
-                                    </div>
-                                    <hr>
-                                    <h3>Nhãn</h3>
-                                    <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
-                                        <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;"
-                                            role="group" aria-label="Basic checkbox toggle button group">
-                                            <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
-                                                <a :href="'http://localhost:5173/tag/' + tag.id">
-                                                    <button class="btn btn-outline-secondary">
-                                                        {{ tag.name }}
-                                                    </button>
-                                                </a>
+
+                                        </div>
+                                        <hr>
+                                        <h3>Nhãn</h3>
+                                        <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
+                                            <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;"
+                                                role="group" aria-label="Basic checkbox toggle button group">
+                                                <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
+                                                    <a :href="'http://localhost:5173/tag/' + tag.id">
+                                                        <button class="btn btn-outline-secondary">
+                                                            {{ tag.name }}
+                                                        </button>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
 
+                            <div class="tab-pane fade" id="post-tab-pane" role="tabpanel" aria-labelledby="post-tab"
+                                tabindex="0">
 
-                        </div>
-
-                        <div class="tab-pane fade" id="post-tab-pane" role="tabpanel" aria-labelledby="post-tab"
-                            tabindex="0">
-
-                            <div style="margin: 50px">
-                                <form class="form-inline my-sm-0 d-flex justify-content-center">
-                                    <input class="form-control mr-sm-2" type="search" placeholder="Search"
-                                        aria-label="Search">
-                                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-                                </form>
+                                <div style="margin: 50px">
+                                    <form class="form-inline my-sm-0 d-flex justify-content-center">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                            aria-label="Search">
+                                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                                    </form>
+                                </div>
+                                <CardTagComponent :posts="posts[0]"></CardTagComponent>
                             </div>
-                            <CardTagComponent :posts="posts[0]"></CardTagComponent>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
+
+
+
+            <!--  -->
+
+
         </div>
 
-
-
-        <!--  -->
-
-
-    </div>
-
-    <div id="modalC" class="modal fade" tabindex="-1" aria-labelledby="editBookmarkModelLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div id="d-flex flex-column">
-                        <h5>Danh sách tất cả thể loại</h5>
+        <div id="modalC" class="modal fade" tabindex="-1" aria-labelledby="editBookmarkModelLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div id="d-flex flex-column">
+                            <h5>Danh sách tất cả thể loại</h5>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-check" v-for="category in allCategories" :key="category.id">
-                        <input v-model="trackingCategories[category.id]" class="form-check-input" type="checkbox"
-                            id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            {{ category.name }}
-                        </label>
+                    <div class="modal-body">
+                        <div class="form-check" v-for="category in allCategories" :key="category.id">
+                            <input v-model="trackingCategories[category.id]" class="form-check-input" type="checkbox"
+                                id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                {{ category.name }}
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button @click="updateCategory()" class="btn btn-primary">Cập nhật</button>
+                    <div class="modal-footer">
+                        <button @click="updateCategory()" class="btn btn-primary">Cập nhật</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -425,7 +427,6 @@ onMounted(async () => {
     top: 0;
     right: 0;
     width: 250px;
-    background-color: #ffffff;
     border-radius: 5px;
 }
 

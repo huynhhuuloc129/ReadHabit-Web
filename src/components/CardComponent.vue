@@ -16,7 +16,7 @@
           post.category.name
         }}</small>
                 <h4 class="card-title mt-0">
-                  <a class="text-dark" herf="https://creativemanner.com">{{ post.title }}</a>
+                  <a class="text-dark" herf="https://creativemanner.com" style="text-decoration: none;">{{ post.title }}</a>
                 </h4>
                 <small><i class="far fa-clock"></i>{{ post.createdAt.slice(0, 10) }}</small>
               </div>
@@ -43,7 +43,7 @@
           <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
             :id="'offcanvasScrolling' + post.id" :aria-labelledby="'offcanvasScrollingLabel' + post.id">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" :id="'offcanvasScrollingLabel' + post.id">
+              <h5 class="offcanvas-title" :id="'offcanvasScrollingLabel' + post.id" style="text-decoration: none;">
                 {{ post.title }}
               </h5>
             </div>

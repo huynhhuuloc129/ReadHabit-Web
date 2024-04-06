@@ -26,11 +26,16 @@ function scrollToTop() {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 @import "https://unpkg.com/@vueup/vue-quill@1.0.0-beta.9/dist/vue-quill.snow.css";
+/* @import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&family=Reem+Kufi+Fun:wght@400..700&family=Tilt+Warp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&family=Reem+Kufi+Fun:wght@400..700&family=Signika+Negative:wght@300..700&family=Signika:wght@300..700&family=Tilt+Warp&display=swap');
 
 :root {
   --main-color: #2B517A;
 }
-
+body{
+  font-family:"Signika", sans-serif;
+}
 #btn-back-to-top {
   border-radius: 50%;
   position: fixed;
@@ -47,11 +52,11 @@ a {
   color: var(--main-color);
 }
 
-body {
+/* body {
   font-family: "Lexend Deca", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-}
+} */
 
 #sidebar-btn {
   position: fixed;

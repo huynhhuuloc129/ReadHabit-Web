@@ -6,7 +6,7 @@
   <Suspense>
     <SidebarComponent text-color="black"></SidebarComponent>
   </Suspense>
-  <div class="d-flex" style="margin: 0">
+  <div class="d-flex" style="margin: 0; background-color: white;">
     <nav id="sidebarMenu" style="z-index: 0" class="bg-white sticky-top">
       <div class="position-sticky">
         <div class="list-group list-group-flush mx-3 mt-4">

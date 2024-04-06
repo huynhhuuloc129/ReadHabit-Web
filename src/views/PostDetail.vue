@@ -7,7 +7,7 @@
     <SidebarComponent text-color="black"></SidebarComponent>
   </Suspense>
 
-  <div class="container" style="margin-top: 10px">
+  <div class="container" style="margin-top: 10px; background-color: white; padding: 40px;">
     <h1>{{ post.title }}</h1>
     <hr />
     <div class="row">
@@ -267,8 +267,8 @@
           </div> -->
         </div>
         <div id="tag-section" class="">
-          <div v-for="tag in post.tags" :key="tag.id" class="tags badge bg-secondary text-wrap" style="padding: 10px;">
-            <a :href="'http://localhost:5173/tag/' + tag.id" style="color: white">
+          <div v-for="tag in post.tags" :key="tag.id" class="tags badge bg-secondary text-wrap" style="padding: 10px; margin-top: 3px; margin-top: 3px;">
+            <a class="tagLink" :href="'http://localhost:5173/tag/' + tag.id" style="color: white">
               {{ tag.name }}
             </a>
           </div>
@@ -290,7 +290,7 @@
             <div class="card-body">
               <h5 class="card-title">{{ post.title }}</h5>
               <h6 v-if="post.category != null" class="card-subtitle mb-2 text-muted">{{ post.category.name }}</h6>
-              <p class="card-text" style="height: 70px; overflow: hidden; font-weight: 400;">{{post.content}}</p>
+              <p class="card-text" style="height: 70px; overflow: hidden; font-weight: 400;">{{ post.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
             </div>
           </div>
         </a>
@@ -1059,5 +1059,10 @@ a:hover {
 .a-underline:hover{
   text-decoration: none;
 }
-
+.header{
+  background-color: white;
+}
+body{
+  background-color: #F7F7F7;
+}
 </style>
