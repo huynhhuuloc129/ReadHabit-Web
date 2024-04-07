@@ -9,7 +9,7 @@
 
         <div class="profile">
           <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="Image" class="img-fluid">
-          <a :href="'http://localhost:5173/personal' + currentUser.id" style="color: black;">
+          <a :href="'http://localhost:5173/personal/' + currentUser.id" style="color: black;">
             <h3 class="name">{{ currentUser.fullName }}</h3>
           </a>
           <span class="country">New York, USA</span>
@@ -32,12 +32,11 @@
         
         <div class="nav-menu">
           <ul>
-            <li><a href="#"><span><i class="icon fas fa-home"></i></span>Bảng tin</a></li>
-            <li><a href="#"><span><i class="icon fa-regular fa-compass"></i></span>Khám phá</a></li>
-            <li><a href="#"><span><i class="icon fa-regular fa-bell"></i></span>Thông báo</a></li>
-            <li><a href="#"><span><i class="icon fa-regular fa-address-book"></i></span>Liên hệ</a></li>
-            <li><a href="#"><span><i class="icon fa-solid fa-chart-simple"></i></span>Thống kê</a></li>
-            <li><a href="#"><span><i class="icon fa-solid fa-right-from-bracket"></i></span>Đăng xuất</a></li>
+            <li><a href="http://localhost:5173"><span><i class="icon fas fa-home"></i></span>Bảng tin</a></li>
+            <li><a :href="'http://localhost:5173/personal/' + currentUser.id"><span><i class="icon fa-regular fa-compass"></i></span>Trang cá nhân</a></li>
+            <li><a href="http://localhost:5173/upload-post"><span><i class="icon fa-solid fa-newspaper"></i></span>Bài viết</a></li>
+            <li v-if="currentUser.role=='admin'"><a href="http://localhost:5173/admin"><span><i class="icon fa-solid fa-chart-simple"></i></span>Thống kê</a></li>
+            <li @click="signOut"><a href="#"><span><i class="icon fa-solid fa-right-from-bracket" ></i></span>Đăng xuất</a></li>
           </ul>
         </div>
       </div>
@@ -72,7 +71,10 @@ try {
 } catch (err) {
     console.log(err)
 }
-
+function signOut(){
+    document.cookie = 'Token' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location.reload();
+}
 $(function() {
 'use strict';
 // @ts-ignore

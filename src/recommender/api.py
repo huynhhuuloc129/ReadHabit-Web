@@ -4,7 +4,7 @@ from flask import request
 import requests
 app = Flask(__name__)
 api = Api(app)
-from utils import markdown_to_text
+from utils import html_to_text
 from gensim.utils import simple_preprocess
 from distances import get_most_similar_documents
 import numpy as np
@@ -45,7 +45,7 @@ def make_texts_corpus(sentences):
 
 col = []
 try:
-    req = requests.get('http://localhost:3000/api/posts?limit=100&offset=0&sortField=createdAt&sortOrder=desc&status=published')
+    req = requests.get('http://localhost:3000/api/posts?limit=1000&offset=0&sortField=createdAt&sortOrder=desc&status=published')
     data = req.json()['data']
     i =0
     for post in data:
@@ -70,14 +70,14 @@ class HelloWorld(Resource):
         id = request.args.get('id')
         req = requests.get('http://localhost:3000/api/posts/' + str(id))
         main_post = req.json()
-        main_post = {
+        current_post = {
             "id" : main_post["id"],
             "title": main_post["title"],
             "content": main_post["content"]
         }
 
         # preprocessing
-        content = markdown_to_text(main_post["content"])
+        content = html_to_text(current_post["content"])
         text_corpus = make_texts_corpus([content])
         bow = id2word.doc2bow(next(text_corpus))
         doc_distribution = np.array(
@@ -86,19 +86,22 @@ class HelloWorld(Resource):
 
         # recommender posts
         most_sim_ids = list(get_most_similar_documents(
-            doc_distribution, doc_topic_dist))[1:]
+            doc_distribution, doc_topic_dist))[0:]
 
         result = []
-
+        result2 = []
+        
         most_sim_ids = [int(id_) for id_ in most_sim_ids]
         for id in most_sim_ids:
-            # print(id)
             for (index, value) in enumerate(col):
-                # print(value)
                 if int(value['index']) == int(id):
+                    print(id, value['title'])
                     result.append(value['id'])
-        return {'ids': result}
-api.add_resource(HelloWorld, '/')
+                    result2.append(value['title'])
+
+        return {'ids': result, 'title': result2}
+
+api.add_resource(HelloWorld, '/api/')
 
 if __name__ == '__main__':
     app.run(debug=True)

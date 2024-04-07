@@ -1,24 +1,21 @@
 import itertools
 import logging
-import requests
-import sys
+
 import numpy as np
 import matplotlib.pyplot as plt
 import gensim
 from gensim.utils import simple_preprocess
 import joblib
-from utils import markdown_to_text
+
 from distances import get_most_similar_documents
 
 logging.basicConfig(format='%(levelname)s : %(message)s', level=logging.INFO)
 logging.root.level = logging.INFO
 
-
 PATH_DICTIONARY = "models/id2word.dictionary"
 PATH_CORPUS = "models/corpus.mm"
 PATH_LDA_MODEL = "models/LDA.model"
 PATH_DOC_TOPIC_DIST = "models/doc_topic_dist.dat"
-
 
 def head(stream, n=10):
     """
@@ -230,62 +227,25 @@ lda_model, corpus, id2word, doc_topic_dist = load_model()
 
 
 def main():
-    req = requests.get(sys.argv[1])
-    main_post = req.json()
-    main_post = {
-        "id" : main_post["id"],
-        "title": main_post["title"],
-        "content": main_post["content"]
-    }
-
-    # preprocessing
-    content = markdown_to_text(main_post["content"])
-    text_corpus = make_texts_corpus([content])
-    bow = id2word.doc2bow(next(text_corpus))
-    doc_distribution = np.array(
-        [doc_top[1] for doc_top in lda_model.get_document_topics(bow=bow)]
-    )
-
-    # recommender posts
-    most_sim_ids = list(get_most_similar_documents(
-        doc_distribution, doc_topic_dist))[1:]
-
-    most_sim_ids = [int(id_) for id_ in most_sim_ids]
-    # posts = mongo_col.find({"idrs": {"$in": most_sim_ids}})
-    # related_posts = [
-    #     {
-    #         "url": post["canonical_url"],
-    #         "title": post["title"],
-    #         "slug": post["slug"]
-    #     }
-    #     for post in posts
-    # ][1:]
-
-    print(most_sim_ids)
-
-    # return render_template(
-    #     'index.html', main_post=main_post, posts=related_posts
-    # )
     # TODO
-    # sentences = None
-    # sentences = make_texts_corpus(sentences)
-    # id2word = gensim.corpora.Dictionary(sentences)
-    # id2word.filter_extremes(no_below=20, no_above=0.1)
-    # id2word.compactify()
+    sentences = None
+    sentences = make_texts_corpus(sentences)
+    id2word = gensim.corpora.Dictionary(sentences)
+    id2word.compactify()
 
-    # # save dictionary
-    # # id2word.save('path_to_save_file.dictionary')
-    # cospus = StreamCorpus(sentences, id2word)
-    # # save corpus
-    # # gensim.corpora.MmCorpus.serialize('path_to_save_file.mm', cospus)
-    # # load corpus
-    # # mm_corpus = gensim.corpora.MmCorpus('path_to_save_file.mm')
-    # lda_model = gensim.models.ldamodel.LdaModel(
-    #     cospus, num_topics=64, id2word=id2word, passes=10, chunksize=100
-    # )
-    # # save model
-    # # lda_model.save('path_to_save_model.model')
-    # lda_model.print_topics(-1)
+    # save dictionary
+    # id2word.save('path_to_save_file.dictionary')
+    cospus = StreamCorpus(sentences, id2word)
+    # save corpus
+    # gensim.corpora.MmCorpus.serialize('path_to_save_file.mm', cospus)
+    # load corpus
+    # mm_corpus = gensim.corpora.MmCorpus('path_to_save_file.mm')
+    lda_model = gensim.models.ldamodel.LdaModel(
+        cospus, num_topics=7, id2word=id2word, passes=3, chunksize=100
+    )
+    # save model
+    # lda_model.save('path_to_save_model.model')
+    lda_model.print_topics(-1)
 
 
 if __name__ == '__main__':

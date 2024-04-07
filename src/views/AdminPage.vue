@@ -9,7 +9,8 @@
   <div class="d-flex" style="margin: 0; background-color: white;">
     <nav id="sidebarMenu" style="z-index: 0" class="bg-white sticky-top">
       <div class="position-sticky">
-        <div class="list-group list-group-flush mx-3 mt-4">
+        <PrintPage ref="frame" />
+        <div ref="fragment" class="list-group list-group-flush mx-3 mt-4">
           <a href="#" class="list-group-item list-group-item-action py-2 ripple active" aria-current="true"
             data-bs-toggle="tab" data-bs-target="#dashboard">
             <i class="fas fa-chart-line fa-fw me-3"></i>
@@ -41,7 +42,7 @@
             <i class="fa-solid fa-calendar-days fa-fw me-3"></i>
             <span>Hoạt động</span>
           </a>
-          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+          <a href="#" @click="printFragment()" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
             data-bs-toggle="tab" data-bs-target="#generatePost" aria-controls="generatePost">
             <i class="fa-solid fa-gears fa-fw me-3"></i>
             <span>Tạo bài viết nhanh</span>
@@ -697,6 +698,9 @@ import contentSourcesService from '@/services/contentSources.service'
 import eventLogService from '@/services/eventLog.service'
 const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
+// @ts-ignore
+import PrintPage from '@/components/PrintPage.vue';
+
 Chart.register(...registerables)
 
 const data = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -1057,7 +1061,9 @@ async function deleteTag(tagId: number, index: number) {
     console.log(error)
   }
 }
-
+const frame = ref(null as HTMLElement | null)
+const fragment = ref(null as HTMLElement | null)
+const printFragment = computed(() =>frame.value.print(fragment.value))
 const choosenContentSourceId = ref(0)
 const choosenContentSourceIndex = ref(0)
 
@@ -1182,6 +1188,9 @@ function previewFileAdd(e: any) {
 const fileImageAdd = ref({})
 
 const addContentSourceName = ref('')
+
+const html2Pdf = ref(null)
+
 
 async function addContentSource() {
   try {

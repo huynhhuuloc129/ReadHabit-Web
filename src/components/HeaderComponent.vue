@@ -110,7 +110,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li>
+                        <!-- <li>
                             <a class="dropdown-item" href="#!">
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -133,13 +133,13 @@
                                     <span class="fs-7 p-2">Hỗ trợ</span>
                                 </span>
                             </a>
-                        </li>
+                        </li> -->
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <span class="dropdown-item text-center" style="cursor: pointer;">
-                                <span @click="onSignOut" class="fs-7">Đăng xuất</span>
+                            <span @click="signOut" class="dropdown-item text-center" style="cursor: pointer;">
+                                <span class="fs-7">Đăng xuất</span>
                             </span>
                         </li>
                     </ul>
@@ -331,7 +331,7 @@ var onLogin = async (e: any) => {
         // console.log(err)
     }
 }
-var onSignOut = () => {
+function signOut() {
     document.cookie = 'Token' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.reload();
 }

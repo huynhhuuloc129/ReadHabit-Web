@@ -285,12 +285,12 @@
       </div>
       <div class="col-3" v-if="post.status == 'published'">
         <h2>Bài viết tương tự</h2>
-        <a v-for="post in relatedPosts" :key="post.id" :href="'http://localhost:5173/post/'+ post.id" class="card-link a-underline link-underline-opacity-0">
-          <div v-if="post.id != null" class="card border card-related" style="margin-bottom: 10px">
+        <a v-for="rpost in relatedPosts" :key="rpost.id" :href="'http://localhost:5173/post/'+ rpost.id" class="card-link a-underline link-underline-opacity-0">
+          <div v-if="rpost.id != null && rpost.id != post.id" class="card border card-related" style="margin-bottom: 10px">
             <div class="card-body">
-              <h5 class="card-title">{{ post.title }}</h5>
-              <h6 v-if="post.category != null" class="card-subtitle mb-2 text-muted">{{ post.category.name }}</h6>
-              <p class="card-text" style="height: 70px; overflow: hidden; font-weight: 400;">{{ post.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
+              <h5 class="card-title">{{ rpost.title }}</h5>
+              <h6 v-if="rpost.category != null" class="card-subtitle mb-2 text-muted">{{ rpost.category.name }}</h6>
+              <p class="card-text" style="height: 70px; overflow: hidden; font-weight: 400;">{{ rpost.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
             </div>
           </div>
         </a>
@@ -1026,6 +1026,7 @@ onMounted(async () => {
 
 .tags {
   margin-right: 5px;
+  font-size: medium;
 }
 
 a {

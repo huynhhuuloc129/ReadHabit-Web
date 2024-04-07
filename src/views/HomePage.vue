@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="" style="margin: 30px 10px 10px 20px;">
+        <div class="" style="margin: 0px 10px 10px 20px;">
 
             <div>
                 <div class="card widget-card border-light w-100">
@@ -56,9 +56,9 @@
 
 
                                     <div>
-                                        <div v-for="(category, index) in categories" :key="category.id">
-                                            <h1 :id="category.name"
-                                                class="font-weight-bolder m-5 text-start w-100 float-start" style="font-weight: 500;">{{
+                                        <div v-for="(category, index) in categories" :key="category.id" >
+                                            <h1 :id="category.name" 
+                                                class="font-weight-bolder text-start w-100 float-start" style="font-weight: 500; margin: 30px 0 20px 20px;">{{
                                             category.name }}</h1>
                                             <CardComponent :posts="VisiblePost(index)"></CardComponent>
                                             <button @click="postVisibles[index] += steps[index]"

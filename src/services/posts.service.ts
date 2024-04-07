@@ -206,7 +206,7 @@ class PostService {
     }
 
     async getRelatedPost(id: number) {
-        return await axios.get(`http://localhost:5000?id=${id}`).then((res) => {
+        return await axios.get(`http://localhost:5000/api/?id=${id}`).then((res) => {
             return res.data;
         }).catch((err) => {
             handlingError(err);

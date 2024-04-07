@@ -26,16 +26,13 @@ def preprocessing_tags(soup, tags=None):
     return soup.get_text()
 
 
-def markdown_to_text(markdown_string, parser="html.parser",
+def html_to_text(markdown_string, parser="html.parser",
                      tags=['pre', 'code', 'a', 'img', 'i']):
-    """ Converts a markdown string to plaintext
+    """ Converts a html string to plaintext
     https://stackoverflow.com/questions/18453176
     """
 
     # import mistune  # noqa
-    # # md -> html -> text since BeautifulSoup can extract text cleanly
-    # markdown = mistune.Markdown()
-    # html = markdown(markdown_string)
 
     soup = BeautifulSoup(markdown_string, parser)
     text = preprocessing_tags(soup, tags)
@@ -54,11 +51,7 @@ def markdown_to_text(markdown_string, parser="html.parser",
 
 
 def markdown_process(content, markdown=markdown, tags_space=None):
-    """
-    Author: Hoang Anh Pham
-    :param tags_space: technology keyword to replace to remain tags
-        ruby on rails -> ruby_on_rails
-    """
+
     import mistune  # noqa
 
     markdown = mistune.Markdown()
