@@ -42,7 +42,8 @@
             <i class="fa-solid fa-calendar-days fa-fw me-3"></i>
             <span>Hoạt động</span>
           </a>
-          <a href="#" @click="printFragment()" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+          <!-- @click="printFragment()" -->
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
             data-bs-toggle="tab" data-bs-target="#generatePost" aria-controls="generatePost">
             <i class="fa-solid fa-gears fa-fw me-3"></i>
             <span>Tạo bài viết nhanh</span>
@@ -1063,7 +1064,7 @@ async function deleteTag(tagId: number, index: number) {
 }
 const frame = ref(null as HTMLElement | null)
 const fragment = ref(null as HTMLElement | null)
-const printFragment = computed(() =>frame.value.print(fragment.value))
+// const printFragment = computed(() =>frame.value.print(fragment.value))
 const choosenContentSourceId = ref(0)
 const choosenContentSourceIndex = ref(0)
 

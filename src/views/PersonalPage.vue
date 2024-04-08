@@ -47,10 +47,11 @@
                                   class="d-flex justify-content-between" style="margin: 0px 20px 20px 0">
                                   <div>
                                     <img :src="'http://localhost:8080' +
-                          follower.follower.avatar.replace('files', '')
-                          " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="" />
+                                      follower.follower.avatar.replace('files', '')
+                                      " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px"
+                                      alt="" />
                                     <a :href="'http://localhost:5173/personal/' + follower.follower.id
-                          ">{{ follower.follower.fullName }}</a>
+                                      ">{{ follower.follower.fullName }}</a>
                                   </div>
                                   <div v-if="follower.follower.id != currentUser.id">
                                     <button v-if="trackingFollowArr.get(follower.follower.id) == true"
@@ -87,10 +88,11 @@
                                   class="d-flex justify-content-between" style="margin: 0px 20px 20px 0">
                                   <div>
                                     <img :src="'http://localhost:8080' +
-                          following.followee.avatar.replace('files', '')
-                          " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px" alt="" />
+                                      following.followee.avatar.replace('files', '')
+                                      " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px"
+                                      alt="" />
                                     <a :href="'http://localhost:5173/personal/' + following.followee.id
-                          ">{{ following.followee.fullName }}</a>
+                                      ">{{ following.followee.fullName }}</a>
                                   </div>
                                   <div v-if="following.followee.id != currentUser.id">
                                     <button v-if="trackingFollowArr.get(following.followee.id) == true"
@@ -115,7 +117,7 @@
                     </ul>
                     <div class="d-grid m-0" v-if="currentUser.id != user.id && isLogin">
                       <button v-if="!trackingFollowArr.has(user.id) || trackingFollowArr.get(user.id) == false
-                          " class="btn btn-outline-primary" type="button"
+                      " class="btn btn-outline-primary" type="button"
                         @click="(user.totalFollower += 1), follow(user.id)">
                         Theo dõi
                       </button>
@@ -312,10 +314,10 @@
                       </div>
                     </div>
 
-                    <div v-if="eventLogs[0].id != 0">
+                    <div>
                       <h5>Hoạt động</h5>
-                      <calendar-heatmap v-if="contributionData.length > 1" id="calendar-heatmap"
-                        :values="contributionData" :options="options" :end-date=endDate() />
+                      <calendar-heatmap id="calendar-heatmap" :values="contributionData" :options="options"
+                        :end-date=endDate() />
 
                       <div>
                         <table class="table table-borderless">
@@ -327,8 +329,8 @@
                               <td v-if="el.action == 'share'">Chia sẻ</td>
                               <td>
                                 <a :href="'http://localhost:5173/post/' + el.post.id">{{
-                          el.post.title
-                        }}</a>
+                                  el.post.title
+                                }}</a>
                               </td>
                             </tr>
                           </tbody>
@@ -514,13 +516,8 @@
                                 <div class="modal-body">
                                   <div v-if="index > 0" class="d-flex w-100">
                                     <input v-model="bookmark.name" type="text" class="form-control w-100" />
-                                    <button class="btn btn-primary w-25" @click="
-                          updateNameBookmark(
-                            bookmark.id,
-                            bookmark.name,
-                            bookmark.position
-                          )
-                          ">
+                                    <button class="btn btn-primary w-25"
+                                      @click="updateNameBookmark(bookmark.id, bookmark.name, bookmark.position)">
                                       Cập nhật
                                     </button>
                                   </div>
@@ -531,18 +528,18 @@
                                         class="m-2 img-thumbnail" />
                                       <div>
                                         <a :href="'http://localhost:5173/post/' + bookmarkPost.postId
-                          ">{{ bookmarkPost.title }}</a>
+                                          ">{{ bookmarkPost.title }}</a>
                                       </div>
                                     </div>
                                     <div class="">
                                       <button class="btn btn-danger" @click="
-                          deletePostFromBookmark(
-                            bookmark.id,
-                            bookmarkPost.id,
-                            index,
-                            index1
-                          )
-                          ">
+                                        deletePostFromBookmark(
+                                          bookmark.id,
+                                          bookmarkPost.id,
+                                          index,
+                                          index1
+                                        )
+                                        ">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                           fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                           <path
@@ -589,7 +586,8 @@
                           </div>
                         </div>
                       </div>
-                      <CardComponent v-if="bookmark.bookmarkPosts != null && bookmark.bookmarkPosts.length > 0"
+                      <CardComponent
+                        v-if="bookmark.bookmarkPosts != null && bookmark.bookmarkPosts.length > 0 && bookmark.bookmarkPosts[0].id != 0"
                         :posts="VisiblePost(index)"></CardComponent>
                       <div v-if="bookmark.bookmarkPosts != null && bookmark.bookmarkPosts.length > 0"
                         class="d-flex justify-content-center">
@@ -610,8 +608,8 @@
                     aria-labelledby="rank-tab" tabindex="0">
                     <div class="d-flex justify-content-start">
                       <img width="100px" height="100px" v-if="currentRank.rankLevel != null" :src="'http://localhost:8080' +
-                          currentRank.rankLevel.imageURL.replace('files', '')
-                          " alt="" />
+                        currentRank.rankLevel.imageURL.replace('files', '')
+                        " alt="" />
                       <div v-if="currentRank.rankLevel != null" style="margin-left: 50px">
                         <div>
                           <span>Mức xếp hạng hiện tại:
@@ -621,8 +619,8 @@
                         <div>
                           <span>Ngày đạt được:
                             <span style="font-weight: bold">{{
-                          currentRank.createdAt.slice(0, 10)
-                        }}</span>
+                              currentRank.createdAt.slice(0, 10)
+                            }}</span>
                           </span>
                         </div>
                         <div>
@@ -651,8 +649,8 @@
                             </th>
                             <td v-if="rank.rankLevel != null">
                               <img width="25px" height="25px" :src="'http://localhost:8080' +
-                          rank.rankLevel.imageURL.replace('files', '')
-                          " alt="" />
+                                rank.rankLevel.imageURL.replace('files', '')
+                                " alt="" />
                             </td>
                             <td v-if="rank.rankLevel != null">{{ rank.rankLevel.name }}</td>
                             <td>{{ rank.process }}%</td>
@@ -1376,6 +1374,7 @@ onMounted(async () => {
       postVisibles.value[i] = 3
       steps.value[i] = 3
     }
+
     trackingBookmarkPost.value = arrTemp
 
     // event log

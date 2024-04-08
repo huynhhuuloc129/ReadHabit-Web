@@ -13,11 +13,11 @@
         <h1>Danh sách các bài viết có nhãn #{{ tag.name }}</h1>
 
         <div class="d-flex">
-            <div>
+            <div v-if="posts[0].id != 0" style="width: 1000px;">
                 <CardTagComponent :posts="posts"></CardTagComponent>
-
             </div>
-            <div class="w-25 sticky-top sidebarTag" style="max-height: 50vh;">
+            <h4 class="text-secondary" v-if="posts[0].id == 0" style="width: 1000px; ">Không có bài viết nào thuộc nhãn này</h4>
+            <div class="sticky-top sidebarTag" style="max-height: 90vh; overflow: scroll; max-width: 300px;">
                 <h5>Các nhãn cùng thể loại</h5>
                 <a :href="'http://localhost:5173/tag/' + tag1.id" v-for="tag1 in tags" :key="tag1.id">
                     <button v-if="tag1.id != tag.id" class="btn btn-outline-secondary">

@@ -40,8 +40,8 @@
 
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="post-tab" data-bs-toggle="tab" data-bs-target="#post-tab-pane"
-                                    type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false">
-                                    Bài viết
+                                    type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false" @click="getFeedPost()">
+                                    Bảng tin
                                 </button>
                             </li>
 
@@ -61,6 +61,7 @@
                                                 class="font-weight-bolder text-start w-100 float-start" style="font-weight: 500; margin: 30px 0 20px 20px;">{{
                                             category.name }}</h1>
                                             <CardComponent :posts="VisiblePost(index)"></CardComponent>
+                                            <h5  v-if="posts[index].length == 0" class="text-secondary" style="margin-left: 20px;">Không có bài viết nào thuộc thể loại này</h5>
                                             <button @click="postVisibles[index] += steps[index]"
                                                 v-if="postVisibles[index] < posts[index].length" class="btn moreBtn"
                                                 style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
@@ -88,8 +89,6 @@
                                                 </svg>
                                             </button>
 
-
-
                                         </div>
                                         <hr>
                                         <h3>Nhãn</h3>
@@ -107,8 +106,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
 
                             <div class="tab-pane fade" id="post-tab-pane" role="tabpanel" aria-labelledby="post-tab"
@@ -121,7 +118,14 @@
                                         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                                     </form>
                                 </div>
-                                <CardTagComponent :posts="posts[0]"></CardTagComponent>
+                                <CardTagComponent :posts="VisibleFeedPost()"></CardTagComponent>
+                                <div class="align-items-center w-100 d-flex">
+                                    <button  class="btn moreBtn" @click="feedVisibles+=stepsFeed"
+                                    v-if="feedVisibles < postFeed.length"
+                                        style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
+                                        Xem thêm >>
+                                    </button>
+                                </div>
                             </div>
 
                         </div>
@@ -315,9 +319,74 @@ const tags = ref([{
 
 var postVisibles = ref([] as number[])
 var steps = ref([] as number[])
+
+var feedVisibles = ref(6)
+var stepsFeed = ref(5)
+
 const categoryId = ref(0)
 const isLogin = ref(false)
-const checkedTags = ref([] as string[])
+const postFeed = ref([{
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    title: "",
+    content: "",
+    sharePostId: null,
+    originalPostURL: "",
+    publishDate: "",
+    imageURL: "",
+    status: "",
+    type: "",
+    readTime: '',
+    totalLike: '',
+    totalDislike: '',
+    totalShare: '',
+    categoryId: '',
+    createdById: '',
+    contentSourceId: '',
+    tags: [
+        {
+            id: '',
+            createdAt: "",
+            updatedAt: "",
+            deletedAt: null,
+            name: "",
+            categoryId: '',
+            createdById: ''
+        }
+    ],
+    contentSource: {
+        id: "",
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        avatar: ""
+    },
+    category: {} as categoryType,
+    createdBy: {
+        id: '',
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        email: "",
+        password: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        fullName: "",
+        refreshToken: null,
+        phoneNumber: "",
+        birthday: "",
+        avatar: "",
+        role: ""
+    },
+    sharePost: null,
+    sharedByPosts: [],
+    comments: []
+}]
+)
 
 try {
     currentUser.value = await checkLogin();
@@ -336,9 +405,11 @@ const notifyUpdateCategory = () => {
 
 // filter posts
 function VisiblePost(position: number) {
-
-
     return posts.value[position].slice(0, postVisibles.value[position])
+}
+
+function VisibleFeedPost() {
+    return postFeed.value.slice(0, feedVisibles.value)
 }
 
 // filter tags
@@ -371,6 +442,16 @@ async function updateCategory() {
         window.location.reload();
     } catch (err) {
         console.log(err)
+    }
+}
+
+async function getFeedPost(){
+    try {
+        let tempFeedPost = await postsService.getFeedForCurrentUser(tokenBearer)
+        postFeed.value = tempFeedPost.data
+        console.log(tempFeedPost.data)
+    } catch (error) {
+        console.log(error)
     }
 }
 

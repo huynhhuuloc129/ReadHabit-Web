@@ -1,11 +1,11 @@
 <template>
   <section class="">
     <div class="container">
-      <div class="card-group vgr-cards">
+      <div class="card-group vgr-cards" v-if="posts.length > 0 && posts[0].id != 0">
 
         <div v-for="post in posts" :key="post.id" class="card">
           <div class="card-img-body">
-            <img class="card-img" :src="'http://localhost:8080' + post.imageURL.replace('files', '')"
+            <img v-if=" post.imageURL != null" class="card-img" :src="'http://localhost:8080' + post.imageURL.replace('files', '')"
               alt="Card image cap">
           </div>
           <div class="card-body d-flex flex-column justify-content-between">
@@ -55,6 +55,7 @@
 
         </div>
       </div>
+      <div v-if="posts.length == 0 || posts[0].id == 0"></div>
     </div>
   </section>
 </template>

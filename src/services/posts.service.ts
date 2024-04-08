@@ -61,6 +61,18 @@ class PostService {
         }
     }
 
+    async getFeedForCurrentUser(token: string){
+        return await axios.get(`http://localhost:3000/api/posts/feed?limit=100&offset=0`, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then((res) => {
+        return res.data;
+        }).catch((err) => {
+            handlingError(err);
+        })
+    }
+
     async create(categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostUrl: string, status: string, type: string, postImage: any, token: string) {
         const form = new FormData();
         form.set("categoryId", JSON.stringify(categoryId))

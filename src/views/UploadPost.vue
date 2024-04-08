@@ -87,8 +87,9 @@
             <input v-model="editPostForm.title" id="titlePost" type="text" class="form-control" required>
 
             <div class="mb-3 text-center d-flex flex-column justify-content-center" style="margin: 50px 0 50px 0">
-                <img v-if="editPostForm.imageCover[0] == 'f'" style="margin-bottom: 50px;" class="img-thumbnail"
-                    width="500px" :src="'http://localhost:8080' + editPostForm.imageCover.replace('files', '')" alt="">
+                <img v-if="editPostForm.imageCover != null && editPostForm.imageCover[0] == 'f'"
+                    style="margin-bottom: 50px;" class="img-thumbnail" width="500px"
+                    :src="'http://localhost:8080' + editPostForm.imageCover.replace('files', '')" alt="">
 
                 <label for="formFile" class="form-label">File ảnh bìa bài viết</label>
                 <input @change="previewFile($event)" class="form-control" type="file" id="formFile">
@@ -338,7 +339,6 @@ try {
 async function changeForm(id: number) {
     postAllUser.value.forEach((post) => {
         if (post.id == id) {
-            console.log(post.imageURL)
             editPostForm.value.postId = post.id
             editPostForm.value.categoryId = post.categoryId
             editPostForm.value.title = post.title
@@ -365,7 +365,6 @@ async function changeForm(id: number) {
 
 function previewFile(e: any) {
     fileImage.value = e.target.files[0]
-    console.log(fileImage.value)
 }
 
 function clearForm() {
@@ -472,7 +471,8 @@ onMounted(async () => {
 .form-select {
     margin-bottom: 40px;
 }
-.header{ 
+
+.header {
     background-color: white;
 }
 </style>

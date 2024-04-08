@@ -179,14 +179,8 @@
                                         <button type="submit" id="loginButton"
                                             class="btn blue-background text-white">Đăng nhập</button>
                                     </div>
-                                    <div id="other-option">
-                                        <a href="#" class="blue-color">Quên mật khẩu?</a>
-                                        hoặc
-                                        <a href="#" class="blue-color">Đăng ký</a>
-                                    </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -241,10 +235,7 @@
                                         <button type="submit" id="registerButton"
                                             class="btn blue-background text-white">Đăng ký</button>
                                     </div>
-                                    <div id="other-option">
-                                        Đã có tài khoản?
-                                        <a href="#" class="blue-color">Đăng nhập ngay</a>
-                                    </div>
+
                                 </form>
                             </div>
 
@@ -263,6 +254,7 @@ import checkLogin from "@/utilities/utilities";
 import { useCookies } from "vue3-cookies";
 import { ref } from 'vue'
 import notificationsService from '@/services/notifications.service';
+import router from '@/router'
 
 const props = defineProps(['textColor'])
 const cookies = useCookies();
@@ -332,7 +324,7 @@ var onLogin = async (e: any) => {
     }
 }
 function signOut() {
-    document.cookie = 'Token' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    cookies.cookies.set("Token", '');
     window.location.reload();
 }
 const notifications = ref([
