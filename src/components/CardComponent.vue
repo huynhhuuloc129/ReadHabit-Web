@@ -7,7 +7,7 @@
           data-bs-toggle="offcanvas" :data-bs-target="'#offcanvasScrolling' + post.id"
           :aria-controls="'offcanvasScrolling' + post.id">
           <div class="card post text-dark card-has-bg click-col"
-            :style="{ 'background-image': 'url(' + post.imageURL + ')' }">
+            :style="{ 'background-image': 'url(' + (post.imageURL ? post.imageURL : 'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg') + ')' }">
             <img class="card-img d-none" src="https://source.unsplash.com/600x900/?tech,street"
               alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" />
             <div class="card-img-overlay d-flex flex-column">

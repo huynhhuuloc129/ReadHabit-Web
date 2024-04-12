@@ -2,10 +2,9 @@
   <section class="">
     <div class="container">
       <div class="card-group vgr-cards" v-if="posts.length > 0 && posts[0].id != 0">
-
         <div v-for="post in posts" :key="post.id" class="card">
           <div class="card-img-body">
-            <img v-if=" post.imageURL != null" class="card-img" :src="'http://localhost:8080' + post.imageURL.replace('files', '')"
+            <img class="card-img" :src="(post.imageURL ? post.imageURL : 'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg')"
               alt="Card image cap">
           </div>
           <div class="card-body d-flex flex-column justify-content-between">

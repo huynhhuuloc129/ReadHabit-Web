@@ -23,29 +23,39 @@
                 </a>
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li class="text-center nav-item dropdown nav-link bsb-dropdown-toggle-caret-disable" v-if="isLogin"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <a href="#" class="nav-link text-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                class="bi bi-bell-fill header" viewBox="0 0 16 16">
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="seenNoti()">
+                        <a class="nav-link text-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-bell-fill header" viewBox="0 0 16 16">
                                 <path
-                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+                                d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                             </svg>
+                            <span v-if="countUnread  > 0" class="position-absolute top-10 start-30 translate-middle badge rounded-pill bg-danger">
+                                {{ countUnread }}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-md-end bsb-dropdown-animation bsb-fadeIn"
-                            style="width: 400px; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
+                    <ul class="dropdown-menu dropdown-menu-md-end bsb-dropdown-animation bsb-fadeIn"
+                    style="width: 400px; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
                             <h5 style="margin-left: 10px">Thông báo</h5>
                             <hr class="dropdown-divider">
-                            <li class="dropdown-li" v-for="(noti, index) in notifications" :key="noti.id">
-                                <h6 class="dropdown-header">
-                                    <p v-if="noti.seen == false" class="text-secondary text-wrap">
-                                        {{ noti.notification.message }}
-                                    </p>
-                                    <div v-else class="text-primary text-wrap">
-                                        {{ noti.notification.message }}
-                                    </div>
-                                </h6>
-                                <hr v-if="index != notifications.length" class="dropdown-divider">
-                            </li>
+                            <div class="text-secondary" v-if="notifications.length == 0" style="margin-left: 10px">Không có thông báo nào</div>
+                            <div v-else>
+                                <li v-for="(noti, index) in notifications" :key="noti.id" class="dropdown-li" >
+                                    <a :href="'http://localhost:5173/' + noti.notification.path"  style="text-decoration: none;">
+                                        <h6 class="dropdown-header">
+                                            <p v-if="noti.seen == false" class="text-primary text-wrap">
+                                                {{ noti.notification.message }}
+                                            </p>
+                                            <div v-else class="text-secondary text-wrap">
+                                                {{ noti.notification.message }}
+                                            </div>
+                                        </h6>
+                                        <hr v-if="index != notifications.length-1" class="dropdown-divider">
+                                    </a>
+                                </li>
+
+                            </div>
                         </ul>
                     </li>
                 </ul>
@@ -254,7 +264,6 @@ import checkLogin from "@/utilities/utilities";
 import { useCookies } from "vue3-cookies";
 import { ref } from 'vue'
 import notificationsService from '@/services/notifications.service';
-import router from '@/router'
 
 const props = defineProps(['textColor'])
 const cookies = useCookies();
@@ -309,7 +318,7 @@ const currentToken = ref({
     refresh_token: '',
 })
 const isLogin = ref(false);
-
+const countUnread = ref(0)
 
 var onLogin = async (e: any) => {
     e.preventDefault();
@@ -327,6 +336,23 @@ function signOut() {
     cookies.cookies.set("Token", '');
     window.location.reload();
 }
+
+async function seenNoti() {
+    try {
+        let ids = [] as number[]
+        notifications.value.forEach(noti => {
+            if (noti.seen == false) {
+                ids.push(noti.id)
+            }
+        });
+        if (ids.length > 0) {
+            await notificationsService.seen(ids, tokenBearer)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const notifications = ref([
     {
         id: 0,
@@ -342,7 +368,9 @@ const notifications = ref([
             updatedAt: "",
             deletedAt: null,
             message: "",
-            ownerId: null
+            ownerId: null,
+            path: ""
+
         }
     }
 ])
@@ -351,7 +379,9 @@ try {
 
     let nTemp = await notificationsService.getMy(tokenBearer)
     notifications.value = nTemp.data
-
+    notifications.value.forEach(noti => {
+        if (noti.seen == false) countUnread.value++;
+    });
     if (currentUser.value !== null && currentUser.value['id'] !== null) {
         isLogin.value = true;
     }

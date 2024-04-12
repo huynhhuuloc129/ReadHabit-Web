@@ -111,13 +111,13 @@
                             <div class="tab-pane fade" id="post-tab-pane" role="tabpanel" aria-labelledby="post-tab"
                                 tabindex="0">
 
-                                <div style="margin: 50px">
+                                <!-- <div style="margin: 50px">
                                     <form class="form-inline my-sm-0 d-flex justify-content-center">
                                         <input class="form-control mr-sm-2" type="search" placeholder="Search"
                                             aria-label="Search">
                                         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                                     </form>
-                                </div>
+                                </div> -->
                                 <CardTagComponent :posts="VisibleFeedPost()"></CardTagComponent>
                                 <div class="align-items-center w-100 d-flex">
                                     <button  class="btn moreBtn" @click="feedVisibles+=stepsFeed"

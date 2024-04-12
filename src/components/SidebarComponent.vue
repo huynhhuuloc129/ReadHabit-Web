@@ -106,6 +106,9 @@ $('.js-menu-toggle').click((e) => {
 </script>
 
 <style>
+.sidebar{
+  z-index: 9999999;
+}
 .header:hover{
     color: rgb(184, 182, 182);
 }

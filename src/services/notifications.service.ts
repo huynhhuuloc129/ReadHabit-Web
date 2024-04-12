@@ -71,6 +71,22 @@ class NotificationsService {
             handlingError(err);
         })
     }
+
+    async seen(ids: number[], token: string) {
+        return await axios.patch(`http://localhost:3000/api/notifications/notificationRecipient`, 
+        {
+            notificationRecipientIds: ids
+        } 
+        ,{
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }).then((res) => {
+            return res.data;
+        }).catch((err) => {
+            handlingError(err);
+        })
+    }
 }
 
 export default new NotificationsService();
