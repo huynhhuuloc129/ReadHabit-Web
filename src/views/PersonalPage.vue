@@ -1,10 +1,10 @@
 <template>
   <Suspense>
-    <HeaderComponent text-color="black"></HeaderComponent>
+    <HeaderComponent text-color="white"></HeaderComponent>
     <template #fallback> </template>
   </Suspense>
   <Suspense>
-    <SidebarComponent text-color="black"></SidebarComponent>
+    <SidebarComponent text-color="white"></SidebarComponent>
   </Suspense>
 
   <div class="container">
@@ -316,9 +316,10 @@
 
                     <div>
                       <h5>Hoạt động</h5>
-                      <calendar-heatmap id="calendar-heatmap" :values="contributionData" :options="options"
+                      <calendar-heatmap v-if="contributionData.length > 1" id="calendar-heatmap" :values="contributionData" :options="options"
                         :end-date=endDate() />
-
+                      <calendar-heatmap v-else id="calendar-heatmap" :values="contributionData" :options="options"
+                        :end-date=endDate() />
                       <div>
                         <table class="table table-borderless">
                           <tbody>
@@ -1395,6 +1396,7 @@ onMounted(async () => {
         count: value
       })
     })
+    console.log(contributionData.value)
   } catch (err) {
     console.log(err)
   }

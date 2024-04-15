@@ -24,7 +24,7 @@
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li class="text-center nav-item dropdown nav-link bsb-dropdown-toggle-caret-disable" v-if="isLogin"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="seenNoti()">
-                        <a class="nav-link text-secondary">
+                        <a class="nav-link" :style="{ 'color': props['textColor'] }">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-bell-fill header" viewBox="0 0 16 16">
                                 <path
@@ -264,6 +264,9 @@ import checkLogin from "@/utilities/utilities";
 import { useCookies } from "vue3-cookies";
 import { ref } from 'vue'
 import notificationsService from '@/services/notifications.service';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps(['textColor'])
 const cookies = useCookies();
@@ -334,7 +337,7 @@ var onLogin = async (e: any) => {
 }
 function signOut() {
     cookies.cookies.set("Token", '');
-    window.location.reload();
+    router.push({name: "home"})
 }
 
 async function seenNoti() {
@@ -467,5 +470,12 @@ try {
 
 .dropdown-divider {
     margin: 0
+}
+.header{
+    background-image: url("../assets/Cover.jpg");
+    background-size: 100% auto;
+}
+.bi-bell-fill{
+    background: none;
 }
 </style>

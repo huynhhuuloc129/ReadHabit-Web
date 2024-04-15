@@ -1,7 +1,7 @@
 <template>
   <aside class="sidebar" v-if="isLogin == true">
     <div class="menu toggle" :style="{'color': props.textColor}">
-        <svg data-toggle="collapse" data-target="#main-navbar" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list burger js-menu-toggle header" viewBox="0 0 16 16">
+        <svg style="background: none;" data-toggle="collapse" data-target="#main-navbar" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list burger js-menu-toggle header" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
         </svg>
     </div>
@@ -308,4 +308,7 @@ aside {
 
 .burger:focus {
   outline: none; }
+.menu{
+  background: none;
+}
 </style>

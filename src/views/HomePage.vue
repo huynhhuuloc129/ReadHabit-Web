@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img src="../assets/Cover.jpg"
-            style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;" />
+        <!-- <img src="../assets/Cover.jpg"
+            style="position: absolute; z-index: -1; width: 100vw; max-height: 100vh; right: 0;" /> -->
         <Suspense>
             <HeaderComponent text-color="white"></HeaderComponent>
             <template #fallback>
@@ -658,4 +658,5 @@ hr {
     color: white;
     background-color: #2B517A;
 }
+
 </style>

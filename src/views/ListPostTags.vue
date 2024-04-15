@@ -1,13 +1,13 @@
 <template>
     <Suspense>
-        <HeaderComponent text-color="black"></HeaderComponent>
+        <HeaderComponent text-color="white"></HeaderComponent>
         <template #fallback>
 
         </template>
     </Suspense>
     <Suspense>
 
-        <SidebarComponent text-color="black"></SidebarComponent>
+        <SidebarComponent text-color="white"></SidebarComponent>
     </Suspense>
     <div class="container">
         <h1>Danh sách các bài viết có nhãn #{{ tag.name }}</h1>

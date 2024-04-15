@@ -1,14 +1,33 @@
 <template>
   <Suspense>
-    <HeaderComponent text-color="black"></HeaderComponent>
+    <HeaderComponent text-color="white"></HeaderComponent>
     <template #fallback> </template>
   </Suspense>
   <Suspense>
-    <SidebarComponent text-color="black"></SidebarComponent>
+    <SidebarComponent text-color="white"></SidebarComponent>
   </Suspense>
 
   <div class="container" style="margin-top: 10px; background-color: white; padding: 40px;">
-    <h1>{{ post.title }}</h1>
+    <div class="d-flex justify-content-between">
+      <h1>{{ post.title }}</h1>
+      <button v-if="currentUser.id == post.createdBy.id" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePost">Xóa bài viết</button>
+
+      <div class="modal fade" id="deletePost" tabindex="-1" aria-labelledby="deletePost" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deletePost">Bạn có chắc chắn muốn xóa bài viết này?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="deletePost()">Xóa</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
     <hr />
     <div class="row">
       <div class="col-sm-9">
@@ -337,12 +356,14 @@ import followsService from '@/services/follows.service'
 import postsService from '@/services/posts.service'
 import checkLogin from '@/utilities/utilities'
 import { useCookies } from 'vue3-cookies'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
 import bookmarksService from '@/services/bookmarks.service'
 const route = useRoute()
 const id = Number(route.params.id)
+
+const router = useRouter()
 
 const reactionLikes = ref([
   {
@@ -933,6 +954,15 @@ async function addToBookmark(id: number) {
   }
 }
 
+async function deletePost(){
+  try {
+    await postsService.delete(post.value.id, tokenBearer)
+    router.push({name: "home"})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 onMounted(async () => {
   try {
 
@@ -1059,9 +1089,6 @@ a:hover {
 }
 .a-underline:hover{
   text-decoration: none;
-}
-.header{
-  background-color: white;
 }
 body{
   background-color: #F7F7F7;

@@ -1,10 +1,10 @@
 <template>
   <Suspense>
-    <HeaderComponent text-color="black"></HeaderComponent>
+    <HeaderComponent text-color="white"></HeaderComponent>
     <template #fallback> </template>
   </Suspense>
   <Suspense>
-    <SidebarComponent text-color="black"></SidebarComponent>
+    <SidebarComponent text-color="white"></SidebarComponent>
   </Suspense>
   <div class="d-flex" style="margin: 0; background-color: white;">
     <nav id="sidebarMenu" style="z-index: 0" class="bg-white sticky-top">
