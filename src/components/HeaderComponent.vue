@@ -10,54 +10,79 @@
                     <div :style="{ 'color': props['textColor'] }">ReadHabit</div>
                 </a>
 
-                <div class="d-flex justify-content-center" style="margin-right: 15px;">
-                    <div class="searchbar">
-                        <input class="search_input" type="text" name="" placeholder="Tìm kiếm...">
-                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+
+                <div class="justify-content-center my-md-0">
+                    <div class=" nav-item nav-link" v-if="isLogin">
+                        <a class="nav-link" :style="{ 'color': props['textColor'] }">
+                            <div class="d-flex">
+                                <div class="searchbar ">
+                                    <input v-model="searchValue" class="search_input" type="text" name=""
+                                        placeholder="Tìm kiếm...">
+                                    <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div v-if="searchPost().length > 0" 
+                            style="border-radius: 10px; background-color: white; position: absolute; width: 500px;  max-height: 500px; 
+                            overflow-y: scroll; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
+                            <h4 class="dropdown-title" style="margin: 10px 0 0px 10px">Các bài viết liên quan</h4>
+                            <div class="a-tag" style="padding: 7px;" v-for="post in searchPost()" :key="post.id">
+                                <a class="d-flex justify-content-start align-items-center" :href="'http://localhost:5173/post/' + post.id">
+                                    <i class="fas fa-newspaper" style="margin-right: 10px;"></i>
+                                    {{ post.title }}
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <a v-if="isLogin" href="http://localhost:5173/upload-post">
                     <button class="btn btn-danger" id="newPost"
                         :style="{ 'padding': '10px', 'margin-left': '10px', 'border-radius': '50px', 'color': 'white' }">+
                         Đăng tải bài viết mới</button>
                 </a>
+
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li class="text-center nav-item dropdown nav-link bsb-dropdown-toggle-caret-disable" v-if="isLogin"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="seenNoti()">
-                        <a class="nav-link" :style="{ 'color': props['textColor'] }">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            class="bi bi-bell-fill header" viewBox="0 0 16 16">
+                    <li class="text-center nav-item dropdown nav-link " v-if="isLogin"
+                         data-bs-toggle="dropdown" @click="seenNoti()">
+                        <a class="" :style="{ 'color': props['textColor'] }">
+                            <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-bell-fill header" viewBox="0 0 16 16">
                                 <path
-                                d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                             </svg>
-                            <span v-if="countUnread  > 0" class="position-absolute top-10 start-30 translate-middle badge rounded-pill bg-danger">
+                            <span v-if="countUnread > 0"
+                                class="position-absolute top-10 start-30 translate-middle badge rounded-pill bg-danger">
                                 {{ countUnread }}
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </a>
-                    <ul class="dropdown-menu dropdown-menu-md-end bsb-dropdown-animation bsb-fadeIn"
-                    style="width: 400px; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
-                            <h5 style="margin-left: 10px">Thông báo</h5>
-                            <hr class="dropdown-divider">
-                            <div class="text-secondary" v-if="notifications.length == 0" style="margin-left: 10px">Không có thông báo nào</div>
-                            <div v-else>
-                                <li v-for="(noti, index) in notifications" :key="noti.id" class="dropdown-li" >
-                                    <a :href="'http://localhost:5173/' + noti.notification.path"  style="text-decoration: none;">
-                                        <h6 class="dropdown-header">
-                                            <p v-if="noti.seen == false" class="text-primary text-wrap">
-                                                {{ noti.notification.message }}
-                                            </p>
-                                            <div v-else class="text-secondary text-wrap">
-                                                {{ noti.notification.message }}
-                                            </div>
-                                        </h6>
-                                        <hr v-if="index != notifications.length-1" class="dropdown-divider">
-                                    </a>
-                                </li>
-
-                            </div>
-                        </ul>
                     </li>
+                    <ul class="dropdown-menu dropdown-menu-md-end"
+                        style="width: 400px; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
+                        <h5 style="margin-left: 10px">Thông báo</h5>
+                        <hr class="dropdown-divider">
+                        <div class="text-secondary" v-if="notifications.length == 0" style="margin-left: 10px">Không
+                            có thông báo nào</div>
+                        <div v-else>
+                            <li v-for="(noti, index) in notifications" :key="noti.id" class="dropdown-li">
+                                <a :href="'http://localhost:5173/' + noti.notification.path"
+                                    style="text-decoration: none;">
+                                    <h6 class="dropdown-header">
+                                        <p v-if="noti.seen == false" class="text-primary text-wrap">
+                                            {{ noti.notification.message }}
+                                        </p>
+                                        <div v-else class="text-secondary text-wrap">
+                                            {{ noti.notification.message }}
+                                        </div>
+                                    </h6>
+                                    <hr v-if="index != notifications.length - 1" class="dropdown-divider">
+                                </a>
+                            </li>
+
+                        </div>
+                    </ul>
                 </ul>
                 <div v-if="isLogin" class="nav-item dropdown">
                     <a class="nav-link bsb-dropdown-toggle-caret-disable" href="#" role="button"
@@ -148,7 +173,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <span @click="signOut" class="dropdown-item text-center" style="cursor: pointer;">
+                            <span @click="signOut()" class="dropdown-item text-center" style="cursor: pointer;">
                                 <span class="fs-7">Đăng xuất</span>
                             </span>
                         </li>
@@ -264,8 +289,10 @@ import checkLogin from "@/utilities/utilities";
 import { useCookies } from "vue3-cookies";
 import { ref } from 'vue'
 import notificationsService from '@/services/notifications.service';
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import postsService from '@/services/posts.service';
 
+const route=useRoute();
 const router = useRouter()
 
 const props = defineProps(['textColor'])
@@ -322,7 +349,7 @@ const currentToken = ref({
 })
 const isLogin = ref(false);
 const countUnread = ref(0)
-
+const searchValue = ref("")
 var onLogin = async (e: any) => {
     e.preventDefault();
     try {
@@ -336,8 +363,13 @@ var onLogin = async (e: any) => {
     }
 }
 function signOut() {
+    const path = route.path
     cookies.cookies.set("Token", '');
-    router.push({name: "home"})
+    if (path == '/') {
+        window.location.reload()
+    } else {
+        router.push({ name: "home" })
+    }
 }
 
 async function seenNoti() {
@@ -354,6 +386,14 @@ async function seenNoti() {
     } catch (error) {
         console.log(error)
     }
+}
+
+function searchPost(){
+    if (searchValue.value != "") {
+        return posts.value.filter((p) => {
+          return p.title.toLowerCase().indexOf(searchValue.value.toLowerCase()) != -1
+        })
+    } else return []
 }
 
 const notifications = ref([
@@ -377,6 +417,52 @@ const notifications = ref([
         }
     }
 ])
+const posts = ref([
+  {
+    id: 0,
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: null,
+    title: '',
+    content: '',
+    sharePostId: null,
+    originalPostURL: '',
+    publishDate: '',
+    imageURL: '',
+    status: '',
+    type: '',
+    readTime: 0,
+    totalLike: 0,
+    totalDislike: 0,
+    totalShare: 0,
+    categoryId: 0,
+    createdById: 0,
+    contentSourceId: 0,
+    createdBy: {
+      id: 0,
+      createdAt: '',
+      updatedAt: '',
+      deletedAt: null,
+      email: '',
+      username: '',
+      firstName: '',
+      lastName: '',
+      fullName: '',
+      about: '',
+      youtubeLink: '',
+      facebookLink: '',
+      linkedinLink: '',
+      twitterLink: '',
+      totalFollower: 0,
+      totalFollowee: 0,
+      refreshToken: null,
+      phoneNumber: '',
+      birthday: '',
+      avatar: '',
+      role: ''
+    }
+  }
+])
 try {
     currentUser.value = await checkLogin();
 
@@ -388,6 +474,9 @@ try {
     if (currentUser.value !== null && currentUser.value['id'] !== null) {
         isLogin.value = true;
     }
+
+    let psTemp = await postsService.getAll(100, 0, "published")
+    posts.value = psTemp.data
 } catch (err) {
     console.log(err)
 }
@@ -424,19 +513,12 @@ try {
     width: 0;
     caret-color: transparent;
     line-height: 40px;
-    transition: width 0.4s linear;
 }
 
-.searchbar:hover>.search_input {
+.search_input {
     padding: 0 10px;
     width: 450px;
-    caret-color: var(--main-color);
-    transition: width 0.4s linear;
-}
-
-.searchbar:hover>.search_icon {
-    background: white;
-    color: var(--main-color);
+    caret-color: white;
 }
 
 .search_icon {
@@ -460,9 +542,9 @@ try {
     width: 150px;
 }
 
-.header:hover {
+/* .header:hover {
     color: rgb(184, 182, 182);
-}
+} */
 
 .dropdown-li:hover {
     background-color: rgb(220, 220, 220);
@@ -471,11 +553,19 @@ try {
 .dropdown-divider {
     margin: 0
 }
-.header{
+
+.header {
     background-image: url("../assets/Cover.jpg");
     background-size: 100% auto;
 }
-.bi-bell-fill{
+
+.bi-bell-fill {
     background: none;
+}
+.dropdown-title{
+    color: black;
+}
+.a-tag:hover{
+    background-color: rgb(194, 192, 192);
 }
 </style>

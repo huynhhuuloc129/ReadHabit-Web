@@ -48,6 +48,11 @@
             <i class="fa-solid fa-gears fa-fw me-3"></i>
             <span>Tạo bài viết nhanh</span>
           </a>
+          <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="false"
+            data-bs-toggle="tab" data-bs-target="#feedback-tab" aria-controls="feedback-tab">
+            <i class="fa-solid fa-comments me-3"></i>
+            <span>Phản hồi</span>
+          </a>
         </div>
       </div>
     </nav>
@@ -258,8 +263,10 @@
                     </td>
 
                     <td class="text-end d-flex">
-                      <button class="btn btn-success" style="margin-right: 5px" @click="confirmPost(post.id)">Duyệt</button>
-                      <button class="btn btn-danger" style="margin-right: 5px" data-bs-toggle="modal" data-bs-target="#rejectPostModal" @click="choosenPostId = post.id">Từ chối</button>
+                      <button class="btn btn-success" style="margin-right: 5px"
+                        @click="confirmPost(post.id)">Duyệt</button>
+                      <button class="btn btn-danger" style="margin-right: 5px" data-bs-toggle="modal"
+                        data-bs-target="#rejectPostModal" @click="choosenPostId = post.id">Từ chối</button>
 
                       <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-primary">Chi tiết</a>
                     </td>
@@ -341,7 +348,8 @@
         </div>
       </div>
 
-      <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab" style="width: 80vw">
+      <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab"
+        style="width: 80vw; margin-top: 30px;">
         <h5 class="mb-2 d-flex justify-content-between align-items-center">
           Thông tin tất cả thể loại và nhãn của hệ thống
         </h5>
@@ -419,7 +427,7 @@
                     <td class="align-items-center">
                       <img style="border-radius: 50%; margin-right: 10px;"
                         :src="'http://localhost:8080' + cs.avatar.replace('files', '')" width="25px" height="25px" />{{
-                      cs.name }}
+                          cs.name }}
                     </td>
                     <td class="text-end d-flex">
                       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateContentSourceModal"
@@ -450,7 +458,8 @@
         </div>
       </div>
 
-      <div class="tab-pane fade" id="eventLog" role="tabpanel" aria-labelledby="eventLog-tab" style="width: 80vw">
+      <div class="tab-pane fade" id="eventLog" role="tabpanel" aria-labelledby="eventLog-tab"
+        style="width: 80vw; margin-top: 30px;">
         <div v-if="eventLogs[0].id != 0">
           <div>
             <h5>Danh sách hoạt động của toàn hệ thống</h5>
@@ -476,9 +485,10 @@
                   <td v-if="el.action == 'comment'">Bình luận</td>
                   <td v-if="el.action == 'share'">Chia sẻ</td>
                   <td>
-                    <a :href="'http://localhost:5173/post/' + el.post.id">{{
+                    <a v-if="el.post != null" :href="'http://localhost:5173/post/' + el.post.id">{{
                       el.post.title
                     }}</a>
+                    <a v-else>Bài viết không tồn tại</a>
                   </td>
                 </tr>
               </tbody>
@@ -488,12 +498,40 @@
       </div>
 
       <div class="tab-pane fade" id="generatePost" role="tabpanel" aria-labelledby="generatePost-tab"
-        style="width: 80vw">
+        style="width: 80vw; margin-top: 30px;">
         <GenerateFormComponent></GenerateFormComponent>
       </div>
 
-      <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-        ...
+      <div class="tab-pane fade" id="feedback-tab" role="tabpanel" aria-labelledby="feedback-tab-tab"
+        style="width: 80vw; margin-top: 30px;">
+        <h5>Phản hồi của các thành viên</h5>
+        <table class="table ">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col" style="width: 10%">Ngày tạo</th>
+              <th scope="col" style="width: 15%">Họ và tên</th>
+              <th scope="col">Tiêu đề</th>
+              <th scope="col">Nội dung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="feedback in feedbacks" :key="feedback.id">
+              <th scope="row">{{ feedback.id }}</th>
+              <td v-if="feedback.createdAt != ''">{{ feedback.createdAt.slice(0, 10) }}</td>
+              <td class="align-items-center">
+                <img style="border-radius: 50%; margin-right: 5px"
+                  :src="'http://localhost:8080' + feedback.createBy.avatar.replace('files', '')" width="25" height="25" />
+                <a class="userNameLink" :href="'http://localhost:5173/personal/' + feedback.createBy.id" target="_blank"
+                  style="color: black">
+                  {{ feedback.createBy.fullName }}
+                </a>
+              </td>
+              <td>{{ feedback.title }}</td>
+              <td>{{ feedback.description }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -658,26 +696,25 @@
     </div>
   </div>
 
-<!-- reject post -->
-  <div class="modal fade" id="rejectPostModal" tabindex="-1" aria-labelledby="rejectPostModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="rejectPostModalLabel">Bạn có chắc chắn muốn từ chối bài viết này?</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <label for="reason">Lý do:</label>
-            <input name="reason" type="text" v-model="messageReject" class="form-control">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="rejectPost()">Từ chối</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-          </div>
+  <!-- reject post -->
+  <div class="modal fade" id="rejectPostModal" tabindex="-1" aria-labelledby="rejectPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rejectPostModalLabel">Bạn có chắc chắn muốn từ chối bài viết này?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="reason">Lý do:</label>
+          <input name="reason" type="text" v-model="messageReject" class="form-control">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="rejectPost()">Từ chối</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -701,6 +738,7 @@ const cookies = useCookies()
 const tokenBearer = cookies.cookies.get('Token')
 // @ts-ignore
 import PrintPage from '@/components/PrintPage.vue';
+import feedbackService from '@/services/feedback.service'
 
 Chart.register(...registerables)
 
@@ -1033,6 +1071,42 @@ const eventLogs = ref([
   }
 ])
 
+const feedbacks = ref([
+  {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    createById: 0,
+    title: "",
+    description: "",
+    isCheck: false,
+    createBy: {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      email: "",
+      username: "",
+      firstName: "",
+      lastName: "",
+      fullName: "",
+      about: "",
+      youtubeLink: "",
+      facebookLink: "",
+      linkedinLink: "",
+      twitterLink: "",
+      totalFollower: 0,
+      totalFollowee: 0,
+      refreshToken: null,
+      phoneNumber: "",
+      birthday: "",
+      avatar: "",
+      role: ""
+    }
+  }
+])
+
 function randomColor() {
   let r = Math.ceil(Math.random() * 255)
   let g = Math.ceil(Math.random() * 255)
@@ -1266,6 +1340,9 @@ onMounted(async () => {
     // contentSource
     let csTemp = await contentSourcesService.getAll();
     contentSources.value = csTemp.data;
+
+    let fTemp = await feedbackService.getAll()
+    feedbacks.value = fTemp.data;
   } catch (err) {
     console.log(err)
   }

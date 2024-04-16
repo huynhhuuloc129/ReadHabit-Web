@@ -7,7 +7,9 @@
     <SidebarComponent text-color="white"></SidebarComponent>
   </Suspense>
 
-  <div class="container" style="margin-top: 10px; background-color: white; padding: 40px;">
+  <div  class="container" style="margin-top: 10px; background-color: white; padding: 40px;">
+    <h1 v-if="post.id == 0">Bài viết không tồn tại</h1>
+
     <div class="d-flex justify-content-between">
       <h1>{{ post.title }}</h1>
       <button v-if="currentUser.id == post.createdBy.id" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePost">Xóa bài viết</button>
@@ -29,7 +31,7 @@
 
     </div>
     <hr />
-    <div class="row">
+    <div class="row" v-if="Number(post.createdById) != 0">
       <div class="col-sm-9">
         <div class="d-flex row">
           <div class="col d-flex justify-content-between">
@@ -267,7 +269,7 @@
               </div>
               <div class="">
                 <a :href="post.originalPostURL">
-                  <button class="btn btn-secondary h-100">Đọc bài viết</button>
+                  <button class="btn btn-secondary h-100">Đọc bài gốc</button>
                 </a>
               </div>
             </div>
@@ -342,6 +344,7 @@
       </CommentComponent>
     </Suspense>
     <!-- Comment section -->
+    
   </div>
 </template>
 <script setup lang="ts">
