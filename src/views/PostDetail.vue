@@ -31,8 +31,8 @@
 
     </div>
     <hr />
-    <div class="row" v-if="Number(post.createdById) != 0">
-      <div class="col-sm-9">
+    <div class="row" id="first-section-postd" v-if="Number(post.createdById) != 0">
+      <div class="col-sm-9" id="first-section-postd1">
         <div class="d-flex row">
           <div class="col d-flex justify-content-between">
             <div class="d-flex">
@@ -45,11 +45,11 @@
                   <p class="fw-bold">{{ post.createdBy.fullName }}</p>
                 </a>
                 <div v-if="isLogin == true && currentUser.id != post.createdBy.id">
-                  <button v-if="followArr.has(post.createdBy.id)" class="btn btn-primary"
+                  <button v-if="followArr.has(post.createdBy.id)" class="btn btn-follow btn-primary"
                     @click="unFollow(post.createdBy.id)">
                     Đã theo dõi
                   </button>
-                  <button v-else class="btn btn-outline-primary" @click="follow(post.createdBy.id)">
+                  <button v-else class="btn btn-follow btn-outline-primary" @click="follow(post.createdBy.id)">
                     Theo dõi
                   </button>
                 </div>
@@ -269,7 +269,7 @@
               </div>
               <div class="">
                 <a :href="post.originalPostURL">
-                  <button class="btn btn-secondary h-100">Đọc bài gốc</button>
+                  <button class="btn-follow btn btn-secondary h-100">Đọc bài gốc</button>
                 </a>
               </div>
             </div>
@@ -304,7 +304,8 @@
         </div>
         <h2 v-if="post.status == 'reject'" class="text-danger">Bài viết đã bị từ chối</h2>
       </div>
-      <div class="col-3" v-if="post.status == 'published'">
+
+      <div class="col-3" id="first-section-postd2" v-if="post.status == 'published'">
         <h2>Bài viết tương tự</h2>
         <a v-for="rpost in relatedPosts" :key="rpost.id" :href="'http://localhost:5173/post/'+ rpost.id" class="card-link a-underline link-underline-opacity-0">
           <div v-if="rpost.id != null && rpost.id != post.id" class="card border card-related" style="margin-bottom: 10px">
@@ -1095,5 +1096,22 @@ a:hover {
 }
 body{
   background-color: #F7F7F7;
+}
+@media only screen and (max-width: 1300px) {
+    .btn-follow{
+      font-size: xx-small;
+    }
+}
+@media only screen and (max-width: 770px) {
+    #first-section-postd{
+      flex-direction: column;
+    }
+    #first-section-postd1{
+      width: 100%;
+    }
+    #first-section-postd2{
+      flex-direction: row;
+      width: 100%;
+    }
 }
 </style>

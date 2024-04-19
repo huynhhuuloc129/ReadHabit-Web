@@ -9,18 +9,19 @@
 
         <SidebarComponent text-color="white"></SidebarComponent>
     </Suspense>
-    <div class="container">
+    <div class="container" style="margin-top: 20px;">
         <h1>Danh sách các bài viết có nhãn #{{ tag.name }}</h1>
 
-        <div class="d-flex">
+        <div id="listpost-section" class="d-flex">
             <div v-if="posts[0].id != 0" style="width: 1000px;">
                 <CardTagComponent :posts="posts"></CardTagComponent>
             </div>
             <h4 class="text-secondary" v-if="posts[0].id == 0" style="width: 1000px; ">Không có bài viết nào thuộc nhãn này</h4>
-            <div class="sticky-top sidebarTag" style="max-height: 90vh; overflow: scroll; max-width: 300px;">
+
+            <div class="sticky-top sidebarTag" >
                 <h5>Các nhãn cùng thể loại</h5>
                 <a :href="'http://localhost:5173/tag/' + tag1.id" v-for="tag1 in tags" :key="tag1.id">
-                    <button v-if="tag1.id != tag.id" class="btn btn-outline-secondary">
+                    <button v-if="tag1.id != tag.id" class="tag-btn btn btn-outline-secondary">
                         {{ tag1.name }}
                     </button>
                 </a>
@@ -141,7 +142,25 @@ onMounted(async () => {
 
 <style>
 .sidebarTag {
+    z-index: 1;
     position: sticky;
-
+    max-height: 90vh; overflow: scroll; max-width: 300px;
+}
+@media only screen and (max-width: 1000px) {
+    .sidebarTag {
+        max-width: 200px;
+    }
+    .tag-btn{
+        font-size: xx-small;
+    }
+}
+@media only screen and (max-width: 770px) {
+    #listpost-section{
+        flex-direction: column;
+        align-items: center;
+    }
+    .sidebarTag {
+        max-width: 100vw;
+    }
 }
 </style>

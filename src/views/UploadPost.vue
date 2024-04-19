@@ -9,9 +9,8 @@
         <SidebarComponent text-color="white"></SidebarComponent>
     </Suspense>
 
-    <div class="d-flex p-lg-5" style="background-color: white;">
-        <div class="btn-group btn-group-vertical justify-content-start d-flex flex-column sticky-top"
-            style="width: 13vw; margin-right: 50px; height: 50vh;" role="group"
+    <div id="uploadPost-section" class="d-flex p-lg-5" style="background-color: white;">
+        <div id="choosePost" class="btn-group btn-group-vertical justify-content-start d-flex flex-column sticky-top" role="group"
             aria-label="Basic radio toggle button group">
             <div class="w-100" style="margin-bottom: 20px;">
                 <input @click="clearForm()" type="radio" class="btn-check" name="btnradio" id="clear" autocomplete="off"
@@ -95,15 +94,15 @@
                 <input @change="previewFile($event)" class="form-control" type="file" id="formFile">
             </div>
 
-            <div style="height: 550px;">
-                <div style="height: 450px">
+            <div id="quill">
+                <div id="quillEditor" >
                     Nội dung bài viết:
                     <QuillEditor v-model:content="content" contentType="html" toolbar="full"></QuillEditor>
 
                 </div>
             </div>
             <div class="d-flex justify-content-end" v-if="isLogin">
-                <button class="m-1 btn btn-danger" @click="updatePost($event, 'reviewing')" style="padding: 15px;">
+                <button class="btn-upload-post m-1 btn btn-danger" @click="updatePost($event, 'reviewing')" style="padding: 15px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                         class="bi bi-upload" viewBox="0 0 16 16">
                         <path
@@ -113,7 +112,7 @@
                     </svg>
                     Yêu cầu xuất bản
                 </button>
-                <button class="m-1 btn btn-primary" @click="updatePost($event, 'created')" style="padding: 15px;">
+                <button class="btn-upload-post m-1 btn btn-primary" @click="updatePost($event, 'created')" style="padding: 15px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                         class="bi bi-file-earmark-check-fill" viewBox="0 0 16 16">
                         <path
@@ -121,7 +120,7 @@
                     </svg>
                     Lưu
                 </button>
-                <button class="m-1 btn btn-secondary" @click="removePost()" style="padding: 15px;">
+                <button class="btn-upload-post m-1 btn btn-secondary" @click="removePost()" style="padding: 15px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                         class="bi bi-trash" viewBox="0 0 16 16">
                         <path
@@ -471,5 +470,53 @@ onMounted(async () => {
 .form-select {
     margin-bottom: 40px;
 }
+#quill{
+    height: 550px;
+}
+#quillEditor{
+    height: 450px;
 
+}
+#choosePost{
+    margin-right: 50px;
+    width: 13vw;
+    height: 50vh;
+}
+@media only screen and (max-width: 650px) {
+    #uploadPost-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #quill{
+        height: 350px;
+    }
+    #quillEditor{
+        height: 220px;
+
+    }
+    #choosePost{
+        position: static;
+        margin-top: 20px;
+        margin-right: 0;
+        width: 80%;
+        height: auto;
+    }
+    .btn-upload-post{
+        font-size: small;
+    }
+}
+@media only screen and (max-width: 490px) {
+    #quill{
+        height: 500px;
+    }
+    #quillEditor{
+        height: 220px;
+
+    }
+    .btn-upload-post{
+        font-size: xx-small;
+    }
+}
 </style>

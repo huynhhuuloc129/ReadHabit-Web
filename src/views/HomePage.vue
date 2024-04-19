@@ -18,7 +18,7 @@
                 <br>
                 <div class="d-flex justify-content-start flex-column">
 
-                    <h1 class="text-white" style="margin-left: 40px; font-size: 70px;">Start reading today</h1>
+                    <h1 id="h1-mainpage" class="text-white">Start reading today</h1>
 
                 </div>
             </div>
@@ -56,7 +56,7 @@
                                 <div class="d-flex flex-row flex-wrap justify-content-center">
 
 
-                                    <div>
+                                    <div id="card-post">
                                         <div v-for="(category, index) in categories" :key="category.id">
                                             <h1 :id="category.name"
                                                 class="font-weight-bolder text-start w-100 float-start"
@@ -67,7 +67,7 @@
                                                 style="margin-left: 20px;">Không có bài viết nào thuộc thể loại này</h5>
                                             <button @click="postVisibles[index] += steps[index]"
                                                 v-if="postVisibles[index] < posts[index].length" class="btn moreBtn"
-                                                style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
+                                                style=" border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
                                                 Xem thêm >>
                                             </button>
                                         </div>
@@ -95,9 +95,10 @@
                                         </div>
                                         <hr>
                                         <h3>Nhãn</h3>
-                                        <div class="d-flex" style="flex-wrap: wrap; justify-content: start;">
+                                        <div id="tag-homepage" class="d-flex" style="flex-wrap: wrap; justify-content: start;">
                                             <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;"
                                                 role="group" aria-label="Basic checkbox toggle button group">
+                                                <div v-if="filterTagsByCategoryId().length == 0" class="text-secondary">Không có nhãn nào của thể loại này</div>
                                                 <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
                                                     <a :href="'http://localhost:5173/tag/' + tag.id">
                                                         <button class="btn btn-outline-secondary">
@@ -639,13 +640,17 @@ hr {
 .cover-btn:hover span:after {
     top: 0;
 }
-
+.moreBtn{
+    width: 31%;
+}
 @media only screen and (max-width: 767px) {
     .cover-btn {
         margin-bottom: 20px;
     }
 }
-
+#h1-mainpage{
+    margin-left: 40px; font-size: 70px;
+}
 .first-header {
     height: 100vh;
 }
@@ -662,9 +667,28 @@ hr {
     background-color: #2B517A;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1120px) {
     .first-section {
         background-size: auto 100vh;
+    }
+    .sidebarCate{
+        margin-top: 0px;
+        position: static;
+        order: 1;
+        height: 320px;
+        width: 100vw;
+    }
+    #card-post{
+        order: 2;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .moreBtn{
+        width: 50%;
+    }
+    #h1-mainpage{
+        margin-left: 10px;
+        font-size: 50px;
     }
 }
 </style>

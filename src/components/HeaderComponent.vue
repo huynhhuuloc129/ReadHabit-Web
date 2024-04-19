@@ -23,8 +23,7 @@
                             </div>
                         </a>
 
-                        <div v-if="searchPost().length > 0" style="border-radius: 10px; background-color: white; position: absolute; width: 500px;  max-height: 500px; 
-                            overflow-y: scroll; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
+                        <div id="dropdown-search" v-if="searchPost().length > 0">
                             <h4 class="dropdown-title" style="margin: 10px 0 0px 10px">Các bài viết liên quan</h4>
                             <div class="a-tag" style="padding: 7px;" v-for="post in searchPost()" :key="post.id">
                                 <a class="d-flex justify-content-start align-items-center"
@@ -40,7 +39,7 @@
                 <a v-if="isLogin" href="http://localhost:5173/upload-post">
                     <button class="btn upload-post btn-danger" id="newPost"
                         :style="{ 'padding': '10px', 'margin-left': '10px', 'border-radius': '50px', 'color': 'white' }">+
-                        Đăng tải bài viết mới</button>
+                        Đăng bài viết mới</button>
                 </a>
 
                 <div class="nav col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -570,7 +569,11 @@ try {
 .a-tag:hover {
     background-color: rgb(194, 192, 192);
 }
-
+#dropdown-search{
+    border-radius: 10px; background-color: white; position: absolute; width: 500px;  max-height: 500px; 
+    overflow-y: scroll; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;
+    z-index: 999;
+}
 @media only screen and (max-width: 1000px) {
     .searchbar {
         width: 150px;
@@ -582,6 +585,9 @@ try {
 
     .search_input {
         width: 100px;
+    }
+    #dropdown-search{
+        width: 150px;
     }
 }
 

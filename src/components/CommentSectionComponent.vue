@@ -34,7 +34,7 @@
                             </div>
                             <span>{{ cmt.message }}</span>
                             <div class="pad-ver">
-                                <a class="btn btn-sm btn-default btn-hover-primary"
+                                <a class="btn-phanhoi btn btn-sm btn-default btn-hover-primary"
                                     @click="trackingComment = props.commentsLv1[index].id">Phản hồi
                                 </a>
                                 <div v-if="trackingComment == props.commentsLv1[index].id"
@@ -67,7 +67,7 @@
                                         </div>
                                         <span>{{ cmt2.message }}</span>
                                         <div class="pad-ver">
-                                            <a class="btn btn-sm btn-default btn-hover-primary"
+                                            <a class="btn-phanhoi btn btn-sm btn-default btn-hover-primary"
                                                 @click="trackingComment = props.commentsLv2[index][index2].id">Phản
                                                 hồi</a>
                                             <div v-if="trackingComment == props.commentsLv2[index][index2].id"
@@ -390,4 +390,10 @@ a.text-muted:focus {
 .mar-top {
     margin-top: 15px;
 }
+@media only screen and (max-width: 1300px) {
+    .btn-phanhoi{
+        font-size: xx-small;
+    }
+}
+
 </style>

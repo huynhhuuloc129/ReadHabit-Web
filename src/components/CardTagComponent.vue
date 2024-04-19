@@ -1,5 +1,5 @@
 <template>
-  <section class="">
+  <section class="" style="width: 100%;">
     <div class="container">
       <div class="card-group vgr-cards" v-if="posts.length > 0 && posts[0].id != 0">
         <div v-for="post in posts" :key="post.id" class="card">
@@ -10,13 +10,13 @@
           <div class="card-body d-flex flex-column justify-content-between">
             <div>
               <h4 class="card-title">{{ post.title }}</h4>
-              <p style="height: 70px; overflow: hidden" class="card-text">{{ post.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
+              <p style="word-wrap: break-word;" class="card-text">{{ post.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
             </div>
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
                 <div class="avatar d-flex" style="margin: 10px;">
                   <img class="center-block" :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')"
-                    alt="Generic placeholder image" style="height: 50px;" />
+                    alt="Generic placeholder image" />
                 </div>
                 <a class="name" :href="'http://localhost:5173/personal/' + post.createdBy.id"
                   style="text-decoration: none; color: black; font-weight: bold ">
@@ -78,23 +78,12 @@ const props = defineProps(['posts'])
     flex-flow: wrap;
     flex: 100%;
     margin-bottom: 40px;
-
-    @media (max-width: 576px) {
-      display: block;
-    }
-
   }
 
   .card-img-body {
     flex: 1;
     overflow: hidden;
     position: relative;
-
-    @media (max-width: 576px) {
-      width: 100%;
-      height: 200px;
-      margin-bottom: 20px;
-    }
 
   }
 
@@ -118,10 +107,6 @@ const props = defineProps(['posts'])
     flex: 2;
     padding: 0 0 0 1.25rem;
 
-    @media (max-width: 576px) {
-      padding: 0;
-    }
-
   }
 }
 
@@ -135,9 +120,30 @@ const props = defineProps(['posts'])
 .name:hover {
   text-decoration: underline;
 }
-@media only screen and (max-width: 770px) {
+@media only screen and (max-width: 1000px) {
   #lead-to-post{
     font-size: xx-small;
   }
+  .card-title{
+    font-size: small;
+  }
+  .section{
+    width: 1000px;
+  }
+  .card-img{
+    width: 150px;
+  }
 }
+@media only screen and (max-width: 600px) {
+  .section{
+    width: 600px;
+  }
+  .card-group{
+    width: 100%;
+  }
+  .card-text{
+    width: 50%;
+  }
+}
+
 </style>
