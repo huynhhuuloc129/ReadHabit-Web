@@ -49,7 +49,7 @@
                 </span>
               </div>
             </div>
-            <a :href="'http://localhost:5173/post/' + post.id" class="btn btn-outline-primary w-25">Xem chi tiết</a>
+            <a id="lead-to-post" :href="'http://localhost:5173/post/' + post.id" class="btn btn-outline-primary w-25">Xem chi tiết</a>
           </div>
 
         </div>
@@ -134,5 +134,10 @@ const props = defineProps(['posts'])
 
 .name:hover {
   text-decoration: underline;
+}
+@media only screen and (max-width: 770px) {
+  #lead-to-post{
+    font-size: xx-small;
+  }
 }
 </style>

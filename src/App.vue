@@ -8,7 +8,7 @@ function scrollToTop() {
 
 <template>
   <header>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </header>
   <div id="router">
     <Suspense>
@@ -64,5 +64,10 @@ a {
 
 #router {
   min-height: 100vh;
+}
+@media only screen and (max-width: 1300px) {
+  body {
+    font-size: xx-small;
+  }
 }
 </style>

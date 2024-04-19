@@ -7,14 +7,14 @@
                 <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
                     <img src="../assets/logo.png" alt=""
                         style="border-radius: 50%; width: 45px; height: 45px; margin-right: 10px;">
-                    <div :style="{ 'color': props['textColor'] }">ReadHabit</div>
+                    <div id="website-name" :style="{ 'color': props['textColor'] }">ReadHabit</div>
                 </a>
 
 
                 <div class="justify-content-center my-md-0">
                     <div class=" nav-item nav-link" v-if="isLogin">
                         <a class="nav-link" :style="{ 'color': props['textColor'] }">
-                            <div class="d-flex">
+                            <div class="d-flex flex-row">
                                 <div class="searchbar ">
                                     <input v-model="searchValue" class="search_input" type="text" name=""
                                         placeholder="Tìm kiếm...">
@@ -23,12 +23,12 @@
                             </div>
                         </a>
 
-                        <div v-if="searchPost().length > 0" 
-                            style="border-radius: 10px; background-color: white; position: absolute; width: 500px;  max-height: 500px; 
+                        <div v-if="searchPost().length > 0" style="border-radius: 10px; background-color: white; position: absolute; width: 500px;  max-height: 500px; 
                             overflow-y: scroll; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
                             <h4 class="dropdown-title" style="margin: 10px 0 0px 10px">Các bài viết liên quan</h4>
                             <div class="a-tag" style="padding: 7px;" v-for="post in searchPost()" :key="post.id">
-                                <a class="d-flex justify-content-start align-items-center" :href="'http://localhost:5173/post/' + post.id">
+                                <a class="d-flex justify-content-start align-items-center"
+                                    :href="'http://localhost:5173/post/' + post.id">
                                     <i class="fas fa-newspaper" style="margin-right: 10px;"></i>
                                     {{ post.title }}
                                 </a>
@@ -38,17 +38,17 @@
                 </div>
 
                 <a v-if="isLogin" href="http://localhost:5173/upload-post">
-                    <button class="btn btn-danger" id="newPost"
+                    <button class="btn upload-post btn-danger" id="newPost"
                         :style="{ 'padding': '10px', 'margin-left': '10px', 'border-radius': '50px', 'color': 'white' }">+
                         Đăng tải bài viết mới</button>
                 </a>
 
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li class="text-center nav-item dropdown nav-link " v-if="isLogin"
-                         data-bs-toggle="dropdown" @click="seenNoti()">
+                <div class="nav col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <div class="text-center nav-item dropdown nav-link " v-if="isLogin" data-bs-toggle="dropdown"
+                        @click="seenNoti()">
                         <a class="" :style="{ 'color': props['textColor'] }">
-                            <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-bell-fill header" viewBox="0 0 16 16">
+                            <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                fill="currentColor" class="bi bi-bell-fill header" viewBox="0 0 16 16">
                                 <path
                                     d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                             </svg>
@@ -58,9 +58,9 @@
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </a>
-                    </li>
+                    </div>
                     <ul class="dropdown-menu dropdown-menu-md-end"
-                        style="width: 400px; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
+                        style="max-width: 400px; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;">
                         <h5 style="margin-left: 10px">Thông báo</h5>
                         <hr class="dropdown-divider">
                         <div class="text-secondary" v-if="notifications.length == 0" style="margin-left: 10px">Không
@@ -83,8 +83,8 @@
 
                         </div>
                     </ul>
-                </ul>
-                <div v-if="isLogin" class="nav-item dropdown">
+                </div>
+                <div id="dropdown-user" v-if="isLogin" class="nav-item dropdown">
                     <a class="nav-link bsb-dropdown-toggle-caret-disable" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" width="40"
@@ -292,7 +292,7 @@ import notificationsService from '@/services/notifications.service';
 import { useRouter, useRoute } from 'vue-router'
 import postsService from '@/services/posts.service';
 
-const route=useRoute();
+const route = useRoute();
 const router = useRouter()
 
 const props = defineProps(['textColor'])
@@ -388,10 +388,10 @@ async function seenNoti() {
     }
 }
 
-function searchPost(){
+function searchPost() {
     if (searchValue.value != "") {
         return posts.value.filter((p) => {
-          return p.title.toLowerCase().indexOf(searchValue.value.toLowerCase()) != -1
+            return p.title.toLowerCase().indexOf(searchValue.value.toLowerCase()) != -1
         })
     } else return []
 }
@@ -418,50 +418,50 @@ const notifications = ref([
     }
 ])
 const posts = ref([
-  {
-    id: 0,
-    createdAt: '',
-    updatedAt: '',
-    deletedAt: null,
-    title: '',
-    content: '',
-    sharePostId: null,
-    originalPostURL: '',
-    publishDate: '',
-    imageURL: '',
-    status: '',
-    type: '',
-    readTime: 0,
-    totalLike: 0,
-    totalDislike: 0,
-    totalShare: 0,
-    categoryId: 0,
-    createdById: 0,
-    contentSourceId: 0,
-    createdBy: {
-      id: 0,
-      createdAt: '',
-      updatedAt: '',
-      deletedAt: null,
-      email: '',
-      username: '',
-      firstName: '',
-      lastName: '',
-      fullName: '',
-      about: '',
-      youtubeLink: '',
-      facebookLink: '',
-      linkedinLink: '',
-      twitterLink: '',
-      totalFollower: 0,
-      totalFollowee: 0,
-      refreshToken: null,
-      phoneNumber: '',
-      birthday: '',
-      avatar: '',
-      role: ''
+    {
+        id: 0,
+        createdAt: '',
+        updatedAt: '',
+        deletedAt: null,
+        title: '',
+        content: '',
+        sharePostId: null,
+        originalPostURL: '',
+        publishDate: '',
+        imageURL: '',
+        status: '',
+        type: '',
+        readTime: 0,
+        totalLike: 0,
+        totalDislike: 0,
+        totalShare: 0,
+        categoryId: 0,
+        createdById: 0,
+        contentSourceId: 0,
+        createdBy: {
+            id: 0,
+            createdAt: '',
+            updatedAt: '',
+            deletedAt: null,
+            email: '',
+            username: '',
+            firstName: '',
+            lastName: '',
+            fullName: '',
+            about: '',
+            youtubeLink: '',
+            facebookLink: '',
+            linkedinLink: '',
+            twitterLink: '',
+            totalFollower: 0,
+            totalFollowee: 0,
+            refreshToken: null,
+            phoneNumber: '',
+            birthday: '',
+            avatar: '',
+            role: ''
+        }
     }
-  }
 ])
 try {
     currentUser.value = await checkLogin();
@@ -562,10 +562,63 @@ try {
 .bi-bell-fill {
     background: none;
 }
-.dropdown-title{
+
+.dropdown-title {
     color: black;
 }
-.a-tag:hover{
+
+.a-tag:hover {
     background-color: rgb(194, 192, 192);
 }
+
+@media only screen and (max-width: 1000px) {
+    .searchbar {
+        width: 150px;
+    }
+
+    .upload-post {
+        font-size: xx-small;
+    }
+
+    .search_input {
+        width: 100px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #dropdown-user {
+        display: none;
+    }
+
+    #website-name {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 570px) {
+    .searchbar {
+        width: 100px;
+    }
+    .search_input {
+        width: 50px;
+    }
+    .upload-post {
+        font-size: xx-small;
+    }
+
+    
+}
+
+@media only screen and (max-width: 430px) {
+    .searchbar {
+        width: 150px;
+    }
+    .search_input {
+        width: 100px;
+    }
+    .upload-post {
+        display: none;
+    }
+}
+
 </style>

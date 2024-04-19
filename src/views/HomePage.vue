@@ -13,7 +13,7 @@
             <SidebarComponent text-color="white"></SidebarComponent>
         </Suspense>
 
-        <div class="first-section container-fluid" >
+        <div class="first-section container-fluid">
             <div class="first-header">
                 <br>
                 <div class="d-flex justify-content-start flex-column">
@@ -39,8 +39,9 @@
                             </li>
 
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="post-tab" data-bs-toggle="tab" data-bs-target="#post-tab-pane"
-                                    type="button" role="tab" aria-controls="post-tab-pane" aria-selected="false" @click="getFeedPost()">
+                                <button class="nav-link" id="post-tab" data-bs-toggle="tab"
+                                    data-bs-target="#post-tab-pane" type="button" role="tab"
+                                    aria-controls="post-tab-pane" aria-selected="false" @click="getFeedPost()">
                                     Bảng tin
                                 </button>
                             </li>
@@ -56,12 +57,14 @@
 
 
                                     <div>
-                                        <div v-for="(category, index) in categories" :key="category.id" >
-                                            <h1 :id="category.name" 
-                                                class="font-weight-bolder text-start w-100 float-start" style="font-weight: 500; margin: 30px 0 20px 20px;">{{
-                                            category.name }}</h1>
+                                        <div v-for="(category, index) in categories" :key="category.id">
+                                            <h1 :id="category.name"
+                                                class="font-weight-bolder text-start w-100 float-start"
+                                                style="font-weight: 500; margin: 30px 0 20px 20px;">{{
+                                                    category.name }}</h1>
                                             <CardComponent :posts="VisiblePost(index)"></CardComponent>
-                                            <h5  v-if="posts[index].length == 0" class="text-secondary" style="margin-left: 20px;">Không có bài viết nào thuộc thể loại này</h5>
+                                            <h5 v-if="posts[index].length == 0" class="text-secondary"
+                                                style="margin-left: 20px;">Không có bài viết nào thuộc thể loại này</h5>
                                             <button @click="postVisibles[index] += steps[index]"
                                                 v-if="postVisibles[index] < posts[index].length" class="btn moreBtn"
                                                 style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
@@ -120,8 +123,8 @@
                                 </div> -->
                                 <CardTagComponent :posts="VisibleFeedPost()"></CardTagComponent>
                                 <div class="align-items-center w-100 d-flex">
-                                    <button  class="btn moreBtn" @click="feedVisibles+=stepsFeed"
-                                    v-if="feedVisibles < postFeed.length"
+                                    <button class="btn moreBtn" @click="feedVisibles += stepsFeed"
+                                        v-if="feedVisibles < postFeed.length"
                                         style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
                                         Xem thêm >>
                                     </button>
@@ -445,7 +448,7 @@ async function updateCategory() {
     }
 }
 
-async function getFeedPost(){
+async function getFeedPost() {
     try {
         let tempFeedPost = await postsService.getFeedForCurrentUser(tokenBearer)
         postFeed.value = tempFeedPost.data
@@ -659,4 +662,9 @@ hr {
     background-color: #2B517A;
 }
 
+@media only screen and (max-width: 1000px) {
+    .first-section {
+        background-size: auto 100vh;
+    }
+}
 </style>
