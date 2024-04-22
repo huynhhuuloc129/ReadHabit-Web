@@ -117,9 +117,9 @@
 
                             <div class="tab-pane fade" id="post-tab-pane" role="tabpanel" aria-labelledby="post-tab"
                                 tabindex="0">
-                                <div class="d-flex" style="margin-bottom: 20px;">
+                                <div class="d-flex align-items-center justify-content-center" style="margin-bottom: 20px;">
 
-                                    <VueDatePicker v-model="date" range :preset-dates="presetDates">
+                                    <VueDatePicker class="w-25" v-model="date" range :preset-dates="presetDates">
                                         <template #preset-date-range-button="{ label, value, presetDate }">
                                             <span role="button" :tabindex="0" @click="presetDate(value)"
                                                 @keyup.enter.prevent="presetDate(value)"
@@ -128,8 +128,6 @@
                                             </span>
                                         </template>
                                     </VueDatePicker>
-
-                                    <button class="btn btn-primary" style="margin-left: 10px;">Lọc</button>
                                 </div>
 
                                 <CardTagComponent :posts="VisibleFeedPost()"></CardTagComponent>

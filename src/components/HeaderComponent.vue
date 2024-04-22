@@ -18,7 +18,8 @@
                                 <div class="searchbar ">
                                     <input v-model="searchValue" class="search_input" type="text" name=""
                                         placeholder="Tìm kiếm...">
-                                    <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                                    <a v-if="searchValue.length > 0"  :href="'http://localhost:5173/search/' + searchValue" class="search_icon"><i
+                                            class="fas fa-search"></i></a>
                                 </div>
                             </div>
                         </a>
@@ -569,11 +570,20 @@ try {
 .a-tag:hover {
     background-color: rgb(194, 192, 192);
 }
-#dropdown-search{
-    border-radius: 10px; background-color: white; position: absolute; width: 500px;  max-height: 500px; 
-    overflow-y: scroll; word-wrap: break-word; flex-wrap: wrap; overflow-wrap: break-word;
+
+#dropdown-search {
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    width: 500px;
+    max-height: 500px;
+    overflow-y: scroll;
+    word-wrap: break-word;
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
     z-index: 999;
 }
+
 @media only screen and (max-width: 1000px) {
     .searchbar {
         width: 150px;
@@ -586,7 +596,8 @@ try {
     .search_input {
         width: 100px;
     }
-    #dropdown-search{
+
+    #dropdown-search {
         width: 150px;
     }
 }
@@ -605,26 +616,29 @@ try {
     .searchbar {
         width: 100px;
     }
+
     .search_input {
         width: 50px;
     }
+
     .upload-post {
         font-size: xx-small;
     }
 
-    
+
 }
 
 @media only screen and (max-width: 430px) {
     .searchbar {
         width: 150px;
     }
+
     .search_input {
         width: 100px;
     }
+
     .upload-post {
         display: none;
     }
 }
-
 </style>

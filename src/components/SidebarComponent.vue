@@ -70,7 +70,7 @@
             <input v-model="feedbackTitle" type="text" class="form-control" id="feedback" required>
 
             <label for="feedback" style="margin-top: 20px;">Phản hồi cho admin:</label>
-            <textarea v-model="feedbackMessage" type="text" class="form-control" id="feedback" required></textarea>
+            <textarea v-model="feedbackMessage" type="text" class="form-control" id="message" required></textarea>
             <div class="d-flex justify-content-end">
               <button type="submit" style="margin: 5px;" class="btn btn-primary">Gửi</button>
               <button type="button" style="margin: 5px;" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
