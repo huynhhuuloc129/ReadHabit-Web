@@ -95,10 +95,13 @@
                                         </div>
                                         <hr>
                                         <h3>Nhãn</h3>
-                                        <div id="tag-homepage" class="d-flex" style="flex-wrap: wrap; justify-content: start;">
+                                        <div id="tag-homepage" class="d-flex"
+                                            style="flex-wrap: wrap; justify-content: start;">
                                             <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;"
                                                 role="group" aria-label="Basic checkbox toggle button group">
-                                                <div v-if="filterTagsByCategoryId().length == 0" class="text-secondary">Không có nhãn nào của thể loại này</div>
+                                                <div v-if="filterTagsByCategoryId().length == 0" class="text-secondary">
+                                                    Không có
+                                                    nhãn nào của thể loại này</div>
                                                 <div v-for="tag in filterTagsByCategoryId()" :key="tag.id">
                                                     <a :href="'http://localhost:5173/tag/' + tag.id">
                                                         <button class="btn btn-outline-secondary">
@@ -114,18 +117,25 @@
 
                             <div class="tab-pane fade" id="post-tab-pane" role="tabpanel" aria-labelledby="post-tab"
                                 tabindex="0">
+                                <div class="d-flex" style="margin-bottom: 20px;">
 
-                                <!-- <div style="margin: 50px">
-                                    <form class="form-inline my-sm-0 d-flex justify-content-center">
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search"
-                                            aria-label="Search">
-                                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-                                    </form>
-                                </div> -->
+                                    <VueDatePicker v-model="date" range :preset-dates="presetDates">
+                                        <template #preset-date-range-button="{ label, value, presetDate }">
+                                            <span role="button" :tabindex="0" @click="presetDate(value)"
+                                                @keyup.enter.prevent="presetDate(value)"
+                                                @keyup.space.prevent="presetDate(value)">
+                                                {{ label }}
+                                            </span>
+                                        </template>
+                                    </VueDatePicker>
+
+                                    <button class="btn btn-primary" style="margin-left: 10px;">Lọc</button>
+                                </div>
+
                                 <CardTagComponent :posts="VisibleFeedPost()"></CardTagComponent>
                                 <div class="align-items-center w-100 d-flex">
                                     <button class="btn moreBtn" @click="feedVisibles += stepsFeed"
-                                        v-if="feedVisibles < postFeed.length"
+                                        v-if="feedVisibles < VisibleFeedPost().length"
                                         style="width: 31%; border-radius: 50px; border: 2px solid #2B517A; margin-left: 10px;">
                                         Xem thêm >>
                                     </button>
@@ -169,6 +179,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script setup lang="ts">
@@ -185,6 +196,24 @@ import checkLogin from "@/utilities/utilities";
 import { useCookies } from "vue3-cookies";
 import { toast } from "vue3-toastify";
 import { onMounted, ref } from "vue";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'date-fns';
+
+const date = ref();
+
+const presetDates = ref([
+    { label: 'Hôm nay', value: [new Date(), new Date()] },
+
+    { label: 'Tháng này', value: [startOfMonth(new Date()), endOfMonth(new Date())] },
+    {
+        label: 'Tháng trước',
+        value: [startOfMonth(subMonths(new Date(), 1)), endOfMonth(subMonths(new Date(), 1))],
+    },
+    { label: 'Năm nay', value: [startOfYear(new Date()), endOfYear(new Date())] },
+]);
+
+
 const cookies = useCookies();
 const tokenBearer = cookies.cookies.get('Token');
 
@@ -413,7 +442,21 @@ function VisiblePost(position: number) {
 }
 
 function VisibleFeedPost() {
-    return postFeed.value.slice(0, feedVisibles.value)
+    if (date.value == null) return postFeed.value.slice(0, feedVisibles.value)
+    else {
+        let postFeedTemp = [] as typeof postFeed.value;
+        let startDate = date.value[0].getTime()
+        let endDate = date.value[1].getTime()
+
+        postFeed.value.forEach(pf => {
+            let publishTime = new Date(pf.publishDate)
+            if (publishTime.getTime() >= startDate && publishTime.getTime() <= endDate) {
+                postFeedTemp.push(pf)
+            }
+        });
+
+        return postFeedTemp.slice(0, feedVisibles.value)
+    }
 }
 
 // filter tags
@@ -453,7 +496,6 @@ async function getFeedPost() {
     try {
         let tempFeedPost = await postsService.getFeedForCurrentUser(tokenBearer)
         postFeed.value = tempFeedPost.data
-        console.log(tempFeedPost.data)
     } catch (error) {
         console.log(error)
     }
@@ -640,17 +682,22 @@ hr {
 .cover-btn:hover span:after {
     top: 0;
 }
-.moreBtn{
+
+.moreBtn {
     width: 31%;
 }
+
 @media only screen and (max-width: 767px) {
     .cover-btn {
         margin-bottom: 20px;
     }
 }
-#h1-mainpage{
-    margin-left: 40px; font-size: 70px;
+
+#h1-mainpage {
+    margin-left: 40px;
+    font-size: 70px;
 }
+
 .first-header {
     height: 100vh;
 }
@@ -671,22 +718,26 @@ hr {
     .first-section {
         background-size: auto 100vh;
     }
-    .sidebarCate{
+
+    .sidebarCate {
         margin-top: 0px;
         position: static;
         order: 1;
         height: 320px;
         width: 100vw;
     }
-    #card-post{
+
+    #card-post {
         order: 2;
     }
 }
+
 @media only screen and (max-width: 600px) {
-    .moreBtn{
+    .moreBtn {
         width: 50%;
     }
-    #h1-mainpage{
+
+    #h1-mainpage {
         margin-left: 10px;
         font-size: 50px;
     }
