@@ -18,8 +18,9 @@
                   <div class="card-body">
                     <div class="text-center mb-3 w-100 d-flex">
                       <div class="avatarMain d-flex">
-                        <img :src="'http://localhost:8080' + user.avatar.replace('files', '')"
-                          alt="Generic placeholder image" style="height: 150px" />
+                        <img v-if="user.avatar != null"
+                          :src="'http://localhost:8080' + user.avatar.replace('files', '')" alt="Chưa có ảnh đại diện"
+                          style="height: 150px" />
                       </div>
                     </div>
                     <h5 class="text-center mb-1">{{ user.fullName }}</h5>
@@ -46,10 +47,12 @@
                                 <div v-for="follower in followerOfUsers" :key="follower.id"
                                   class="d-flex justify-content-between" style="margin: 0px 20px 20px 0">
                                   <div>
-                                    <img :src="'http://localhost:8080' +
+                                    <img v-if="follower.follower.avatar != null" :src="'http://localhost:8080' +
                                       follower.follower.avatar.replace('files', '')
                                       " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px"
                                       alt="" />
+                                    <i v-else class="fa-solid fa-user" style="width: 20px; height: 20px;"></i>
+
                                     <a :href="'http://localhost:5173/personal/' + follower.follower.id
                                       ">{{ follower.follower.fullName }}</a>
                                   </div>
@@ -87,10 +90,11 @@
                                 <div v-for="following in followingOfUsers" :key="following.id"
                                   class="d-flex justify-content-between" style="margin: 0px 20px 20px 0">
                                   <div>
-                                    <img :src="'http://localhost:8080' +
+                                    <img v-if="following.followee.avatar != null" :src="'http://localhost:8080' +
                                       following.followee.avatar.replace('files', '')
                                       " width="50px" height="50px" style="border-radius: 50%; margin-right: 20px"
                                       alt="" />
+                                    <i v-else class="fa-solid fa-user" style="width: 20px; height: 20px;"></i>
                                     <a :href="'http://localhost:5173/personal/' + following.followee.id
                                       ">{{ following.followee.fullName }}</a>
                                   </div>
@@ -310,14 +314,14 @@
                         <div class="p-2">Ngày sinh</div>
                       </div>
                       <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-                        <div class="p-2">{{ user.birthday.slice(0, 10) }}</div>
+                        <div v-if="user.birthday != null" class="p-2">{{ user.birthday.slice(0, 10) }}</div>
                       </div>
                     </div>
 
                     <div>
                       <h5>Hoạt động</h5>
-                      <calendar-heatmap v-if="contributionData.length > 1" id="calendar-heatmap" :values="contributionData" :options="options"
-                        :end-date=endDate() />
+                      <calendar-heatmap v-if="contributionData.length > 1" id="calendar-heatmap"
+                        :values="contributionData" :options="options" :end-date=endDate() />
                       <calendar-heatmap v-else id="calendar-heatmap" :values="contributionData" :options="options"
                         :end-date=endDate() />
                       <div>
@@ -346,8 +350,10 @@
                         <div class="row gy-2">
                           <label class="col-12 form-label m-0">Ảnh đại diện</label>
                           <div class="col-12">
-                            <img :src="'http://localhost:8080' + user.avatar.replace('files', '')"
+                            <img v-if="user.avatar != null"
+                              :src="'http://localhost:8080' + user.avatar.replace('files', '')"
                               class="img-fluid img-thumbnail" width="150px" alt="Luna John" />
+                            <i v-else class="fa-solid fa-user" style="width: 20px; height: 20px;"></i>
                           </div>
                           <div class="col-12">
                             <a href="#!" class="d-inline-block bg-primary link-light lh-1 p-2 rounded m-1">

@@ -11,6 +11,7 @@
     <h1 v-if="post.id == 0">Bài viết không tồn tại</h1>
 
     <div class="d-flex justify-content-between">
+      
       <h1>{{ post.title }}</h1>
       <button v-if="currentUser.id == post.createdBy.id" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePost">Xóa bài viết</button>
 
@@ -55,6 +56,7 @@
                 </div>
               </div>
             </div>
+
             <div v-if="post.status == 'published'" class="d-flex flex-row text-center">
               <div class="interaction-icon d-flex flex-column align-items-center justify-content-end">
                 <button :disabled="isLogin == false" v-if="isLike == false" class="btn btn-light h-100"
@@ -242,6 +244,7 @@
                   <!-- Lưu -->
                 </button>
 
+                
                 <!-- bookmark modal -->
                 <div class="modal fade" id="bookmarkModal" tabindex="-1" aria-labelledby="bookmarkModalLabel"
                   aria-hidden="true">
@@ -267,6 +270,7 @@
                   </div>
                 </div>
               </div>
+              
               <div class="">
                 <a :href="post.originalPostURL">
                   <button class="btn-follow btn btn-secondary h-100">Đọc bài gốc</button>
@@ -275,9 +279,14 @@
             </div>
           </div>
         </div>
-        <div class="p-3" style="word-wrap: break-word">
-          <!-- <quill-editor v-model:content="post.content" content-type="html" theme="snow"></quill-editor> -->
+        <audio controls class="w-100" style="margin-top: 20px;">
+            <source
+              src="https://file01.fpt.ai/text2speech-v5/short/2024-04-22/fa7430e8e49f898e545dfcac62904cc5.mp3"
+              type="audio/mpeg">
+            Your browser does not support the audio tag.
+          </audio>
 
+        <div class="p-3" style="word-wrap: break-word">
           <div class="ql-editor" v-html="post.content"></div>
         </div>
         <br />

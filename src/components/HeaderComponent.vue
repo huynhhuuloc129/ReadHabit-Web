@@ -18,7 +18,8 @@
                                 <div class="searchbar ">
                                     <input v-model="searchValue" class="search_input" type="text" name=""
                                         placeholder="Tìm kiếm...">
-                                    <a v-if="searchValue.length > 0"  :href="'http://localhost:5173/search/' + searchValue" class="search_icon"><i
+                                    <a v-if="searchValue.length > 0"
+                                        :href="'http://localhost:5173/search/' + searchValue" class="search_icon"><i
                                             class="fas fa-search"></i></a>
                                 </div>
                             </div>
@@ -87,8 +88,9 @@
                 <div id="dropdown-user" v-if="isLogin" class="nav-item dropdown">
                     <a class="nav-link bsb-dropdown-toggle-caret-disable" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" width="40"
+                        <img v-if="currentUser.avatar != null" :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" width="40"
                             height="40" class="img-fluid rounded-circle" :alt="currentUser.fullName">
+                        <i v-else class="fa-solid fa-user" style="width: 20px; height: 20px;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-md-end bsb-dropdown-animation bsb-fadeIn"
                         style="width: 300px;">
@@ -102,8 +104,10 @@
                             <a href="#" class="dropdown-item" aria-current="true">
                                 <div class="row g-0 align-items-center">
                                     <div class="col-3">
-                                        <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')"
+                                        <img v-if="currentUser.avatar != null" :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')"
                                             width="55" height="55" class="img-fluid rounded-circle" alt="Luke Reeves">
+                                        <i v-else class="fa-solid fa-user" style="width: 20px; height: 20px;"></i>
+
                                     </div>
                                     <div class="col-9">
                                         <div class="ps-3">
@@ -230,7 +234,7 @@
                         <div class="modal-content">
 
                             <div class="modal-body">
-                                <form submit="onLogin">
+                                <form @submit="onRegister">
                                     <div class="text-center p-3">
                                         <img class="logo-form img-thumbnail" src="../assets/logo.png" alt="">
                                     </div>
@@ -246,9 +250,6 @@
                                         <input v-model="registerData.email" type="email" class="form-control"
                                             id="registerInputEmail" aria-describedby="emailHelp" placeholder="Email"
                                             required>
-                                        <div id="emailHelp" class="text-red form-text">We'll never share your email with
-                                            anyone else.
-                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="registerInputPassword" class="form-label">Mật khẩu</label>
@@ -262,10 +263,7 @@
                                             class="form-control" id="registerInputRepeatPassword"
                                             placeholder="Lặp lại mật khẩu" required>
                                     </div>
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="registerCheck">
-                                        <label class="form-check-label" for="registerCheck">Check me out</label>
-                                    </div>
+
                                     <div class="text-center">
                                         <button type="submit" id="registerButton"
                                             class="btn blue-background text-white">Đăng ký</button>
@@ -291,6 +289,8 @@ import { ref } from 'vue'
 import notificationsService from '@/services/notifications.service';
 import { useRouter, useRoute } from 'vue-router'
 import postsService from '@/services/posts.service';
+import { toast } from "vue3-toastify";
+import usersService from '@/services/users.service';
 
 const route = useRoute();
 const router = useRouter()
@@ -356,6 +356,28 @@ var onLogin = async (e: any) => {
         currentToken.value = await authServices.login(loginData.value);
         cookies.cookies.set("Token", currentToken.value.access_token);
         window.location.reload();
+    } catch (err: any) {
+        showErrLogin.value = true;
+        errMessage.value = err.message;
+        // console.log(err)
+    }
+}
+var onRegister = async (e: any) => {
+    e.preventDefault();
+    try {
+        if (registerData.value.password != registerData.value.repeatPassword) {
+            toast.error("Mật khẩu không trùng khớp!", {
+                autoClose: 2000,
+            })
+        }
+        else {
+            authServices.register({
+                email: registerData.value.email,
+                password: registerData.value.password,
+                username: registerData.value.username
+            })
+            window.location.reload();
+        }
     } catch (err: any) {
         showErrLogin.value = true;
         errMessage.value = err.message;

@@ -11,7 +11,9 @@
     <div class="side-inner">
 
       <div class="profile">
-        <img :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="Image" class="img-fluid">
+        <img v-if="currentUser.avatar != null" :src="'http://localhost:8080' + currentUser.avatar.replace('files', '')" alt="Image" class="img-fluid">
+        <i v-else class="fa-solid fa-user" style="width: 20px; height: 20px;"></i>
+
         <a :href="'http://localhost:5173/personal/' + currentUser.id" style="color: black;">
           <h3 class="name">{{ currentUser.fullName }}</h3>
         </a>

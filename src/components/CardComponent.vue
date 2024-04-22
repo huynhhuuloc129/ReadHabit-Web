@@ -12,14 +12,23 @@
               alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" />
             <div class="card-img-overlay d-flex flex-column">
               <div class="card-body post-body">
-                <small v-if="post.category != null" class="card-meta mb-2">{{
-          post.category.name
-        }}</small>
+
+                <small v-if="post.category != null" class="card-meta mb-2">
+                  {{ post.category.name }}
+                </small>
+
                 <h4 class="card-title mt-0">
-                  <a class="text-dark" herf="https://creativemanner.com" style="text-decoration: none;">{{ post.title }}</a>
+                  <a class="text-dark" herf="https://creativemanner.com" style="text-decoration: none;">
+                    {{ post.title }}
+                  </a>
                 </h4>
+
                 <small><i class="far fa-clock"></i>{{ post.createdAt.slice(0, 10) }}</small>
+                <div>
+                  <i class="audio fa-solid fa-volume-high"></i>
+                </div>
               </div>
+
               <div v-if="post.createdById != null" class="card-footer">
                 <div class="media">
                   <div class="avatar d-flex">
@@ -120,6 +129,12 @@
                   <div style="margin-top: 10px">{{ post.totalDislike }} lượt</div>
                   <div style="margin-top: 10px">{{ post.totalShare }} lượt</div>
                 </div>
+                <audio controls class="w-75" style="margin-top: 20px;">
+                  <source
+                    src="https://file01.fpt.ai/text2speech-v5/short/2024-04-22/fa7430e8e49f898e545dfcac62904cc5.mp3"
+                    type="audio/mpeg">
+                  Your browser does not support the audio tag.
+                </audio>
               </div>
               <hr />
               <div v-html="post.content"></div>
@@ -245,5 +260,9 @@ const props = defineProps(['posts'])
   width: 50px;
   height: 50px;
   overflow: hidden;
+}
+
+.audio:hover {
+  color: grey;
 }
 </style>

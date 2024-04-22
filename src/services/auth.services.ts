@@ -21,7 +21,7 @@ class AuthService {
 
     async register(data: any) {
         try {
-            const resp = (await this.api.post("/auth/register/"), data);
+            const resp = (await this.api.post("/auth/register/", data));
             return resp.data;
         } catch (err) {
             handlingError(err);
