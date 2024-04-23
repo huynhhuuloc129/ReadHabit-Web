@@ -12,13 +12,26 @@
     <div class="container" style="margin-top: 20px;">
         <h1>Danh sách các bài viết có nhãn #{{ tag.name }}</h1>
 
+        <div class="d-flex align-items-center justify-content-center" style="margin-bottom: 20px;">
+            <VueDatePicker class="w-25" v-model="date" range :preset-dates="presetDates">
+                <template #preset-date-range-button="{ label, value, presetDate }">
+                    <span role="button" :tabindex="0" @click="presetDate(value)"
+                        @keyup.enter.prevent="presetDate(value)" @keyup.space.prevent="presetDate(value)">
+                        {{ label }}
+                    </span>
+                </template>
+            </VueDatePicker>
+        </div>
+
         <div id="listpost-section" class="d-flex">
             <div v-if="posts[0].id != 0" style="width: 1000px;">
-                <CardTagComponent :posts="posts"></CardTagComponent>
+                <CardTagComponent :posts="VisiblePost()"></CardTagComponent>
             </div>
-            <h4 class="text-secondary" v-if="posts[0].id == 0" style="width: 1000px; ">Không có bài viết nào thuộc nhãn này</h4>
+            <h4 class="text-secondary" v-if="posts[0].id == 0" style="width: 1000px; ">Không có bài viết nào thuộc nhãn
+                này
+            </h4>
 
-            <div class="sticky-top sidebarTag" >
+            <div class="sticky-top sidebarTag">
                 <h5>Các nhãn cùng thể loại</h5>
                 <a :href="'http://localhost:5173/tag/' + tag1.id" v-for="tag1 in tags" :key="tag1.id">
                     <button v-if="tag1.id != tag.id" class="tag-btn btn btn-outline-secondary">
@@ -39,6 +52,41 @@ import postsService from "@/services/posts.service";
 import { onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 import tagsService from "@/services/tags.service";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'date-fns';
+
+const date = ref();
+
+const presetDates = ref([
+    { label: 'Hôm nay', value: [new Date(), new Date()] },
+
+    { label: 'Tháng này', value: [startOfMonth(new Date()), endOfMonth(new Date())] },
+    {
+        label: 'Tháng trước',
+        value: [startOfMonth(subMonths(new Date(), 1)), endOfMonth(subMonths(new Date(), 1))],
+    },
+    { label: 'Năm nay', value: [startOfYear(new Date()), endOfYear(new Date())] },
+]);
+
+
+function VisiblePost() {
+    if (date.value == null) return posts.value
+    else {
+        let postsTemp = [] as typeof posts.value;
+        let startDate = date.value[0].getTime()
+        let endDate = date.value[1].getTime()
+
+        posts.value.forEach(pf => {
+            let publishTime = new Date(pf.publishDate)
+            if (publishTime.getTime() >= startDate && publishTime.getTime() <= endDate) {
+                postsTemp.push(pf)
+            }
+        });
+
+        return postsTemp
+    }
+}
 
 const route = useRoute()
 const id = Number(route.params.id)
@@ -144,21 +192,27 @@ onMounted(async () => {
 .sidebarTag {
     z-index: 1;
     position: sticky;
-    max-height: 90vh; overflow: scroll; max-width: 300px;
+    max-height: 90vh;
+    overflow: scroll;
+    max-width: 300px;
 }
+
 @media only screen and (max-width: 1000px) {
     .sidebarTag {
         max-width: 200px;
     }
-    .tag-btn{
+
+    .tag-btn {
         font-size: xx-small;
     }
 }
+
 @media only screen and (max-width: 770px) {
-    #listpost-section{
+    #listpost-section {
         flex-direction: column;
         align-items: center;
     }
+
     .sidebarTag {
         max-width: 100vw;
     }

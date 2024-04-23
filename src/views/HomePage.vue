@@ -244,6 +244,7 @@ const posts = ref([[{
     categoryId: '',
     createdById: '',
     contentSourceId: '',
+    audioURL: '',
     tags: [
         {
             id: '',

@@ -119,7 +119,6 @@ const posts = ref([
 ])
 
 function VisiblePost() {
-    console.log(date.value)
     if (date.value == null) return posts.value.filter((p) => {
         return p.title.toLowerCase().indexOf(query.toLowerCase()) != -1
     })

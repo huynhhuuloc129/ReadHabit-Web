@@ -1090,6 +1090,7 @@ const trackingBookmarkPost = ref([
       categoryId: 0,
       createdById: 0,
       contentSourceId: 0,
+      audioURL: '',
       contentSource: {
         id: 0,
         createdAt: '',

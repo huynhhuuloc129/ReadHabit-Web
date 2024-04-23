@@ -279,9 +279,9 @@
             </div>
           </div>
         </div>
-        <audio controls class="w-100" style="margin-top: 20px;">
+        <audio v-if="post.audioURL != null" controls class="w-100" style="margin-top: 20px;">
             <source
-              src="https://file01.fpt.ai/text2speech-v5/short/2024-04-22/fa7430e8e49f898e545dfcac62904cc5.mp3"
+              :src="post.audioURL"
               type="audio/mpeg">
             Your browser does not support the audio tag.
           </audio>
@@ -575,6 +575,7 @@ const post = ref({
   categoryId: '',
   createdById: '',
   contentSourceId: '',
+  audioURL: '',
   tags: [
     {
       id: 0,
