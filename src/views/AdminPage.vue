@@ -204,7 +204,7 @@
                     <td>{{ post.type }}</td>
                     <td>{{ post.title }}</td>
                     <td>
-                      <img style="border-radius: 50%; margin-right: 5px"
+                      <img style="border-radius: 50%; margin-right: 5px" v-if="post.createdBy.avatar != null"
                         :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')" width="25"
                         height="25" />{{ post.createdBy.fullName }}
                     </td>
@@ -257,7 +257,7 @@
                     <td>{{ post.type }}</td>
                     <td>{{ post.title }}</td>
                     <td class="align-items-center">
-                      <img style="border-radius: 50%; margin-right: 5px"
+                      <img style="border-radius: 50%; margin-right: 5px" v-if="post.createdBy.avatar != null"
                         :src="'http://localhost:8080' + post.createdBy.avatar.replace('files', '')" width="25"
                         height="25" />{{ post.createdBy.fullName }}
                     </td>
@@ -317,7 +317,7 @@
                       {{ user.username }}
                     </td>
                     <td class="align-items-center">
-                      <img style="border-radius: 50%; margin-right: 5px"
+                      <img style="border-radius: 50%; margin-right: 5px" v-if="user.avatar != null"
                         :src="'http://localhost:8080' + user.avatar.replace('files', '')" width="25" height="25" />
                       <a class="userNameLink" :href="'http://localhost:5173/personal/' + user.id" target="_blank"
                         style="color: black">
@@ -425,7 +425,7 @@
                     <td>{{ cs.id }}</td>
                     <td>{{ cs.createdAt.slice(0, 10) }}</td>
                     <td class="align-items-center">
-                      <img style="border-radius: 50%; margin-right: 10px;"
+                      <img style="border-radius: 50%; margin-right: 10px;" v-if="cs.avatar != null"
                         :src="'http://localhost:8080' + cs.avatar.replace('files', '')" width="25px" height="25px" />{{
                           cs.name }}
                     </td>
@@ -476,7 +476,7 @@
                 <tr v-for="el in eventLogs" :key="el.id">
                   <td>{{ el.createdAt.slice(0, 10) }}</td>
                   <td>
-                    <img style="border-radius: 50%; margin-right: 10px;"
+                    <img style="border-radius: 50%; margin-right: 10px;" v-if="el.actor.avatar != null"
                       :src="'http://localhost:8080' + el.actor.avatar.replace('files', '')" width="30px" height="30px"
                       alt="">
                     {{ el.actor.fullName }}
@@ -520,8 +520,9 @@
               <th scope="row">{{ feedback.id }}</th>
               <td v-if="feedback.createdAt != ''">{{ feedback.createdAt.slice(0, 10) }}</td>
               <td class="align-items-center">
-                <img style="border-radius: 50%; margin-right: 5px"
-                  :src="'http://localhost:8080' + feedback.createBy.avatar.replace('files', '')" width="25" height="25" />
+                <img style="border-radius: 50%; margin-right: 5px" v-if="feedback.createBy.avatar != null"
+                  :src="'http://localhost:8080' + feedback.createBy.avatar.replace('files', '')" width="25"
+                  height="25" />
                 <a class="userNameLink" :href="'http://localhost:5173/personal/' + feedback.createBy.id" target="_blank"
                   style="color: black">
                   {{ feedback.createBy.fullName }}

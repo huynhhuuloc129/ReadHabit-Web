@@ -10,8 +10,8 @@
     </Suspense>
 
     <div id="uploadPost-section" class="d-flex p-lg-5" style="background-color: white;">
-        <div id="choosePost" class="btn-group btn-group-vertical justify-content-start d-flex flex-column sticky-top" role="group"
-            aria-label="Basic radio toggle button group">
+        <div id="choosePost" class="btn-group btn-group-vertical justify-content-start d-flex flex-column sticky-top"
+            role="group" aria-label="Basic radio toggle button group">
             <div class="w-100" style="margin-bottom: 20px;">
                 <input @click="clearForm()" type="radio" class="btn-check" name="btnradio" id="clear" autocomplete="off"
                     :value="0" checked>
@@ -40,6 +40,7 @@
                     type="radio" class="btn-check" name="btnradio" :id="'btnradio' + post.id" autocomplete="off"
                     :value="post.id">
                 <label class="btn btn-outline-danger w-100" :for="'btnradio' + post.id">{{ post.title }}</label>
+                <div class="text-danger">Lý do từ chối: {{ post.rejectMessage }}</div>
             </div>
         </div>
 
@@ -55,15 +56,22 @@
 
             <div>
                 <div v-if="filterTagsByCategoryId().length > 0">Nhãn bài viết</div>
-                <div class="btn-group" style="margin-bottom: 30px; flex-wrap: wrap;" role="group"
+                <div class="btn-group" style="flex-wrap: wrap;" role="group"
                     aria-label="Basic checkbox toggle button group">
                     <div v-for="(tag, index) in filterTagsByCategoryId()" :key="tag.id"
                         style="margin-right: 5px; margin-bottom: 5px;">
-                        <input v-model="trackingTags[index]" type="checkbox" class="btn-check" :id="'btncheck' + tag.id"
-                            autocomplete="off">
-                        <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
+                        <div v-if="tag.isLock == true || (tag.isLock == false && tag.createdById == currentUser.id)">
+                            <input v-model="trackingTags[index]" type="checkbox" class="btn-check"
+                                :id="'btncheck' + tag.id" autocomplete="off">
+                            <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
+                        </div>
                     </div>
                 </div>
+                <button :disabled="editPostForm.categoryId == 0" class="btn btn-light"
+                    style="width: 50px; margin-bottom: 30px;" data-bs-toggle="modal" data-bs-target="#addTag">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+
             </div>
             <!-- <div class="d-flex">
                 <div class="w-50">
@@ -81,7 +89,6 @@
                 </div>
             </div> -->
 
-
             <label for="titlePost" style="font-size: 30px;">Tiêu đề bài viết</label>
             <input v-model="editPostForm.title" id="titlePost" type="text" class="form-control" required>
 
@@ -95,14 +102,15 @@
             </div>
 
             <div id="quill">
-                <div id="quillEditor" >
+                <div id="quillEditor">
                     Nội dung bài viết:
                     <QuillEditor v-model:content="content" contentType="html" toolbar="full"></QuillEditor>
 
                 </div>
             </div>
             <div class="d-flex justify-content-end" v-if="isLogin">
-                <button class="btn-upload-post m-1 btn btn-danger" @click="updatePost($event, 'reviewing')" style="padding: 15px;">
+                <button class="btn-upload-post m-1 btn btn-danger" @click="updatePost($event, 'reviewing')"
+                    style="padding: 15px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                         class="bi bi-upload" viewBox="0 0 16 16">
                         <path
@@ -112,7 +120,8 @@
                     </svg>
                     Yêu cầu xuất bản
                 </button>
-                <button class="btn-upload-post m-1 btn btn-primary" @click="updatePost($event, 'created')" style="padding: 15px;">
+                <button class="btn-upload-post m-1 btn btn-primary" @click="updatePost($event, 'created')"
+                    style="padding: 15px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                         class="bi bi-file-earmark-check-fill" viewBox="0 0 16 16">
                         <path
@@ -132,6 +141,24 @@
                 </button>
             </div>
         </form>
+        <div class="modal fade" id="addTag" tabindex="-1" aria-labelledby="addTagLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Thêm nhãn dán</h5>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" v-model="newTagName" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            @click="addTag">Thêm</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 <script setup lang="ts">
@@ -169,6 +196,7 @@ const tags = ref([
         name: "",
         categoryId: 0,
         createdById: 0,
+        isLock: false,
         posts: [
             {
                 id: '',
@@ -238,6 +266,7 @@ const contentSources = ref([
 ])
 
 type postType = {
+    rejectMessage: '',
     id: 0,
     createdAt: "",
     updatedAt: "",
@@ -432,6 +461,26 @@ async function removePost() {
     }
 }
 
+const newTagName = ref('')
+
+async function addTag() {
+    try {
+        let resp = await tagsService.create({
+            tags: [
+                newTagName.value
+            ],
+            categoryId: editPostForm.value.categoryId
+        }, tokenBearer);
+        toast.success('Đã thêm thành công!', {
+            autoClose: 1000
+        })
+        console.log(resp)
+        tags.value.push(resp[0])
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 onMounted(async () => {
     try {
         // Post all user
@@ -470,52 +519,63 @@ onMounted(async () => {
 .form-select {
     margin-bottom: 40px;
 }
-#quill{
+
+#quill {
     height: 550px;
 }
-#quillEditor{
+
+#quillEditor {
     height: 450px;
 
 }
-#choosePost{
+
+#choosePost {
     margin-right: 50px;
     width: 13vw;
     height: 50vh;
 }
+
 @media only screen and (max-width: 650px) {
-    #uploadPost-section{
+    #uploadPost-section {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-    #quill{
+
+    #quill {
         height: 350px;
     }
-    #quillEditor{
+
+    #quillEditor {
         height: 220px;
 
     }
-    #choosePost{
+
+    #choosePost {
         position: static;
         margin-top: 20px;
         margin-right: 0;
         width: 80%;
         height: auto;
     }
-    .btn-upload-post{
+
+    .btn-upload-post {
         font-size: small;
     }
 }
+
 @media only screen and (max-width: 490px) {
-    #quill{
+    #quill {
         height: 500px;
     }
-    #quillEditor{
+
+    #quillEditor {
         height: 220px;
 
     }
-    .btn-upload-post{
+
+    .btn-upload-post {
         font-size: xx-small;
     }
 }

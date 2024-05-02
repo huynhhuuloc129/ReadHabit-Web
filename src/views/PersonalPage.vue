@@ -333,9 +333,10 @@
                               <td v-if="el.action == 'comment'">Bình luận</td>
                               <td v-if="el.action == 'share'">Chia sẻ</td>
                               <td>
-                                <a :href="'http://localhost:5173/post/' + el.post.id">{{
+                                <a v-if="el.post != null" :href="'http://localhost:5173/post/' + el.post.id">{{
                                   el.post.title
                                 }}</a>
+                                <div class="text-secondary" v-else>Bài viết không tồn tại</div>
                               </td>
                             </tr>
                           </tbody>
@@ -378,17 +379,17 @@
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
-                        <label for="inputFirstName" class="form-label">Tên</label>
+                        <label for="inputFirstName" class="form-label">Tên (*)</label>
                         <input v-model="updateUserForm.firstName" type="text" class="form-control" id="inputFirstName"
                           required />
                       </div>
                       <div class="col-12 col-md-6">
-                        <label for="inputLastName" class="form-label">Họ</label>
+                        <label for="inputLastName" class="form-label">Họ (*)</label>
                         <input v-model="updateUserForm.lastName" type="text" class="form-control" id="inputLastName"
                           required />
                       </div>
                       <div class="col-12 col-md-6">
-                        <label for="inputPhone" class="form-label">Số điện thoại</label>
+                        <label for="inputPhone" class="form-label">Số điện thoại (*)</label>
                         <input v-model="updateUserForm.phoneNumber" type="tel" class="form-control" id="inputPhone"
                           required />
                       </div>
@@ -412,7 +413,7 @@
                           id="inputLinkedIn" />
                       </div>
                       <div class="col-12">
-                        <label for="inputAbout" class="form-label">Giới thiệu</label>
+                        <label for="inputAbout" class="form-label">Giới thiệu (*)</label>
                         <textarea v-model="updateUserForm.about" class="form-control" id="inputAbout"
                           required></textarea>
                       </div>

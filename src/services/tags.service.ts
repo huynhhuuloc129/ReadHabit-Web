@@ -9,7 +9,7 @@ class TagsService {
     }
     async getAll() {
         try {
-            const tags = (await this.api.get("/tags?sortOrder=asc&limit=100"));
+            const tags = (await this.api.get("/tags?sortOrder=asc&limit=500"));
             return tags.data;
         } catch (err) {
             handlingError(err);

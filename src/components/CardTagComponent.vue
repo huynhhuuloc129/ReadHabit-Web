@@ -4,7 +4,7 @@
       <div class="card-group vgr-cards" v-if="posts.length > 0 && posts[0].id != 0">
         <div v-for="post in posts" :key="post.id" class="card">
           <div class="card-img-body">
-            <img class="card-img" :src="(post.imageURL ? post.imageURL : 'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg')"
+            <img class="card-img" :src="(post.imageURL == null || posts.imageUrl == '' ? 'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg' : 'http://localhost:8080' + post.imageURL.replace('files', ''))"
               alt="Card image cap">
           </div>
           <div class="card-body d-flex flex-column justify-content-between">
