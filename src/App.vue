@@ -66,8 +66,5 @@ a {
   min-height: 100vh;
 }
 @media only screen and (max-width: 1300px) {
-  body {
-    font-size: xx-small;
-  }
 }
 </style>

@@ -6,8 +6,8 @@
                 class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
                     <img src="../assets/logo.png" alt=""
-                        style="border-radius: 50%; width: 45px; height: 45px; margin-right: 10px;">
-                    <div id="website-name" :style="{ 'color': props['textColor'] }">ReadHabit</div>
+                        style="border-radius: 50%; width: 55px; height: 55px; margin-right: 10px;">
+                    <div  id="website-name" :style="{ 'color': props['textColor'] }">ReadHabit</div>
                 </a>
 
 
@@ -578,7 +578,7 @@ try {
 
 .header {
     background-image: url("../assets/Cover.jpg");
-    background-size: 100% auto;
+    background-size: 1710px auto;
 }
 
 .bi-bell-fill {
@@ -623,8 +623,10 @@ try {
         width: 150px;
     }
 }
-
-@media only screen and (max-width: 600px) {
+#website-name{
+    font-size: 25px;
+}
+@media only screen and (max-width: 630px) {
     #dropdown-user {
         display: none;
     }
@@ -641,10 +643,6 @@ try {
 
     .search_input {
         width: 50px;
-    }
-
-    .upload-post {
-        font-size: xx-small;
     }
 
 
