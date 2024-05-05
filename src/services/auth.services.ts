@@ -23,8 +23,9 @@ class AuthService {
         try {
             const resp = (await this.api.post("/auth/register/", data));
             return resp.data;
-        } catch (err) {
-            handlingError(err);
+        } catch (err: any) {
+            if (err.response.status == '400') throw new Error("Người dùng này đã tồn tại!");
+            else handlingError(err);
         }
     }
 

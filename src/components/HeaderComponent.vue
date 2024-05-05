@@ -264,6 +264,7 @@
                                             placeholder="Lặp lại mật khẩu" required>
                                     </div>
 
+                                    <div v-if="showErrRegister" class="text-center text-danger">{{ errMessage }}</div>
                                     <div class="text-center">
                                         <button type="submit" id="registerButton"
                                             class="btn blue-background text-white">Đăng ký</button>
@@ -290,7 +291,6 @@ import notificationsService from '@/services/notifications.service';
 import { useRouter, useRoute } from 'vue-router'
 import postsService from '@/services/posts.service';
 import { toast } from "vue3-toastify";
-import usersService from '@/services/users.service';
 
 const route = useRoute();
 const router = useRouter()
@@ -310,6 +310,8 @@ const registerData = ref({
 })
 const showErrLogin = ref(false)
 const errMessage = ref('')
+
+const showErrRegister = ref(false)
 const currentUser = ref({
     id: 0,
     createdAt: "",
@@ -371,7 +373,7 @@ var onRegister = async (e: any) => {
             })
         }
         else {
-            authServices.register({
+            await authServices.register({
                 email: registerData.value.email,
                 password: registerData.value.password,
                 username: registerData.value.username
@@ -379,9 +381,8 @@ var onRegister = async (e: any) => {
             window.location.reload();
         }
     } catch (err: any) {
-        showErrLogin.value = true;
+        showErrRegister.value = true;
         errMessage.value = err.message;
-        // console.log(err)
     }
 }
 function signOut() {

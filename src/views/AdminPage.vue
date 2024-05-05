@@ -740,6 +740,10 @@ const tokenBearer = cookies.cookies.get('Token')
 // @ts-ignore
 import PrintPage from '@/components/PrintPage.vue';
 import feedbackService from '@/services/feedback.service'
+import checkLogin from "@/utilities/utilities";
+import {useRouter } from 'vue-router'
+
+const router = useRouter()
 
 Chart.register(...registerables)
 
@@ -1108,6 +1112,47 @@ const feedbacks = ref([
   }
 ])
 
+const currentUser = ref({
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    about: null,
+    youtubeLink: null,
+    facebookLink: null,
+    linkedinLink: null,
+    twitterLink: null,
+    totalFollower: 0,
+    totalFollowee: 0,
+    refreshToken: null,
+    phoneNumber: "",
+    birthday: "",
+    avatar: "",
+    role: "",
+    categories: [{
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        name: "",
+        imageURL: null
+    }]
+})
+const isLogin = ref(false)
+try {
+    currentUser.value = await checkLogin();
+    if (currentUser.value !== null && currentUser.value['id'] !== null) {
+        isLogin.value = true;
+    }
+} catch (err) {
+    console.log(err)
+}
+
 function randomColor() {
   let r = Math.ceil(Math.random() * 255)
   let g = Math.ceil(Math.random() * 255)
@@ -1265,7 +1310,6 @@ const fileImageAdd = ref({})
 
 const addContentSourceName = ref('')
 
-const html2Pdf = ref(null)
 
 
 async function addContentSource() {
@@ -1308,6 +1352,10 @@ async function rejectPost() {
 
 onMounted(async () => {
   try {
+    if ((isLogin.value == true && currentUser.value.role != 'admin') || isLogin.value == false){
+      router.push({name: "home"})
+    }
+
     // eventlog
     let eTemp = await eventLogService.getAll()
     eventLogs.value = eTemp.data

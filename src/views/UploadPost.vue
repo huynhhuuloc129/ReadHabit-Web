@@ -58,16 +58,15 @@
                 <div v-if="filterTagsByCategoryId().length > 0">Nhãn bài viết</div>
                 <div class="btn-group" style="flex-wrap: wrap;" role="group"
                     aria-label="Basic checkbox toggle button group">
-                    <div v-for="(tag, index) in filterTagsByCategoryId()" :key="tag.id"
-                        style="margin-right: 5px; margin-bottom: 5px;">
-                        <div v-if="tag.isLock == true || (tag.isLock == false && tag.createdById == currentUser.id)">
+                    <div v-for="(tag, index) in filterTagsByCategoryId()" :key="tag.id">
+                        <div v-if="tag.isLock == true || (tag.isLock == false && tag.createdById == currentUser.id)"  style="margin-right: 5px; margin-bottom: 5px;">
                             <input v-model="trackingTags[index]" type="checkbox" class="btn-check"
                                 :id="'btncheck' + tag.id" autocomplete="off">
                             <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
                         </div>
                     </div>
                 </div>
-                <button :disabled="editPostForm.categoryId == 0" class="btn btn-light"
+                <button type="button" :disabled="editPostForm.categoryId == 0" class="btn btn-light"
                     style="width: 50px; margin-bottom: 30px;" data-bs-toggle="modal" data-bs-target="#addTag">
                     <i class="fa-solid fa-plus"></i>
                 </button>
@@ -151,7 +150,7 @@
                         <input type="text" class="form-control" v-model="newTagName" required>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        <button :disabled="newTagName == ''" type="button" class="btn btn-primary" data-bs-dismiss="modal"
                             @click="addTag">Thêm</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     </div>
@@ -174,6 +173,9 @@ import { QuillEditor } from '@vueup/vue-quill';
 import checkLogin from '@/utilities/utilities';
 import { useCookies } from 'vue3-cookies';
 import { toast } from 'vue3-toastify';
+import {useRouter } from 'vue-router'
+
+const router = useRouter()
 const categories = ref([
     {
         id: '',
@@ -410,7 +412,7 @@ function clearForm() {
 }
 
 function filterTagsByCategoryId() {
-    const tagsTemp = tags.value.filter((tag) => tag.category.id == editPostForm.value.categoryId)
+    const tagsTemp = tags.value.filter((tag) => tag.categoryId == editPostForm.value.categoryId)
     return tagsTemp
 }
 
@@ -474,7 +476,7 @@ async function addTag() {
         toast.success('Đã thêm thành công!', {
             autoClose: 1000
         })
-        console.log(resp)
+        console.log(resp[0])
         tags.value.push(resp[0])
     } catch (error) {
         console.log(error)
@@ -483,6 +485,9 @@ async function addTag() {
 
 onMounted(async () => {
     try {
+        if (isLogin.value == false){
+            router.push({name: "home"})
+        }
         // Post all user
         let pAll = await postsService.getAllForUser(currentUser.value.id);
         postAllUser.value = pAll.data

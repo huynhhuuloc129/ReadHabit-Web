@@ -1370,21 +1370,23 @@ onMounted(async () => {
     posts.value = ps
 
     // bookmark
-    let myBs = await bookmarksService.getMy(tokenBearer)
-    bookmarks.value = myBs.data
-    let arrTemp = []
-    for (let i = 0; i < bookmarks.value.length; i++) {
-      let ps = []
-      for (let j = 0; j < bookmarks.value[i].bookmarkPosts.length; j++) {
-        let p = await postsService.getOne(bookmarks.value[i].bookmarkPosts[j].postId)
-        ps.push(p)
+    if (user.value.id == currentUser.value.id){
+      let myBs = await bookmarksService.getMy(tokenBearer)
+      bookmarks.value = myBs.data
+      let arrTemp = []
+      for (let i = 0; i < bookmarks.value.length; i++) {
+        let ps = []
+        for (let j = 0; j < bookmarks.value[i].bookmarkPosts.length; j++) {
+          let p = await postsService.getOne(bookmarks.value[i].bookmarkPosts[j].postId)
+          ps.push(p)
+        }
+        arrTemp[i] = ps
+        postVisibles.value[i] = 3
+        steps.value[i] = 3
       }
-      arrTemp[i] = ps
-      postVisibles.value[i] = 3
-      steps.value[i] = 3
+      
+      trackingBookmarkPost.value = arrTemp
     }
-
-    trackingBookmarkPost.value = arrTemp
 
     // event log
     let els = await eventLogsService.getAllByActorId(user.value.id)
