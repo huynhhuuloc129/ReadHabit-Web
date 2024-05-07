@@ -1515,6 +1515,10 @@ async function move(from: number, to: number, positionFrom: number, positionTo: 
         'position': positionFrom
       }, tokenBearer)
       
+      let c = bookmarks.value[from].position;
+      bookmarks.value[from].position = bookmarks.value[to].position;
+      bookmarks.value[to].position = c;
+
       bookmarks.value.splice(to, 0, bookmarks.value.splice(from, 1)[0]);
     } catch (err) {
       console.log(err)
@@ -1527,6 +1531,10 @@ async function moveBookmarkPost(idBookmark: number, indexBookmark: number, from:
         'position1': positionFrom,
         'position2': positionTo
       }, tokenBearer)
+
+      let c = bookmarks.value[indexBookmark].bookmarkPosts[from].position;
+      bookmarks.value[indexBookmark].bookmarkPosts[from].position = bookmarks.value[indexBookmark].bookmarkPosts[to].position;
+      bookmarks.value[indexBookmark].bookmarkPosts[to].position = c;
 
       bookmarks.value[indexBookmark].bookmarkPosts.splice(to, 0, bookmarks.value[indexBookmark].bookmarkPosts.splice(from, 1)[0]);
     } catch (err) {
