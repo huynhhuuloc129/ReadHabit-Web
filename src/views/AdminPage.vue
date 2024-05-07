@@ -473,7 +473,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="el in eventLogs" :key="el.id">
+                <tr v-for="el in VisibleEL()" :key="el.id">
                   <td>{{ el.createdAt.slice(0, 10) }}</td>
                   <td>
                     <img style="border-radius: 50%; margin-right: 10px;" v-if="el.actor.avatar != null"
@@ -493,6 +493,13 @@
                 </tr>
               </tbody>
             </table>
+            <div class="text-center">
+              <button @click="elVisibles += stepEl"
+                v-if="elVisibles < eventLogs.length" class="btn moreUser"
+                style="border-radius: 50px; border: 2px solid black">
+                Xem thêm >>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -976,6 +983,13 @@ function VisibleContentSource() {
   } else {
     return contentSources.value.slice(0, contentSourceVisibles.value)
   }
+}
+
+var elVisibles = ref(20)
+var stepEl = ref(10)
+
+function VisibleEL() {
+  return eventLogs.value.slice(0, elVisibles.value)
 }
 
 const search = ref('')

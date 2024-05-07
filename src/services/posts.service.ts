@@ -25,6 +25,15 @@ class PostService {
         }
     }
 
+    async getAllShareForUser(id: number) {
+        try {
+            const posts = (await this.api.get(`/posts?sortOrder=desc&sortField=createdAt&createdById=${id}&limit=100&offset=0&type=internal_share`));
+            return posts.data;
+        } catch (err) {
+            handlingError(err);
+        }
+    }
+
     async getAllStatusForUser(id: number, status: string) {
         try {
             const posts = (await this.api.get(`/posts?sortOrder=asc&createdById=${id}&status=${status}`));

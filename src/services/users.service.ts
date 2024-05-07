@@ -50,7 +50,9 @@ class UsersService {
     }
 
     async uploadAvatar(avatar: any, token: string) {
-        return await axios.post(`http://localhost:3000/api/users/upload-avatar`, avatar, {
+        const form = new FormData();
+        form.set("avatar", avatar)
+        return await axios.post(`http://localhost:3000/api/users/upload-avatar`, form, {
             headers: {
                 Authorization: 'Bearer ' + token
             }

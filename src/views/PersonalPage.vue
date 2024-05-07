@@ -327,7 +327,7 @@
                       <div>
                         <table class="table table-borderless">
                           <tbody>
-                            <tr v-for="el in eventLogs" :key="el.id">
+                            <tr v-for="el in VisibleEL()" :key="el.id">
                               <td>{{ el.createdAt.slice(0, 10) }}</td>
                               <td v-if="el.action == 'create'">Tạo</td>
                               <td v-if="el.action == 'comment'">Bình luận</td>
@@ -341,6 +341,12 @@
                             </tr>
                           </tbody>
                         </table>
+                        <div class="text-center">
+                          <button @click="elVisibles += stepEl" v-if="elVisibles < eventLogs.length"
+                            class="btn moreUser" style="border-radius: 50px; border: 2px solid black">
+                            Xem thêm >>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -356,25 +362,12 @@
                               class="img-fluid img-thumbnail" width="150px" alt="Luna John" />
                             <i v-else class="fa-solid fa-user" style="width: 20px; height: 20px;"></i>
                           </div>
-                          <div class="col-12">
-                            <a href="#!" class="d-inline-block bg-primary link-light lh-1 p-2 rounded m-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-upload" viewBox="0 0 16 16">
-                                <path
-                                  d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                <path
-                                  d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
-                              </svg>
-                            </a>
-                            <a href="#!" class="d-inline-block bg-danger link-light lh-1 p-2 rounded m-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-trash" viewBox="0 0 16 16">
-                                <path
-                                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                <path
-                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                              </svg>
-                            </a>
+                          <div class="col-12" v-if="currentUser.id == user.id">
+                            <form>
+                              <div class="form-group">
+                                <input @change="uploadAvatar($event)" type="file" class="form-control-file" id="exampleFormControlFile1">
+                              </div>
+                            </form>
                           </div>
                         </div>
                       </div>
@@ -491,7 +484,74 @@
 
                     <div class="row gy-3 gy-xxl-4">
                       <!-- <CardComponent :posts="posts"></CardComponent> -->
-                      <CardTagComponent :posts="posts"></CardTagComponent>
+                      <CardTagComponent :posts="VisibleMyPost()"></CardTagComponent>
+                      <div class="text-center">
+                        <button @click="postVisiblesMyPost += stepsMyPost" v-if="postVisiblesMyPost < posts.length"
+                          class="btn moreUser" style="border-radius: 50px; border: 2px solid black">
+                          Xem thêm >>
+                        </button>
+                      </div>
+                    </div>
+
+                    <h5 v-if="sharePosts.length > 0">Các bài viết đã chia sẻ</h5>
+                    <div v-if="sharePosts.length > 0">
+                      <div v-for="post in sharePosts" :key="post.id" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; padding: 20px 20px 10px 20px; border-radius: 20px; margin-bottom: 20px;">
+                        <div class="d-flex justify-content-start">
+                            <img :src="'http://localhost:8080' + user.avatar.replace('files', '')" alt=""
+                            width="50px" height="50px" class="rounded-circle" style="margin-right: 18px;">
+                            <div class="d-flex flex-column">
+                              <div class="fw-bold"> {{ user.fullName }}</div>
+                              <div v-if="post.createdAt != null">{{ post.createdAt.slice(0,10) }}</div>
+                            </div>
+                        </div>
+                        <div>{{ post.title }}</div>
+                        <div class="card-group vgr-cards">
+
+                          <div class="card">
+                            <div class="card-img-body">
+                              <img class="card-img" :src="(post.sharePost.imageURL != null && post.sharePost.imageURL != '' ? post.sharePost.imageURL :  'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg')"
+                                alt="Card image cap">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                              <div>
+                                <h4 class="card-title">{{ post.sharePost.title }}</h4>
+                                <p style="max-height: 100px; word-wrap: break-word; overflow-y: scroll;" class="card-text">{{ post.sharePost.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div class="w-100">
+                                  <a id="lead-to-post" :href="'http://localhost:5173/post/' + post.sharePost.id" class="btn btn-outline-primary w-25">Xem chi tiết</a>
+
+                                  <span style="margin: 20px 0 0px 20px">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+                                      <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2 2 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a10 10 0 0 0-.443.05 9.4 9.4 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a9 9 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.2 2.2 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.9.9 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
+                                    </svg>
+                                    {{ post.sharePost.totalLike }}
+                                  </span>
+                                  <span style="margin: 20px 0 0px 20px">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
+                                      <path d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856s-.036.586-.113.856c-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a10 10 0 0 1-.443-.05 9.36 9.36 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a9 9 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581s-.027-.414-.075-.581c-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.2 2.2 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.9.9 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1"/>
+                                    </svg>
+                                    {{ post.sharePost.totalDislike }}
+                                  </span>
+                                  <span style="margin: 20px 50px 0px 20px">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
+                                      class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                      <path fill-rule="evenodd"
+                                        d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                      <path fill-rule="evenodd"
+                                        d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                                    </svg>
+                                    {{ post.sharePost.totalShare }}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
                     </div>
                   </div>
                   <div class="tab-pane fade" id="bookmark-tab-pane" role="tabpanel" aria-labelledby="bookmark-tab"
@@ -500,6 +560,15 @@
                     <div v-for="(bookmark, index) in bookmarks" :key="bookmark.id">
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
+
+                          <button v-if="index != 0" class="btn btn-light" @click="move(index,index-1, bookmark.position, bookmarks[index-1].position, bookmark.id, bookmarks[index-1].id)" :disabled="index==1">
+                            <i class="fa-solid fa-arrow-up"></i>
+                          </button>
+
+                          <button v-if="index != 0" class="btn btn-light" @click="move(index,index+1, bookmark.position, bookmarks[index+1].position, bookmark.id, bookmarks[index+1].id)" :disabled="index==(bookmarks.length-1)">
+                            <i class="fa-solid fa-arrow-down"></i>
+                          </button>
+                          
                           <button class="btn btn-light m-2" data-bs-toggle="modal"
                             :data-bs-target="'#editBookmarkModel' + bookmark.id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -531,8 +600,18 @@
                                   </div>
                                   <div v-for="(bookmarkPost, index1) in bookmark.bookmarkPosts" :key="bookmarkPost.id"
                                     class="d-flex justify-content-between align-items-center">
+
                                     <div class="d-flex align-items-center">
-                                      <img :src="bookmarkPost.imageURL" width="100px" alt=""
+
+                                      <button class="btn btn-light" @click="moveBookmarkPost(bookmark.id, index, index1,index1-1, bookmarkPost.position, bookmark.bookmarkPosts[index1-1].position)" :disabled="index1==0">
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                      </button>
+
+                                      <button class="btn btn-light" @click="moveBookmarkPost(bookmark.id, index, index1,index1+1, bookmarkPost.position, bookmark.bookmarkPosts[index1+1].position)" :disabled="index1==(bookmark.bookmarkPosts.length-1)">
+                                        <i class="fa-solid fa-arrow-down"></i>
+                                      </button>
+
+                                      <img :src="(bookmarkPost.imageURL != null && bookmarkPost.imageURL != '' ? bookmarkPost.imageURL :  'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg')" width="100px" alt=""
                                         class="m-2 img-thumbnail" />
                                       <div>
                                         <a :href="'http://localhost:5173/post/' + bookmarkPost.postId
@@ -556,6 +635,7 @@
                                             d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                         </svg>
                                       </button>
+      
                                     </div>
                                   </div>
                                 </div>
@@ -597,6 +677,7 @@
                       <CardComponent
                         v-if="bookmark.bookmarkPosts != null && bookmark.bookmarkPosts.length > 0 && bookmark.bookmarkPosts[0].id != 0"
                         :posts="VisiblePost(index)"></CardComponent>
+
                       <div v-if="bookmark.bookmarkPosts != null && bookmark.bookmarkPosts.length > 0"
                         class="d-flex justify-content-center">
                         <button @click="postVisibles[index] += steps[index]"
@@ -834,6 +915,91 @@ const posts = ref([
     sharePost: null,
     sharedByPosts: [],
     comments: []
+  }
+])
+
+const sharePosts = ref([
+  {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+    title: "",
+    content: "",
+    sharePostId: 0,
+    originalPostURL: null,
+    publishDate: null,
+    imageURL: "",
+    audioURL: null,
+    status: "",
+    type: "",
+    readTime: null,
+    totalLike: 0,
+    totalDislike: 0,
+    totalShare: 0,
+    rejectMessage: null,
+    categoryId: null,
+    createdById: 0,
+    contentSourceId: null,
+    tags: [],
+    contentSource: null,
+    category: null,
+    createdBy: {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      email: "",
+      username: "",
+      firstName: "",
+      lastName: "",
+      fullName: "",
+      about: "",
+      youtubeLink: "",
+      facebookLink: "",
+      linkedinLink: "",
+      twitterLink: "",
+      totalFollower: 0,
+      totalFollowee: 0,
+      refreshToken: null,
+      phoneNumber: "",
+      birthday: "",
+      avatar: "",
+      role: ""
+    },
+    sharePost: {
+      id: 0,
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+      title: "",
+      content: "",
+      sharePostId: null,
+      originalPostURL: "",
+      publishDate: "",
+      imageURL: "",
+      audioURL: null,
+      status: "",
+      type: "",
+      readTime: null,
+      totalLike: 0,
+      totalDislike: 0,
+      totalShare: 0,
+      rejectMessage: null,
+      categoryId: 0,
+      createdById: 0,
+      contentSourceId: 0
+    },
+    sharedByPosts: [],
+    comments: [],
+    reactions: [
+      {
+        type: "",
+        postId: 0,
+        userId: 0,
+        createdAt: ""
+      }
+    ]
   }
 ])
 
@@ -1177,6 +1343,20 @@ function VisiblePost(position: number) {
   return trackingBookmarkPost.value[position].slice(0, postVisibles.value[position])
 }
 
+var postVisiblesMyPost = ref(10)
+var stepsMyPost = ref(5)
+
+function VisibleMyPost() {
+  return posts.value.slice(0, postVisiblesMyPost.value)
+}
+
+var elVisibles = ref(10)
+var stepEl = ref(10)
+
+function VisibleEL() {
+  return eventLogs.value.slice(0, elVisibles.value)
+}
+
 async function deletePostFromBookmark(
   bookmarkId: number,
   bookmarkPostId: number,
@@ -1324,6 +1504,55 @@ try {
   console.log(err)
 }
 
+
+async function move(from: number, to: number, positionFrom: number, positionTo: number, idFrom: number, idTo: number) {
+
+    try {
+      await bookmarksService.update(idFrom, {
+        'position': positionTo
+      }, tokenBearer)
+      await bookmarksService.update(idTo, {
+        'position': positionFrom
+      }, tokenBearer)
+      
+      bookmarks.value.splice(to, 0, bookmarks.value.splice(from, 1)[0]);
+    } catch (err) {
+      console.log(err)
+    }
+};
+
+async function moveBookmarkPost(idBookmark: number, indexBookmark: number, from: number, to: number, positionFrom: number, positionTo: number) {
+  try {
+      await bookmarksService.updatePosition(idBookmark, {
+        'position1': positionFrom,
+        'position2': positionTo
+      }, tokenBearer)
+
+      bookmarks.value[indexBookmark].bookmarkPosts.splice(to, 0, bookmarks.value[indexBookmark].bookmarkPosts.splice(from, 1)[0]);
+    } catch (err) {
+      console.log(err)
+    }
+};
+
+function compare( a: any, b: any ) {
+  if ( a.position < b.position ){
+    return -1;
+  }
+  if ( a.position > b.position ){
+    return 1;
+  }
+  return 0;
+}
+
+async function uploadAvatar(event: any){
+  try {
+     await usersService.uploadAvatar(event.target.files[0], tokenBearer)
+     window.location.reload()
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 onMounted(async () => {
   try {
     // get one user
@@ -1369,13 +1598,25 @@ onMounted(async () => {
     }
     posts.value = ps
 
+    // get all share post for user
+    let respShare = await postsService.getAllShareForUser(user.value.id)
+
+    let pShare: typeof respShare.data = []
+    for (const p of respShare.data) {
+      let post = await postsService.getOne(p.id)
+      pShare.push(post)
+    }
+
+    sharePosts.value = pShare
+
     // bookmark
-    if (user.value.id == currentUser.value.id){
+    if (user.value.id == currentUser.value.id) {
       let myBs = await bookmarksService.getMy(tokenBearer)
       bookmarks.value = myBs.data
       let arrTemp = []
       for (let i = 0; i < bookmarks.value.length; i++) {
         let ps = []
+        bookmarks.value[i].bookmarkPosts.sort(compare);
         for (let j = 0; j < bookmarks.value[i].bookmarkPosts.length; j++) {
           let p = await postsService.getOne(bookmarks.value[i].bookmarkPosts[j].postId)
           ps.push(p)
@@ -1383,9 +1624,11 @@ onMounted(async () => {
         arrTemp[i] = ps
         postVisibles.value[i] = 3
         steps.value[i] = 3
+
       }
-      
+
       trackingBookmarkPost.value = arrTemp
+      
     }
 
     // event log
@@ -1406,7 +1649,6 @@ onMounted(async () => {
         count: value
       })
     })
-    console.log(contributionData.value)
   } catch (err) {
     console.log(err)
   }
@@ -1442,5 +1684,59 @@ onMounted(async () => {
 
 #calendar-heatmap {
   font-size: 10px
+}
+
+
+.card {
+  border: none;
+}
+
+.card-img {
+  border-radius: 0;
+}
+
+.vgr-cards {
+  .card {
+    display: flex;
+    flex-flow: wrap;
+    flex: 100%;
+    margin-bottom: 40px;
+  }
+
+  .card-img-body {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+
+  }
+
+  /* .card-img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    margin-left: 50%;
+    transform: translateX(-50%);
+
+    @media (max-width: 1140px) {
+      margin: 0;
+      transform: none;
+      width: 100%;
+      height: auto;
+    }
+
+  } */
+
+  .card-body {
+    flex: 2;
+    padding: 0 0 0 1.25rem;
+
+  }
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
 }
 </style>

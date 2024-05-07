@@ -60,7 +60,7 @@ class BookmarksService {
         })
     }
 
-    async updatePosition(id: string, data: any, token: string) {
+    async updatePosition(id: number, data: any, token: string) {
         return await axios.patch(`http://localhost:3000/api/bookmarks/${id}/bookmark-post-position`, data, {
             headers: {
                 Authorization: 'Bearer ' + token

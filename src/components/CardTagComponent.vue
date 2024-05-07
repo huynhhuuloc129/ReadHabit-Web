@@ -4,13 +4,13 @@
       <div class="card-group vgr-cards" v-if="posts.length > 0 && posts[0].id != 0">
         <div v-for="post in posts" :key="post.id" class="card">
           <div class="card-img-body">
-            <img class="card-img" :src="(post.imageURL == null || posts.imageUrl == '' ? 'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg' : 'http://localhost:8080' + post.imageURL.replace('files', ''))"
+            <img class="card-img" :src="(post.imageURL != null && post.imageURL != '' ? post.imageURL :  'https://cdn.tuoitre.vn/thumb_w/640/2020/5/22/bao-chi-15901455050011246995406.jpg')"
               alt="Card image cap">
           </div>
           <div class="card-body d-flex flex-column justify-content-between">
             <div>
               <h4 class="card-title">{{ post.title }}</h4>
-              <p style="word-wrap: break-word;" class="card-text">{{ post.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
+              <p style="max-height: 100px; word-wrap: break-word; overflow-y: scroll;" class="card-text">{{ post.content.replace(/(<([^>]+)>)/ig, '').split('\n')[0] }}</p>
             </div>
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
