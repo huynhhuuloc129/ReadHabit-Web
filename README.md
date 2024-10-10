@@ -1,6 +1,6 @@
 # ReadHabit
 
-[Watch the demo video.](./demo_withou_audio.mp4)
+[Watch the ReadHabit demo video on Github.](./demo_withou_audio1.mp4)
 
 This template should help get you started developing with Vue 3 in Vite.
 
