@@ -1,6 +1,11 @@
 # ReadHabit
 
-[Watch the ReadHabit demo video on Github.](./demo_without_audio1.mp4)
+You can watch the ReadHabit demo video online by following below step:
+
+1. Access this link: 
+https://livepush.io/mp4-player/index.html
+2. And paste this to the mp4 player: 
+https://rawcdn.githack.com/huynhhuuloc129/ReadHabit-Web/fd782e1f5e4c08ad01c2d28a1aebe8663f7bda7d/demo_without_audio1.mp4
 
 This template should help get you started developing with Vue 3 in Vite.
 
