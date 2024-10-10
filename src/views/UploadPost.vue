@@ -58,9 +58,9 @@
                 <div v-if="filterTagsByCategoryId().length > 0">Nhãn bài viết</div>
                 <div class="btn-group" style="flex-wrap: wrap;" role="group"
                     aria-label="Basic checkbox toggle button group">
-                    <div v-for="(tag, index) in filterTagsByCategoryId()" :key="tag.id">
+                    <div v-for="(tag) in filterTagsByCategoryId()" :key="tag.id">
                         <div v-if="tag.isLock == true || (tag.isLock == false && tag.createdById == currentUser.id)"  style="margin-right: 5px; margin-bottom: 5px;">
-                            <input v-model="trackingTags[index]" type="checkbox" class="btn-check"
+                            <input v-model="trackingTags[tag.id]" type="checkbox" class="btn-check"
                                 :id="'btncheck' + tag.id" autocomplete="off">
                             <label class="btn btn-outline-secondary" :for="'btncheck' + tag.id">{{ tag.name }}</label>
                         </div>
@@ -72,11 +72,10 @@
                 </button>
 
             </div>
-            <!-- <div class="d-flex">
+            <div class="d-flex">
                 <div class="w-50">
-                    <div>Nguồn bài viết</div>
+                    <div>Nguồn bài viết (Nếu có)</div>
                     <select v-model="editPostForm.contentSourceId"  class="form-select" aria-label="Default select example">
-                        <option selected>Nguồn bài viết (Không bắt buộc )</option>
                         <option v-for="cs in contentSources" :key="cs.id" :value="cs.id" :style="{'background-image': 'url(' + cs.avatar + ')'}">
                             <span>{{ cs.name }}</span>
                         </option>
@@ -86,7 +85,7 @@
                     <label for="originalLink">Link bài viết gốc (Nếu có)</label>
                     <input style="margin-bottom: 20px;" v-model="editPostForm.originalLink" id="originalLink" type="text" class="form-control" >
                 </div>
-            </div> -->
+            </div>
 
             <label for="titlePost" style="font-size: 30px;">Tiêu đề bài viết</label>
             <input v-model="editPostForm.title" id="titlePost" type="text" class="form-control" required>
@@ -136,7 +135,7 @@
                         <path
                             d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                     </svg>
-                    Hủy bỏ
+                    Xóa
                 </button>
             </div>
         </form>
@@ -379,13 +378,13 @@ async function changeForm(id: number) {
             editPostForm.value.originalLink = post.originalPostURL
             content.value = post.content
             for (let i = 0; i < filterTagsByCategoryId().length; i++) {
-                trackingTags.value[i] = false
+                trackingTags.value[filterTagsByCategoryId()[i].id] = false
             }
 
             post.tags.forEach(tag => {
                 for (let j = 0; j < filterTagsByCategoryId().length; j++) {
                     if (filterTagsByCategoryId()[j].id == tag.id) {
-                        trackingTags.value[j] = true
+                        trackingTags.value[filterTagsByCategoryId()[j].id] = true
                     }
                 }
             });
@@ -413,6 +412,7 @@ function clearForm() {
 
 function filterTagsByCategoryId() {
     const tagsTemp = tags.value.filter((tag) => tag.categoryId == editPostForm.value.categoryId)
+    
     return tagsTemp
 }
 
@@ -423,30 +423,41 @@ async function updatePost(e: any, status: string) {
             toast.warning("Vui lòng nhập nội dung", {
                 autoClose: 2000,
             })
-            throw new Error('saf')
+            throw new Error('Thiếu nội dung!')
+        }
+        if (editPostForm.value.contentSourceId != 0 && editPostForm.value.originalLink != null && editPostForm.value.originalLink.length == 0) {
+            toast.warning("Vui lòng nhập đường dẫn phù hợp với nguồn", {
+                autoClose: 2000,
+            })
+            throw new Error('Thiếu đường dẫn!')
         }
         let tagsName = [] as string[]
+        let cateTags = filterTagsByCategoryId()
         for (let index in trackingTags.value) {
             if (trackingTags.value[index]) {
-                tagsName.push(filterTagsByCategoryId()[index].name)
+                let choosenTag = cateTags.filter((tag) => tag.id == Number(index))
+                tagsName.push(choosenTag[0].name)
             }
         }
 
-        console.log(tagsName)
 
+        let type = 'internal_post'
+        if (editPostForm.value.originalLink != null && editPostForm.value.originalLink.length > 0 ){
+            type = 'external_personal_blog'
+        }
+        console.log(type)
         if (choosenCreatedPostId.value == 0) {
-            await postsService.create(editPostForm.value.categoryId, tagsName, 0, editPostForm.value.title, content.value, '', status, 'internal_post', fileImage.value, tokenBearer)
+            await postsService.create(editPostForm.value.categoryId, tagsName, editPostForm.value.contentSourceId, editPostForm.value.title, content.value, editPostForm.value.originalLink, status, type, fileImage.value, tokenBearer)
             toast.success("Đã tạo bài viết thành công", {
                 autoClose: 2000,
             })
         }
         else {
-            await postsService.update(editPostForm.value.postId, editPostForm.value.categoryId, tagsName, 0, editPostForm.value.title, content.value, '', status, 'internal_post', fileImage.value, tokenBearer)
+            await postsService.update(editPostForm.value.postId, editPostForm.value.categoryId, tagsName, editPostForm.value.contentSourceId, editPostForm.value.title, content.value, editPostForm.value.originalLink, status, type, fileImage.value, tokenBearer)
             toast.success("Đã cập nhật bài viết thành công", {
                 autoClose: 2000,
             })
         }
-
 
         window.location.reload();
     } catch (err) {

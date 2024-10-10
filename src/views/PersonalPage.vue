@@ -269,7 +269,7 @@
                   <li class="nav-item" role="presentation" v-if="currentUser.id == user.id">
                     <button class="nav-link" id="bookmark-tab" data-bs-toggle="tab" data-bs-target="#bookmark-tab-pane"
                       type="button" role="tab" aria-controls="bookmark-tab-pane" aria-selected="false">
-                      Yêu thích
+                      Đánh dấu
                     </button>
                   </li>
                   <li class="nav-item" role="presentation">

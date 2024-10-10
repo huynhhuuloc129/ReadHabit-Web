@@ -82,7 +82,7 @@ class PostService {
         })
     }
 
-    async create(categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostUrl: string, status: string, type: string, postImage: any, token: string) {
+    async create(categoryId: number, tags: string[], contentSourceId: number, title: string, content: string, originalPostURL: string, status: string, type: string, postImage: any, token: string) {
         const form = new FormData();
         form.set("categoryId", JSON.stringify(categoryId))
         if(tags.length> 0) {
@@ -93,10 +93,10 @@ class PostService {
             }
             form.set("tags", newTags)
         }
-        if(contentSourceId != 0) form.set("contentSourceId", JSON.stringify(contentSourceId))
+        if(contentSourceId != 0 && contentSourceId != null) form.set("contentSourceId", JSON.stringify(contentSourceId))
         form.set("title", title)
         form.set("content", content)
-        if(originalPostUrl != '') form.set("originalPostURL", originalPostUrl)
+        if(originalPostURL != '' && originalPostURL != null) form.set("originalPostURL", originalPostURL)
         form.set("status", status)
         form.set("type", type)
         form.set("postImage", postImage)
@@ -184,10 +184,10 @@ class PostService {
             form.set("tags", tagName)
         }
         
-        if(contentSourceId != 0) form.set("contentSourceId", JSON.stringify(contentSourceId))
+        if(contentSourceId != 0 && contentSourceId!= null) form.set("contentSourceId", JSON.stringify(contentSourceId))
         form.set("title", title)
         form.set("content", content)
-        if(originalPostUrl != '') form.set("originalPostUrl", originalPostUrl)
+        if(originalPostUrl != '' && originalPostUrl!= null) form.set("originalPostURL", originalPostUrl)
         form.set("status", status)
         form.set("type", type)
         form.set("postImage", postImage)
